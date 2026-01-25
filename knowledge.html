@@ -39,7 +39,7 @@
                     <span class="status-dot online"></span>
                     NETWORK: ONLINE
                 </span>
-                <span class="ca-address">CA: SOON</span>
+                <span class="ca-address" onclick="copyCA()" title="Click to copy full address">CA: CyRed...pump</span>
             </div>
         </header>
 
@@ -170,5 +170,21 @@
     }
     </script>
     <script type="module" src="knowledge.js"></script>
+
+    <!-- CA Copy Function -->
+    <script>
+    function copyCA() {
+        const ca = "CyRedtnbG1sPcwPEACPMJT1wL9BePZFRL19FqqpQpump";
+        navigator.clipboard.writeText(ca);
+
+        // Show feedback
+        const el = document.querySelector('.ca-address');
+        const original = el.textContent;
+        el.textContent = "✓ Copied!";
+        setTimeout(() => {
+            el.textContent = original;
+        }, 1500);
+    }
+    </script>
 </body>
 </html>

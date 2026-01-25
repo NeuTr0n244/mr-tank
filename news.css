@@ -1,0 +1,1079 @@
+/* ============================================
+   THE TANK TIMES - VINTAGE NEWSPAPER STYLE
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   PAGE BACKGROUND - ARCTIC THEME
+   ============================================ */
+
+body {
+    background: linear-gradient(135deg, #0a1929 0%, #0f2744 50%, #0a1929 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+/* Arctic snowfall/ice overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(136, 212, 247, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(74, 222, 171, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Paper texture overlay - only on newspaper */
+.paper-texture {
+    display: none; /* Disabled - not needed on arctic background */
+}
+
+/* ============================================
+   NAVIGATION BAR - ARCTIC THEME
+   ============================================ */
+
+.nav-bar {
+    max-width: 1200px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(15, 29, 46, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(136, 212, 247, 0.15);
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+}
+
+.nav-link {
+    color: #88d4f7;
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: #e8f4f8;
+    text-shadow: 0 0 10px rgba(136, 212, 247, 0.5);
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid rgba(136, 212, 247, 0.3);
+    color: #88d4f7;
+    padding: 8px 16px;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 4px;
+}
+
+.nav-btn:hover {
+    background: rgba(136, 212, 247, 0.1);
+    border-color: #88d4f7;
+    color: #e8f4f8;
+}
+
+/* ============================================
+   NEWSPAPER CONTAINER
+   ============================================ */
+
+.newspaper {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f9f6f0;
+    box-shadow:
+        0 0 60px rgba(136, 212, 247, 0.15),
+        0 0 30px rgba(0,0,0,0.3),
+        inset 0 0 80px rgba(0,0,0,0.03);
+    border: 1px solid #d4c9b5;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    /* Allow newspaper to grow with content */
+    min-height: 100vh;
+    height: auto;
+}
+
+/* Paper fold effect */
+.newspaper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.06) 20%,
+        rgba(0,0,0,0.08) 50%,
+        rgba(0,0,0,0.06) 80%,
+        transparent 100%
+    );
+    z-index: 10;
+}
+
+/* Coffee stain decorations */
+.coffee-stain {
+    position: absolute;
+    top: 15%;
+    right: 8%;
+    width: 120px;
+    height: 100px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(139, 90, 43, 0.08) 0%,
+        rgba(139, 90, 43, 0.04) 40%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.coffee-stain-2 {
+    position: absolute;
+    bottom: 25%;
+    left: 5%;
+    width: 80px;
+    height: 70px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(139, 90, 43, 0.06) 0%,
+        transparent 60%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ============================================
+   NEWSPAPER HEADER (MASTHEAD)
+   ============================================ */
+
+.newspaper-header {
+    text-align: center;
+    padding: 25px 40px 20px;
+    border-bottom: 3px double #1a1a1a;
+    position: relative;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.weather-info {
+    background: #1a1a1a;
+    color: #f4f1e8;
+    padding: 3px 12px;
+    font-size: 9px;
+}
+
+.newspaper-title {
+    font-family: 'UnifrakturMaguntia', 'Old English Text MT', 'Times New Roman', serif;
+    font-size: 72px;
+    font-weight: normal;
+    color: #1a1a1a;
+    margin: 10px 0;
+    letter-spacing: 3px;
+    line-height: 1;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+.newspaper-subtitle {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 8px 0;
+    margin: 15px auto;
+    width: fit-content;
+}
+
+.newspaper-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    color: #444;
+    margin-top: 12px;
+}
+
+.meta-divider {
+    font-size: 8px;
+    color: #888;
+}
+
+.edition-motto {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* ============================================
+   MAIN CONTENT GRID
+   ============================================ */
+
+.news-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    /* Allow content to grow dynamically */
+    min-height: 500px;
+    height: auto;
+}
+
+/* ============================================
+   MAIN STORY (First Column)
+   ============================================ */
+
+.main-story {
+    grid-row: span 1;
+    padding: 25px;
+    border-right: 1px solid #ccc;
+}
+
+.main-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    text-shadow: 0.5px 0.5px 0 rgba(0,0,0,0.1);
+}
+
+.main-subhead {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #444;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.main-meta {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.main-image {
+    width: 100%;
+    margin-bottom: 10px;
+    filter: grayscale(100%) contrast(1.1) brightness(1.05);
+    border: 1px solid #ccc;
+}
+
+.main-image-caption {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    font-style: italic;
+    color: #666;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.main-content-text {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #2a2a2a;
+    text-align: justify;
+    column-count: 2;
+    column-gap: 25px;
+    column-rule: 1px solid #ddd;
+}
+
+.main-content-text p {
+    margin-bottom: 12px;
+    text-indent: 1.5em;
+}
+
+.main-content-text p:first-child {
+    text-indent: 0;
+}
+
+.main-content-text p:first-child::first-letter {
+    font-size: 48px;
+    float: left;
+    line-height: 1;
+    padding-right: 8px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+}
+
+.read-more-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.read-more-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   SECONDARY COLUMNS
+   ============================================ */
+
+.secondary-column {
+    padding: 15px;
+    border-right: 1px solid #ccc;
+}
+
+.secondary-column:last-of-type {
+    border-right: 1px solid #ccc;
+}
+
+.column-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ============================================
+   SECTION HEADERS
+   ============================================ */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header.full-width {
+    padding: 0 25px;
+}
+
+.section-line {
+    flex: 1;
+    height: 2px;
+    background: #1a1a1a;
+}
+
+.section-title {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #1a1a1a;
+    padding: 0 12px;
+    white-space: nowrap;
+}
+
+/* ============================================
+   NEWS ARTICLE CARDS
+   ============================================ */
+
+.news-article {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.news-article:last-child {
+    border-bottom: none;
+}
+
+.article-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    text-shadow: 0.3px 0.3px 0 rgba(0,0,0,0.08);
+}
+
+.article-meta {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.article-source {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.article-excerpt {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    text-align: justify;
+}
+
+.article-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.article-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   SIDEBAR COLUMN
+   ============================================ */
+
+.sidebar-column {
+    padding: 15px;
+    background: rgba(0,0,0,0.02);
+}
+
+.predictions-content {
+    margin-bottom: 20px;
+}
+
+.prediction-item {
+    padding: 10px 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+.prediction-item:last-child {
+    border-bottom: none;
+}
+
+.prediction-question {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.prediction-odds {
+    display: flex;
+    gap: 10px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+}
+
+.odds-yes {
+    color: #2d5016;
+    font-weight: 600;
+}
+
+.odds-no {
+    color: #8b1a1a;
+    font-weight: 600;
+}
+
+/* ============================================
+   WEATHER BOX
+   ============================================ */
+
+.weather-box {
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    background: rgba(255,255,255,0.5);
+}
+
+.weather-icon {
+    font-size: 36px;
+    margin-bottom: 5px;
+}
+
+.weather-temp {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.weather-desc {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.weather-forecast {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #666;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dotted #ccc;
+}
+
+/* ============================================
+   QUOTE BOX
+   ============================================ */
+
+.quote-box {
+    padding: 15px;
+    border-left: 3px solid #1a1a1a;
+    background: rgba(255,255,255,0.5);
+}
+
+.quote-text {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.quote-author {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* ============================================
+   BOTTOM SECTION
+   ============================================ */
+
+.bottom-section {
+    padding: 20px 25px;
+    border-top: 2px solid #1a1a1a;
+}
+
+.headlines-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.headline-item {
+    padding-right: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.headline-item:last-child {
+    border-right: none;
+}
+
+.headline-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.headline-source {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #777;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.newspaper-footer {
+    padding: 15px 25px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+.footer-line {
+    height: 2px;
+    background: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.footer-edition {
+    margin-top: 10px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 9px;
+    color: #888;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.loading-placeholder {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1100px) {
+    .news-content {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .main-story {
+        grid-column: 1 / -1;
+    }
+
+    .sidebar-column {
+        grid-column: 1 / -1;
+    }
+
+    .headlines-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .newspaper-title {
+        font-size: 42px;
+    }
+
+    .newspaper-subtitle {
+        font-size: 10px;
+        letter-spacing: 5px;
+    }
+
+    .news-content {
+        grid-template-columns: 1fr;
+    }
+
+    .main-story,
+    .secondary-column,
+    .sidebar-column {
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .main-content-text {
+        column-count: 1;
+    }
+
+    .headlines-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .headline-item {
+        border-right: none;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: 10px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .newspaper-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* ============================================
+   PRINT EFFECT (text shadow)
+   ============================================ */
+
+.article-headline,
+.main-headline,
+.headline-title {
+    text-shadow: 0.5px 0.5px 0 rgba(0,0,0,0.08);
+}
+
+/* Slight blur for aged print effect */
+.article-excerpt,
+.main-content-text {
+    text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   INFINITE SCROLL LAYOUT - VERTICAL NEWS STREAM
+   ============================================ */
+
+/* Main container */
+.newspaper {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.newspaper-header {
+    width: 100%;
+}
+
+/* Content container - flex layout */
+.content-container {
+    display: flex;
+    gap: 0;
+    position: relative;
+}
+
+/* Main content area - infinite scroll */
+.news-content-vertical {
+    flex: 1;
+    padding: 20px 30px;
+    min-height: 100vh;
+}
+
+/* Sidebar - sticky on right */
+.newspaper-sidebar {
+    width: 300px;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* News stream container */
+#newsStream {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   NEWS ARTICLE HIERARCHY - VISUAL SIZING
+   ============================================ */
+
+/* Base article styles */
+.news-article {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+}
+
+.article-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #ccc 20%, #ccc 80%, transparent);
+    margin-top: 30px;
+}
+
+.article-body {
+    width: 100%;
+}
+
+.article-meta {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.article-source {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.meta-separator {
+    color: #999;
+}
+
+.article-date {
+    font-style: italic;
+}
+
+.archived-badge {
+    background: #f0e6d2;
+    color: #8b6f47;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    border: 1px solid #d4c5a9;
+}
+
+.article-headline a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.article-headline a:hover {
+    color: #2d5016;
+}
+
+.article-excerpt {
+    font-family: 'EB Garamond', serif;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.article-read-more {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    color: #2d5016;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.article-read-more:hover {
+    color: #1a3009;
+    text-decoration: underline;
+}
+
+.article-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    filter: sepia(10%) contrast(1.1);
+}
+
+/* ============================================
+   HERO ARTICLE - Position #1 (Newest)
+   ============================================ */
+
+.news-article-hero {
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+}
+
+.news-article-hero .article-divider {
+    background: linear-gradient(to right, transparent, #000 20%, #000 80%, transparent);
+    height: 2px;
+}
+
+.headline-hero {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #000;
+    text-transform: none;
+    letter-spacing: -0.5px;
+}
+
+.news-article-hero .article-meta {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.news-article-hero .article-excerpt {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.news-article-hero .article-image {
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   FEATURED ARTICLES - Position #2-3
+   ============================================ */
+
+.news-article-featured {
+    margin-bottom: 45px;
+}
+
+.headline-featured {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #000;
+}
+
+.news-article-featured .article-excerpt {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.news-article-featured .article-image {
+    height: 250px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   STANDARD ARTICLES - Position #4-10
+   ============================================ */
+
+.news-article-standard {
+    margin-bottom: 35px;
+}
+
+.headline-standard {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.news-article-standard .article-excerpt {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+/* ============================================
+   COMPACT ARTICLES - Position #11+ (Older)
+   ============================================ */
+
+.news-article-compact {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+}
+
+.news-article-compact .article-divider {
+    background: #e5e5e5;
+    margin-top: 15px;
+}
+
+.headline-compact {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.news-article-compact .article-meta {
+    font-size: 11px;
+    color: #888;
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+
+@media (max-width: 900px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    .newspaper-sidebar {
+        position: relative;
+        top: 0;
+        max-height: none;
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid #000;
+    }
+
+    .news-content-vertical {
+        padding: 15px;
+    }
+
+    .headline-hero {
+        font-size: 36px;
+    }
+
+    .headline-featured {
+        font-size: 26px;
+    }
+
+    .headline-standard {
+        font-size: 20px;
+    }
+
+    .news-article-hero .article-image {
+        height: 250px;
+    }
+
+    .news-article-featured .article-image {
+        height: 180px;
+    }
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINANCIAL TERMINAL | MR. TANK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="market.css">
+</head>
+<body>
+    <!-- Snowfall Effect -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a href="index.html" class="back-link">&larr;</a>
+                <span class="logo">MR. TANK</span>
+                <span class="version">V1.0</span>
+            </div>
+
+            <div class="header-center">
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+            </div>
+
+            <div class="header-right">
+                <span class="clock-time" id="clock-time">00:00:00</span>
+                <span class="clock-date" id="clock-date">JAN 01, 2026</span>
+                <span class="network-status">
+                    <span class="status-dot online"></span>
+                    NETWORK: ONLINE
+                </span>
+                <span class="ca-address">CA: SOON</span>
+            </div>
+        </header>
+
+        <!-- Page Title Bar -->
+        <div class="page-title-bar">
+            <div class="title-left">
+                <span class="page-title">FINANCIAL TERMINAL</span>
+                <span class="page-subtitle">USER CONTROLLED</span>
+                <span class="page-desc">ADD TOKENS MANUALLY - PRICES UPDATE EVERY 30 SECONDS</span>
+            </div>
+            <div class="title-stats">
+                <button class="add-token-btn" onclick="openAddTokenModal()">+ ADD TOKEN</button>
+                <span class="stat-item">TOKENS: <span id="tokenCount">0</span></span>
+                <span class="stat-sep">|</span>
+                <span class="stat-item">UPDATED: <span id="lastUpdate">--</span></span>
+            </div>
+        </div>
+
+        <!-- Main Content - 3 Columns -->
+        <main class="main-content">
+            <!-- Column 1: DexScreener Stream -->
+            <section class="column column-dex">
+                <div class="panel-header">
+                    <span class="panel-tag">STREAM</span>
+                    <span class="panel-title">DEXSCREENER STREAM</span>
+                    <span class="panel-info">SOLANA TOKENS</span>
+                </div>
+                <div class="token-grid" id="tokenGrid">
+                    <div class="loading-message">Loading tokens...</div>
+                </div>
+            </section>
+
+            <!-- Column 2: Solana Trending -->
+            <section class="column column-trending">
+                <div class="panel-header">
+                    <span class="panel-tag">TRENDING</span>
+                    <span class="panel-title">SOLANA TRENDING</span>
+                    <span class="panel-info">TOP MOVERS</span>
+                </div>
+                <div class="trending-list" id="trendingList">
+                    <div class="loading-message">Loading trending...</div>
+                </div>
+
+                <!-- Watchlist -->
+                <div class="panel-header watchlist-header">
+                    <span class="panel-tag">WATCHLIST</span>
+                    <span class="panel-title">TRACKED TOKENS</span>
+                </div>
+                <div class="watchlist" id="watchlist">
+                    <div class="empty-message">No tokens tracked yet</div>
+                </div>
+            </section>
+
+            <!-- Column 3: Predictions + Remarks -->
+            <section class="column column-predictions">
+                <div class="panel-header">
+                    <span class="panel-tag">PREDICTIONS</span>
+                    <span class="panel-title">POLYMARKET</span>
+                    <span class="panel-info">LIVE ODDS</span>
+                </div>
+                <div class="predictions-list" id="predictionsList">
+                    <div class="loading-message">Loading predictions...</div>
+                </div>
+
+                <!-- Analyst Remarks -->
+                <div class="panel-header remarks-header">
+                    <span class="panel-tag">ANALYST</span>
+                    <span class="panel-title">REMARKS</span>
+                </div>
+                <div class="remarks-list" id="remarksList">
+                    <div class="empty-message">No remarks yet</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span>MR. TANK FINANCIAL TERMINAL V1.0 | ARCTIC MARKET INTELLIGENCE</span>
+        </footer>
+    </div>
+
+    <!-- Add Token Modal -->
+    <div id="addTokenModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">ADD TOKEN</span>
+                <button class="modal-close" onclick="closeAddTokenModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <label for="tokenSymbolInput">TOKEN SYMBOL OR LINK</label>
+                <input type="text" id="tokenSymbolInput" placeholder="BTC, ETH, SOL or paste link from DexScreener/Coinbase/Binance" autofocus />
+                <div class="modal-hint">
+                    <strong>Symbol:</strong> BTC, ETH, PEPE<br>
+                    <strong>Links accepted:</strong><br>
+                    • DexScreener (any chain): https://dexscreener.com/solana/...<br>
+                    • Coinbase: https://www.coinbase.com/price/bitcoin<br>
+                    • Binance: https://www.binance.com/en/price/bitcoin
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeAddTokenModal()">CANCEL</button>
+                <button class="modal-btn confirm" onclick="handleAddToken()">ADD TOKEN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="firebase.js"></script>
+
+    <script src="market.js"></script>
+</body>
+</html>

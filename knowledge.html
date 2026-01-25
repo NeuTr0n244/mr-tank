@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOWLEDGE GRAPH | MR. TANK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="knowledge.css">
+</head>
+<body>
+    <!-- Snowfall Effect -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a href="index.html" class="back-link">&larr;</a>
+                <span class="logo">MR. TANK</span>
+                <span class="version">V1.0</span>
+            </div>
+
+            <div class="header-center">
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+            </div>
+
+            <div class="header-right">
+                <span class="clock-time" id="clock-time">00:00:00</span>
+                <span class="clock-date" id="clock-date">JAN 01, 2026</span>
+                <span class="network-status">
+                    <span class="status-dot online"></span>
+                    NETWORK: ONLINE
+                </span>
+                <span class="ca-address">CA: SOON</span>
+            </div>
+        </header>
+
+        <!-- Page Title Bar -->
+        <div class="page-title-bar">
+            <span class="page-title">KNOWLEDGE GRAPH</span>
+            <span class="page-subtitle">EXTENDED VIEW OF KNOWLEDGE, JOURNALS, OBSERVATIONS, NEWS, AND ENTRIES</span>
+            <div class="title-stats">
+                <span>ITEMS: <span id="headerItems">0 / 0</span></span>
+                <span class="stat-divider">|</span>
+                <span>ENTRIES: <span id="headerEntries">0</span></span>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <span class="stat-label">TOTAL</span>
+                <span class="stat-value" id="statTotal">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">MR. TANK</span>
+                <span class="stat-value" id="statTank">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">TYPES</span>
+                <span class="stat-value" id="statTypes">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">LATEST</span>
+                <span class="stat-value" id="statLatest">--</span>
+            </div>
+        </div>
+
+        <div class="instruction">DRAG TO ROTATE. SCROLL TO ZOOM. CLICK A NODE TO INSPECT.</div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Spatial View -->
+            <section class="spatial-view">
+                <div class="panel-header">
+                    <span class="panel-tag">SPATIAL VIEW</span>
+                    <span class="panel-title">KNOWLEDGE GRAPH</span>
+                    <span class="panel-info">ROOT: MR.TANK | RINGS: TYPES | NODES: ENTRIES</span>
+                </div>
+                <div class="graph-container" id="graphContainer">
+                    <canvas id="graphCanvas"></canvas>
+                    <div class="graph-label">LIVE MEMORY MESH - HOVER NODES FOR PREVIEW. DRAG TO ORBIT.</div>
+                </div>
+            </section>
+
+            <!-- Inspector -->
+            <aside class="inspector">
+                <div class="panel-header">
+                    <span class="panel-tag">INSPECTOR</span>
+                    <span class="panel-title">FOCUS</span>
+                    <span class="panel-info">LATEST: <span id="inspectorLatest">--</span></span>
+                </div>
+                <div class="inspector-content">
+                    <div class="inspector-section">
+                        <span class="section-label">SELECTED</span>
+                        <div class="section-content" id="selectedContent">Click a node to load details.</div>
+                    </div>
+                    <div class="inspector-section">
+                        <span class="section-label">HOVER</span>
+                        <div class="section-content" id="hoverContent">Hover a node to preview.</div>
+                    </div>
+                    <div class="inspector-section">
+                        <span class="section-label">LEGEND</span>
+                        <div class="legend" id="legendContainer">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Bottom Panels -->
+        <div class="bottom-panels">
+            <!-- Directory -->
+            <section class="directory">
+                <div class="panel-header">
+                    <span class="panel-tag">DIRECTORY</span>
+                    <span class="panel-title">VIRTUAL PATHS</span>
+                    <span class="panel-info">ITEMS: <span id="directoryItems">0 / 0</span></span>
+                </div>
+                <div class="directory-content" id="directoryList">
+                    <div class="empty-message">No knowledge yet.</div>
+                </div>
+            </section>
+
+            <!-- Search -->
+            <section class="search">
+                <div class="panel-header">
+                    <span class="panel-tag">SEARCH</span>
+                    <span class="panel-title">ON-DEMAND FETCH</span>
+                </div>
+                <div class="search-content">
+                    <div class="search-form">
+                        <input type="text" id="searchInput" placeholder="Query text/url/source" class="search-input">
+                        <button id="searchBtn" class="search-btn">SEARCH</button>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <div class="empty-message">No results.</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span>MR. TANK KNOWLEDGE SYSTEM V1.0</span>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="firebase.js"></script>
+
+    <!-- Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="knowledge.js"></script>
+</body>
+</html>

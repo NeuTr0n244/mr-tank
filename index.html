@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR. TANK V1.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Snowfall Effect -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <span class="logo">❄️ MR. TANK</span>
+                <span class="version">V1.0</span>
+                <span class="status-badge">
+                    <span class="status-dot"></span>
+                    ARCTIC ONLINE
+                </span>
+            </div>
+            <div class="header-center">
+                <span class="live-badge">🌨️ LIVE</span>
+            </div>
+            <div class="header-right">
+                <span class="clock-time" id="clock-time">00:00:00</span>
+                <span class="clock-date" id="clock-date">JAN 01, 2026</span>
+                <span class="network-status">
+                    <span class="network-dot"></span>
+                    NETWORK: ONLINE
+                </span>
+                <div class="wallet-address" id="walletAddress">
+                    CA: SOON
+                </div>
+                <div class="voice-controls">
+                    <button class="voice-btn" id="voiceToggle">
+                        <span class="btn-text">voice</span>
+                        <span class="btn-state" id="voiceState">off</span>
+                    </button>
+                    <button class="voice-btn" id="soundToggle">
+                        <span class="btn-text">sound</span>
+                        <span class="btn-state" id="soundState">on</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Left Sidebar -->
+            <aside class="sidebar sidebar-left">
+                <!-- Lifecycle Section -->
+                <section class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">LIFECYCLE</span>
+                        <span class="panel-badge" id="currentPeriod">MORNING</span>
+                    </div>
+                    <div class="lifecycle-container" id="lifecycleContainer">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Feed/Inventory Section -->
+                <section class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">FEED</span>
+                    </div>
+                    <div class="inventory-list" id="inventoryList">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Radio Section -->
+                <section class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">🎵 ARCTIC LO-FI</span>
+                        <span class="panel-badge">POLAR DJ</span>
+                    </div>
+                    <div class="radio-container">
+                        <div class="radio-info">
+                            <span class="radio-station" id="radioStation">Frozen Jazz Lounge</span>
+                        </div>
+                        <div class="radio-controls">
+                            <button class="radio-btn" id="radioPlayPause">pause</button>
+                            <button class="radio-btn" id="radioMute">unmute</button>
+                            <div class="volume-display">
+                                <span id="volumeValue">50</span>%
+                            </div>
+                        </div>
+                        <input type="range" class="volume-slider" id="radioVolume" min="0" max="100" value="50">
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Center Content -->
+            <div class="center-content">
+                <!-- 3D Model Viewer -->
+                <div class="model-viewer" id="modelViewer">
+                    <!-- Speaking Bar (overlay) -->
+                    <div class="speaking-bar" id="speakingBar">
+                        <span class="speaking-label">🎤 MR. TANK SPEAKING</span>
+                        <span class="speaking-text" id="speakingText">...</span>
+                    </div>
+
+                    <!-- Tank View (bottom-right popup) -->
+                    <div class="tank-view" id="tankView">
+                        <div class="tank-view-header">
+                            <span>MR. TANK VIEW</span>
+                            <button class="close-view" id="closeTankView">&times;</button>
+                        </div>
+                        <div class="tank-view-content">
+                            <p class="view-source" id="viewSource">ARCTIC TIMES</p>
+                            <p class="view-type" id="viewType">KNOWLEDGE</p>
+                            <p class="view-url" id="viewUrl"></p>
+                            <a class="view-link" id="viewLink" href="#" target="_blank">OPEN IN NEW TAB &rarr;</a>
+                        </div>
+                    </div>
+
+                    <canvas id="canvas3d"></canvas>
+                    <div class="model-loading" id="modelLoading">
+                        <span>Loading model...</span>
+                    </div>
+                </div>
+
+                <!-- Speech Log -->
+                <div class="speech-container">
+                    <div class="speech-log" id="speechLog">
+                        <div class="speech-entry">
+                            <span class="speech-text">I am Mr. Tank, your distinguished executive companion from the Arctic.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar sidebar-right">
+                <!-- Stats Section - Compact -->
+                <section class="panel panel-status">
+                    <div class="panel-header">
+                        <span class="panel-title">STATUS</span>
+                    </div>
+                    <div class="stats-grid">
+                        <!-- Row 1: Routine + Temp -->
+                        <div class="stat-cell">
+                            <span class="stat-label">Routine</span>
+                            <span class="stat-value" id="statRoutine">[ACTIVE]</span>
+                        </div>
+                        <div class="stat-cell">
+                            <span class="stat-label">Temp</span>
+                            <span class="stat-value stat-temp" id="tempValue">-15°C</span>
+                        </div>
+                        <!-- Row 2: Mood + Ice -->
+                        <div class="stat-cell stat-cell-bar">
+                            <span class="stat-label">Mood</span>
+                            <div class="stat-bar-mini"><div class="stat-bar" id="moodBar" style="width: 75%"></div></div>
+                            <span class="stat-value" id="moodValue">75%</span>
+                        </div>
+                        <div class="stat-cell">
+                            <span class="stat-label">Ice</span>
+                            <span class="stat-value stat-ice" id="iceValue">85%</span>
+                        </div>
+                        <!-- Row 3: Health + Ticks -->
+                        <div class="stat-cell stat-cell-bar">
+                            <span class="stat-label">Health</span>
+                            <div class="stat-bar-mini"><div class="stat-bar stat-bar-health" id="healthBar" style="width: 80%"></div></div>
+                            <span class="stat-value" id="healthValue">80%</span>
+                        </div>
+                        <div class="stat-cell">
+                            <span class="stat-label">Ticks</span>
+                            <span class="stat-value" id="tickCount">0</span>
+                        </div>
+                        <!-- Row 4: Vol + System -->
+                        <div class="stat-cell stat-cell-bar">
+                            <span class="stat-label">Vol</span>
+                            <div class="stat-bar-mini"><div class="stat-bar stat-bar-vol" id="volBar" style="width: 45%"></div></div>
+                            <span class="stat-value" id="volValue">45%</span>
+                        </div>
+                        <div class="stat-cell">
+                            <span class="stat-label">System</span>
+                            <span class="stat-value stat-value-normal">FROZEN</span>
+                        </div>
+                        <!-- Row 5: Full width -->
+                        <div class="stat-cell stat-cell-full">
+                            <span class="stat-label">Persistence</span>
+                            <span class="stat-value">REAL-TIME</span>
+                            <span class="stat-sep">|</span>
+                            <span class="stat-label">Mode</span>
+                            <span class="stat-value">SOVEREIGN</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Arctic Archives - Unified Panel -->
+                <section class="panel panel-archives">
+                    <div class="panel-header">
+                        <span class="panel-title">🧊 ARCTIC ARCHIVES</span>
+                        <span class="panel-badge" id="knowledgeCount">0 items</span>
+                    </div>
+
+                    <!-- Navigation Buttons - Clark Style -->
+                    <div class="archives-nav">
+                        <div class="archives-nav-row">
+                            <button class="archives-btn" id="btnShowIntro">? INTRO</button>
+                            <a href="knowledge.html" class="archives-btn archives-link">⬡ GRAPH</a>
+                            <button class="archives-btn" id="btnViewArt">✦ ART</button>
+                        </div>
+                        <div class="archives-nav-row archives-filters">
+                            <button class="archives-btn filter-btn active" data-filter="ALL">ALL</button>
+                            <button class="archives-btn filter-btn" data-filter="MARKET" id="btnMarket">$ MARKET</button>
+                            <button class="archives-btn filter-btn" data-filter="NEWS" id="btnNews">📰 NEWS</button>
+                            <button class="archives-btn filter-btn" data-filter="PREDICTION">🔮 PREDICT</button>
+                        </div>
+                    </div>
+
+                    <!-- Feed Content -->
+                    <div class="archives-feed" id="archivesFeed">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Add Knowledge Button -->
+                    <div class="archives-add" id="btnAddKnowledge">
+                        <span class="archives-add-icon">+</span>
+                        <span class="archives-add-text">ADD KNOWLEDGE</span>
+                        <span class="archives-add-sub">EXPAND DATABASE</span>
+                    </div>
+                </section>
+
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span class="footer-text">❄️ MR. TANK V1.0 | Arctic Executive Intelligence System | -15°C</span>
+        </footer>
+
+        <!-- Knowledge Upload Modal -->
+        <div class="modal" id="modalUpload">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">❄️ ADD KNOWLEDGE</span>
+                    <button class="modal-close" id="closeUploadModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-field">
+                        <label>TITLE</label>
+                        <input type="text" id="kbTitle" placeholder="Enter a title for this knowledge...">
+                    </div>
+                    <div class="form-field">
+                        <label>CONTENT</label>
+                        <textarea id="kbContent" placeholder="Enter the knowledge content..." rows="4"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>TYPE</label>
+                            <select id="kbType">
+                                <option value="KNOWLEDGE">KNOWLEDGE</option>
+                                <option value="NEWS">NEWS</option>
+                                <option value="MARKET">MARKET</option>
+                                <option value="PREDICTION">PREDICTION</option>
+                                <option value="OBSERVATION">OBSERVATION</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>SOURCE</label>
+                            <input type="text" id="kbSource" placeholder="USER" value="USER">
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>URL (optional)</label>
+                        <input type="text" id="kbUrl" placeholder="https://...">
+                    </div>
+                    <div class="form-field">
+                        <label>TAGS (comma separated)</label>
+                        <input type="text" id="kbTags" placeholder="arctic, finance, strategy">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelUpload">Cancel</button>
+                    <button class="btn-primary" id="confirmUpload">💾 SAVE KNOWLEDGE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Graph Modal -->
+        <div class="modal" id="modalGraph">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <span class="modal-title">KNOWLEDGE GRAPH</span>
+                    <button class="modal-close" id="closeGraphModal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-graph">
+                    <div id="graphContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Expand Modal -->
+        <div class="modal" id="modalExpand">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <span class="modal-title">KNOWLEDGE DATABASE</span>
+                    <button class="modal-close" id="closeExpandModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="expand-filters">
+                        <select id="filterType">
+                            <option value="all">All Types</option>
+                            <option value="Note">Notes</option>
+                            <option value="Link">Links</option>
+                            <option value="Article">Articles</option>
+                            <option value="Quote">Quotes</option>
+                            <option value="Fact">Facts</option>
+                        </select>
+                        <input type="text" id="filterSearch" placeholder="Search...">
+                    </div>
+                    <div class="expand-list" id="expandList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Detail Modal -->
+        <div class="modal" id="modalDetail">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" id="detailType">NOTE</span>
+                    <button class="modal-close" id="closeDetailModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-content" id="detailContent"></div>
+                    <div class="detail-meta" id="detailMeta"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-danger" id="deleteKnowledge">Delete</button>
+                    <button class="btn-secondary" id="closeDetail">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vis.js for Graph Visualization -->
+    <script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="firebase.js"></script>
+
+    <!-- Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

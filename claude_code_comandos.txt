@@ -1,0 +1,52 @@
+============================================
+   CLAUDE CODE - MODO AUTO-ACCEPT
+============================================
+
+OPÇÃO 1 - Iniciar sem perguntas (RECOMENDADO)
+---------------------------------------------
+Feche o Claude Code e abra novamente com:
+
+claude --dangerously-skip-permissions
+
+
+OPÇÃO 2 - Durante a sessão
+---------------------------------------------
+Aperte: Shift + Tab
+Até aparecer: "auto-accept on"
+
+
+OPÇÃO 3 - Aceitar tudo de uma vez
+---------------------------------------------
+Quando aparecer uma pergunta, digite:
+!yes-all
+
+
+============================================
+   COMANDOS ÚTEIS
+============================================
+
+Iniciar projeto:
+cd C:\Users\NEUTRON\Documents\Mr. Penguin
+claude
+
+Iniciar servidor:
+node server.js
+
+Acessar site:
+http://localhost:3000
+
+Parar servidor:
+Ctrl + C
+
+
+============================================
+   ATALHOS DO CLAUDE CODE
+============================================
+
+Shift + Tab  = Alternar modo accept
+Ctrl + C     = Cancelar/Parar
+Esc          = Interromper
+Seta ↑       = Comando anterior
+
+
+============================================

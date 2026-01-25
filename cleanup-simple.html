@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Cleanup - Mr. Tank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a1929 0%, #0f2744 50%, #0a1929 100%);
+            color: #e8f4f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(15, 29, 46, 0.9);
+            border: 2px solid #88d4f7;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(136, 212, 247, 0.3);
+        }
+
+        h1 {
+            color: #88d4f7;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-shadow: 0 0 10px rgba(136, 212, 247, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a8c5d6;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        .warning {
+            background: rgba(248, 113, 113, 0.2);
+            border: 2px solid #f87171;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .warning-title {
+            color: #f87171;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .warning-text {
+            color: #fca5a5;
+            line-height: 1.6;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            color: #e8f4f8;
+            background: rgba(136, 212, 247, 0.2);
+            border: 2px solid #88d4f7;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .button:hover {
+            background: rgba(136, 212, 247, 0.3);
+            box-shadow: 0 0 20px rgba(136, 212, 247, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .button.danger {
+            background: rgba(248, 113, 113, 0.2);
+            border-color: #f87171;
+        }
+
+        .button.danger:hover {
+            background: rgba(248, 113, 113, 0.3);
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.5);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .log-container {
+            background: rgba(10, 25, 41, 0.8);
+            border: 1px solid #88d4f7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .log-container.active {
+            display: block;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .log-info {
+            color: #88d4f7;
+        }
+
+        .log-success {
+            color: #4ade80;
+        }
+
+        .log-error {
+            color: #f87171;
+        }
+
+        .log-warning {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 FIREBASE CLEANUP</h1>
+        <div class="subtitle">Mr. Tank - Database Reset Tool</div>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ WARNING - IRREVERSIBLE ACTION</div>
+            <div class="warning-text">
+                This will DELETE ALL DATA from Firebase:<br><br>
+                • All knowledge entries<br>
+                • All news articles<br>
+                • All spoken news history<br>
+                • All market tokens<br>
+                • All status data<br>
+                • All remarks and comments<br><br>
+                <strong>THIS CANNOT BE UNDONE!</strong>
+            </div>
+        </div>
+
+        <button class="button" onclick="clearLocalStorage()">
+            🗑️ CLEAR BROWSER LOCALSTORAGE
+        </button>
+
+        <button class="button danger" onclick="confirmCleanup()">
+            🔥 DELETE ALL FIREBASE DATA
+        </button>
+
+        <button class="button" onclick="window.location.href='index.html'">
+            ← BACK TO MR. TANK
+        </button>
+
+        <div id="logContainer" class="log-container"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
+            authDomain: "tank-c748f.firebaseapp.com",
+            projectId: "tank-c748f",
+            storageBucket: "tank-c748f.firebasestorage.app",
+            messagingSenderId: "804077384752",
+            appId: "1:804077384752:web:118c377b61574f849929f5"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Logging
+        function log(message, type = 'info') {
+            const container = document.getElementById('logContainer');
+            container.classList.add('active');
+
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = message;
+
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+
+            console.log(message);
+        }
+
+        // Clear localStorage
+        function clearLocalStorage() {
+            if (confirm('Clear browser localStorage? This will remove all local data.')) {
+                localStorage.clear();
+                log('✅ LocalStorage cleared successfully!', 'success');
+                alert('LocalStorage cleared! Press F5 to refresh.');
+            }
+        }
+
+        // Clear a single collection
+        async function clearCollection(collectionName) {
+            log(`🗑️ Clearing collection: ${collectionName}`, 'info');
+
+            try {
+                const snapshot = await db.collection(collectionName).get();
+
+                if (snapshot.empty) {
+                    log(`   ℹ️ Collection "${collectionName}" is already empty`, 'warning');
+                    return 0;
+                }
+
+                let deletedCount = 0;
+                const batchSize = 100;
+
+                // Delete in batches
+                while (!snapshot.empty) {
+                    const batch = db.batch();
+                    const docs = await db.collection(collectionName).limit(batchSize).get();
+
+                    if (docs.empty) break;
+
+                    docs.forEach(doc => {
+                        batch.delete(doc.ref);
+                        deletedCount++;
+                    });
+
+                    await batch.commit();
+                    log(`   🗑️ Deleted ${deletedCount} documents...`, 'info');
+                }
+
+                log(`   ✅ Cleared ${deletedCount} documents from "${collectionName}"`, 'success');
+                return deletedCount;
+            } catch (error) {
+                log(`   ❌ Error clearing ${collectionName}: ${error.message}`, 'error');
+                return 0;
+            }
+        }
+
+        // Confirm and execute cleanup
+        async function confirmCleanup() {
+            const confirmed = confirm(
+                '⚠️ ARE YOU ABSOLUTELY SURE?\n\n' +
+                'This will DELETE ALL DATA from Firebase.\n\n' +
+                'This action CANNOT be undone!\n\n' +
+                'Click OK to proceed.'
+            );
+
+            if (!confirmed) {
+                log('❌ Cleanup cancelled by user', 'warning');
+                return;
+            }
+
+            // Double confirmation
+            const doubleConfirm = prompt(
+                'Type "DELETE ALL" to confirm (case-sensitive):'
+            );
+
+            if (doubleConfirm !== 'DELETE ALL') {
+                log('❌ Cleanup cancelled - incorrect confirmation', 'warning');
+                return;
+            }
+
+            log('🚀 Starting Firebase cleanup...', 'info');
+            log('═══════════════════════════════════════', 'info');
+
+            const collections = [
+                'knowledge',
+                'news',
+                'spoken_news',
+                'user_tokens',
+                'market',
+                'status',
+                'remarks',
+                'watchlist'
+            ];
+
+            let totalDeleted = 0;
+
+            for (const collectionName of collections) {
+                const deleted = await clearCollection(collectionName);
+                totalDeleted += deleted;
+            }
+
+            log('═══════════════════════════════════════', 'info');
+            log(`✅ CLEANUP COMPLETE!`, 'success');
+            log(`Total documents deleted: ${totalDeleted}`, 'success');
+            log('', 'info');
+            log('📝 Next steps:', 'info');
+            log('1. Clear localStorage (button above)', 'info');
+            log('2. Refresh the page (F5)', 'info');
+            log('3. Site will start fresh!', 'info');
+
+            alert(`✅ Firebase cleanup complete!\n\nDeleted ${totalDeleted} documents.\n\nNow click "CLEAR BROWSER LOCALSTORAGE" and refresh.`);
+        }
+    </script>
+</body>
+</html>

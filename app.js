@@ -461,11 +461,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initFirebaseListeners();
 
     // Then initialize everything else
-    initSnowfall();
     initClock();
     initThreeJS();
-    initLifecycle();
-    initInventory();
     initVoice();
     initRadio();
     initKnowledge();
@@ -623,37 +620,10 @@ function updateWeatherDisplays() {
 }
 
 // ============================================
-// ARCTIC SNOWFALL EFFECT
+// VISUAL EFFECTS - REMOVED
 // ============================================
 
-function initSnowfall() {
-    const container = document.getElementById('snowflakes');
-    if (!container) return;
-
-    const snowflakeChars = ['❄', '❅', '❆', '•', '✦'];
-    const numSnowflakes = 80;
-
-    for (let i = 0; i < numSnowflakes; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
-
-        // Random properties
-        const startX = Math.random() * 100;
-        const size = 0.6 + Math.random() * 1.2;
-        const duration = 10 + Math.random() * 15;
-        const delay = Math.random() * duration;
-
-        snowflake.style.cssText = `
-            left: ${startX}%;
-            font-size: ${size}em;
-            animation-duration: ${duration}s;
-            animation-delay: -${delay}s;
-        `;
-
-        container.appendChild(snowflake);
-    }
-}
+// Snowfall effect removed for cleaner UI
 
 // ============================================
 // CLOCK
@@ -1064,85 +1034,16 @@ window.debugState = function() {
 };
 
 // ============================================
-// LIFECYCLE
+// LIFECYCLE - REMOVED
 // ============================================
 
-function initLifecycle() {
-    renderLifecycle();
-    updateLifecycle();
-    setInterval(updateLifecycle, 60000);
-}
-
-function renderLifecycle() {
-    const container = document.getElementById('lifecycleContainer');
-    container.innerHTML = LIFECYCLE.map(item => `
-        <div class="lifecycle-item" data-start="${item.start}" data-end="${item.end}">
-            <span class="lifecycle-time">${item.time}</span>
-            <span class="lifecycle-text">${item.text}</span>
-        </div>
-    `).join('');
-}
-
-function updateLifecycle() {
-    const hour = new Date().getHours();
-    const items = document.querySelectorAll('.lifecycle-item');
-    let currentPeriod = 'NIGHT';
-
-    items.forEach(item => {
-        const start = parseInt(item.dataset.start);
-        const end = parseInt(item.dataset.end);
-        const isActive = (start <= end)
-            ? (hour >= start && hour < end)
-            : (hour >= start || hour < end);
-
-        item.classList.toggle('active', isActive);
-
-        if (isActive) {
-            if (hour >= 6 && hour < 12) currentPeriod = 'MORNING';
-            else if (hour >= 12 && hour < 17) currentPeriod = 'AFTERNOON';
-            else if (hour >= 17 && hour < 22) currentPeriod = 'EVENING';
-            else currentPeriod = 'NIGHT';
-        }
-    });
-
-    document.getElementById('currentPeriod').textContent = currentPeriod;
-}
+// Lifecycle feature removed for cleaner UI
 
 // ============================================
-// INVENTORY
+// INVENTORY - REMOVED
 // ============================================
 
-function initInventory() {
-    const container = document.getElementById('inventoryList');
-    container.innerHTML = INVENTORY.map(item => `
-        <div class="inventory-item" data-id="${item.id}">
-            <div class="item-info">
-                <span class="item-name">${item.name}</span>
-                <span class="item-desc">${item.desc}</span>
-            </div>
-            <div class="item-stats">
-                <span>M${item.mood > 0 ? '+' : ''}${item.mood} H${item.health > 0 ? '+' : ''}${item.health} V${item.vol > 0 ? '+' : ''}${item.vol}</span>
-                <span class="item-cost">-${item.cost}H</span>
-            </div>
-        </div>
-    `).join('');
-
-    container.querySelectorAll('.inventory-item').forEach(el => {
-        el.addEventListener('click', () => {
-            const item = INVENTORY.find(i => i.id === el.dataset.id);
-            if (item) giveItem(item);
-        });
-    });
-}
-
-function giveItem(item) {
-    STATE.mood = clamp(STATE.mood + item.mood, 0, 100);
-    STATE.health = clamp(STATE.health + item.health, 0, 100);
-    STATE.volatility = clamp(STATE.volatility + item.vol, 0, 100);
-    updateStats();
-    showToast(`Gave ${item.name} to Akai Inu`, 'success');
-    // FEED items don't speak - only update stats
-}
+// Inventory/Feed feature removed for cleaner UI
 
 function updateStats() {
     document.getElementById('moodValue').textContent = `${STATE.mood}%`;

@@ -28,9 +28,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Snowfall Effect -->
-    <div class="snowflakes" id="snowflakes"></div>
-
     <div class="app">
         <!-- Header -->
         <header class="header">
@@ -72,27 +69,6 @@
         <main class="main">
             <!-- Left Sidebar -->
             <aside class="sidebar sidebar-left">
-                <!-- Lifecycle Section -->
-                <section class="panel">
-                    <div class="panel-header">
-                        <span class="panel-title">LIFECYCLE</span>
-                        <span class="panel-badge" id="currentPeriod">MORNING</span>
-                    </div>
-                    <div class="lifecycle-container" id="lifecycleContainer">
-                        <!-- Populated by JS -->
-                    </div>
-                </section>
-
-                <!-- Feed/Inventory Section -->
-                <section class="panel">
-                    <div class="panel-header">
-                        <span class="panel-title">FEED</span>
-                    </div>
-                    <div class="inventory-list" id="inventoryList">
-                        <!-- Populated by JS -->
-                    </div>
-                </section>
-
                 <!-- Radio Section -->
                 <section class="panel">
                     <div class="panel-header">
@@ -163,24 +139,24 @@
                         <span class="panel-title">STATUS</span>
                     </div>
                     <div class="stats-grid">
-                        <!-- Row 1: Routine + Temp -->
+                        <!-- Row 1: Routine + Energy -->
                         <div class="stat-cell">
-                            <span class="stat-label">Routine</span>
+                            <span class="stat-label">Status</span>
                             <span class="stat-value" id="statRoutine">[ACTIVE]</span>
                         </div>
                         <div class="stat-cell">
-                            <span class="stat-label">Temp</span>
-                            <span class="stat-value stat-temp" id="tempValue">-15°C</span>
+                            <span class="stat-label">Energy</span>
+                            <span class="stat-value stat-energy" id="energyValue">100%</span>
                         </div>
-                        <!-- Row 2: Mood + Ice -->
+                        <!-- Row 2: Mood + Strength -->
                         <div class="stat-cell stat-cell-bar">
                             <span class="stat-label">Mood</span>
                             <div class="stat-bar-mini"><div class="stat-bar" id="moodBar" style="width: 75%"></div></div>
                             <span class="stat-value" id="moodValue">75%</span>
                         </div>
                         <div class="stat-cell">
-                            <span class="stat-label">Ice</span>
-                            <span class="stat-value stat-ice" id="iceValue">85%</span>
+                            <span class="stat-label">Power</span>
+                            <span class="stat-value stat-power" id="powerValue">95%</span>
                         </div>
                         <!-- Row 3: Health + Ticks -->
                         <div class="stat-cell stat-cell-bar">
@@ -213,7 +189,7 @@
                     </div>
                 </section>
 
-                <!-- Arctic Archives - Unified Panel -->
+                <!-- Shiba Archives - Unified Panel -->
                 <section class="panel panel-archives">
                     <div class="panel-header">
                         <span class="panel-title">🏯 SHIBA ARCHIVES</span>

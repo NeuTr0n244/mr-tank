@@ -1,33 +1,36 @@
-/* AKAI INU V1.0 - Shiba Orange Theme */
+/* AKAI INU V1.0 - Clean Shiba Theme */
 
 :root {
-    --bg-primary: #1a0f08;
-    --bg-secondary: #2a1810;
-    --bg-panel: #3a2418;
-    --bg-hover: #4a3020;
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2a2a2a;
+    --bg-panel: #FFFFFF;
+    --bg-hover: #f5f5f5;
 
-    --text-primary: #fff5e8;
-    --text-secondary: #d4a574;
-    --text-muted: #8a6a4a;
+    --text-primary: #1a1a1a;
+    --text-secondary: #5D4037;
+    --text-muted: #9e9e9e;
 
     --accent: #E67E22;
     --accent-dim: #d35400;
     --accent-glow: rgba(230, 126, 34, 0.3);
+    --cream: #FDF2E9;
+    --brown: #5D4037;
     --green: #4adeab;
     --blue: #88d4f7;
     --pink: #f788b0;
     --red: #e74c3c;
-    --turquoise: #4fd1c5;
-    --aurora-purple: #a78bfa;
 
-    --border: #2d4a6f;
-    --border-light: #3d5a7f;
+    --border: #E67E22;
+    --border-light: #d4a574;
 
-    --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Tahoma', 'Arial', sans-serif;
+    --font-sans: 'Tahoma', 'Arial', sans-serif;
 
-    --radius: 4px;
-    --radius-lg: 8px;
+    --radius: 0px;
+    --radius-lg: 0px;
+
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -48,37 +51,16 @@ body {
     color: var(--text-primary);
     line-height: 1.5;
     overflow-x: hidden;
-    background: transparent;
+    background: var(--bg-primary);
 }
 
-/* Shiba background - z-index -3 */
+/* Clean background */
 body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #2c1810 0%, #1a0f08 50%, #2c1810 100%);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    z-index: -3;
-    pointer-events: none;
+    display: none;
 }
 
-/* Warm layer - z-index -1 (in front of particles) */
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(230, 126, 34, 0.05);
-    backdrop-filter: blur(2px);
-    z-index: -1;
-    pointer-events: none;
+    display: none;
 }
 
 .app {
@@ -101,12 +83,12 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    background: rgba(15, 29, 46, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel);
+    border-bottom: 2px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: var(--shadow);
 }
 
 .header-left {
@@ -329,11 +311,11 @@ body::before {
    ============================================ */
 
 .panel {
-    background: rgba(27, 40, 56, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
+    box-shadow: var(--shadow-lg);
 }
 
 .panel-header {
@@ -341,8 +323,8 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: rgba(15, 29, 46, 0.6);
-    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    border-bottom: 2px solid var(--border);
 }
 
 .panel-title {
@@ -658,11 +640,11 @@ body::before {
    ============================================ */
 
 .speech-container {
-    background: rgba(27, 40, 56, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
+    box-shadow: var(--shadow-lg);
 }
 
 .speech-log {
@@ -676,8 +658,8 @@ body::before {
 
 .speech-entry {
     padding: 10px 14px;
-    background: rgba(15, 29, 46, 0.6);
-    border-left: 2px solid var(--accent);
+    background: var(--cream);
+    border-left: 3px solid var(--accent);
     border-radius: var(--radius);
     animation: speechFadeIn 0.3s ease;
 }
@@ -1611,133 +1593,71 @@ body::before {
 }
 
 /* ============================================
-   ARCTIC THEME EXTRAS
+   SHIBA THEME STYLING
    ============================================ */
 
-/* Snowfall Effect - z-index -2 (between background and blur) */
-.snowflakes {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -2;
-    overflow: hidden;
-}
-
-.snowflake {
-    position: absolute;
-    color: #fff;
-    font-size: 1em;
-    opacity: 0.8;
-    animation: snowfall linear infinite;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
-}
-
-@keyframes snowfall {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px) translateX(0) rotate(0deg);
-    }
-    5% {
-        opacity: 1;
-    }
-    95% {
-        opacity: 0.8;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(100vh) translateX(30px) rotate(360deg);
-    }
-}
-
-/* Frost Effect on Panels - subtle glow on corners */
-.panel {
-    box-shadow:
-        inset 0 0 30px rgba(136, 212, 247, 0.03),
-        0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-/* Arctic Glow Effects */
+/* Clean flat styling for status badges */
 .status-badge {
-    box-shadow: 0 0 10px rgba(74, 222, 171, 0.3);
+    background: var(--cream);
+    border: 2px solid var(--accent);
 }
 
 .live-badge {
-    box-shadow: 0 0 10px rgba(247, 136, 176, 0.3);
+    background: var(--accent);
+    color: white;
+    border: 2px solid var(--accent-dim);
 }
 
 .voice-btn.active {
-    box-shadow: 0 0 8px var(--accent-glow);
+    background: var(--cream);
+    border: 2px solid var(--accent);
 }
 
-/* Ice Bar Styling */
+/* Bar Styling - Flat design */
 .stat-bar {
-    background: linear-gradient(90deg, var(--accent) 0%, var(--turquoise) 100%);
-    box-shadow: 0 0 6px rgba(136, 212, 247, 0.4);
+    background: var(--accent);
 }
 
 .stat-bar-health {
-    background: linear-gradient(90deg, var(--green) 0%, var(--turquoise) 100%);
-    box-shadow: 0 0 6px rgba(74, 222, 171, 0.4);
+    background: var(--green);
 }
 
 .stat-bar-vol {
-    background: linear-gradient(90deg, var(--pink) 0%, var(--aurora-purple) 100%);
-    box-shadow: 0 0 6px rgba(247, 136, 176, 0.4);
+    background: var(--pink);
 }
 
-/* Shiba Model Viewer - Warm gradient */
+/* Shiba Model Viewer - Clean gradient */
 .model-viewer {
     background: linear-gradient(to bottom, #f5deb3 0%, #ffe4b5 40%, #fff8dc 100%) !important;
-    box-shadow: inset 0 0 50px rgba(230, 126, 34, 0.15);
+    border: 2px solid var(--border);
     flex: 1 1 auto !important;
 }
 
-/* Speech Entry Aurora Accent */
+/* Speech Entry Accent */
 .speech-entry {
-    border-left: 2px solid var(--accent);
+    border-left: 3px solid var(--accent);
+    background: var(--cream);
 }
 
-/* Inventory Item Hover Glow */
-.inventory-item:hover {
-    box-shadow: 0 0 10px rgba(136, 212, 247, 0.2);
+/* Energy/Power Display */
+.stat-energy {
+    color: var(--green);
+    font-weight: 600;
 }
 
-/* Temperature Display (new stat) */
-.stat-temp {
+.stat-power {
     color: var(--accent);
     font-weight: 600;
 }
 
-.stat-ice {
-    color: var(--turquoise);
-}
-
-/* Shiba Header Styling */
+/* Shiba Header Styling - Clean */
 .logo {
-    text-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
-}
-
-/* Breathing Frost Effect (when speaking) */
-@keyframes breathFrost {
-    0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
-    50% { opacity: 0.6; transform: translateY(-10px) scale(1); }
-}
-
-.frost-breath {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: breathFrost 1s ease-out infinite;
+    font-weight: bold;
+    color: var(--accent);
 }
 
 /* ============================================
-   ARCTIC ARCHIVES - UNIFIED PANEL (Clark Style)
+   SHIBA ARCHIVES - UNIFIED PANEL (Clean Style)
    ============================================ */
 
 .panel-archives {

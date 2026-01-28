@@ -12,7 +12,6 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const CONFIG = {
     modelPath: './akai-inu.glb',
-    beakObjectName: 'texture_pbr_v128_Material.001_0.005',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',
@@ -52,8 +51,6 @@ const STATE = {
     renderer: null,
     model: null,
     modelPivot: null,
-    beakMesh: null,
-    beakOriginalRotation: null,
 
     // Animation
     mixer: null,
@@ -925,25 +922,6 @@ function loadModel() {
             };
 
             // ========================================
-            // FIND BEAK - search for '005' in name
-            // ========================================
-            STATE.model.traverse((child) => {
-                if (child.isMesh && child.name.includes('005')) {
-                    STATE.beakMesh = child;
-                    // Save original beak rotation
-                    STATE.beakOriginalRotation = child.rotation.x;
-                    console.log('✅ BEAK FOUND:', child.name);
-                    console.log('   Original rotation X:', STATE.beakOriginalRotation);
-                }
-            });
-
-            if (!STATE.beakMesh) {
-                console.error('❌ ERROR: Beak NOT found! No mesh with "005" in name.');
-            } else {
-                console.log('✅ Beak ready for animation via isSpeaking');
-            }
-
-            // ========================================
             // ANIMATION SETUP - Play morph target animations
             // ========================================
             if (gltf.animations && gltf.animations.length > 0) {
@@ -1023,67 +1001,29 @@ function animate() {
         STATE.model.scale.y = STATE.originalScale.y * breath;
     }
 
-    // Lip sync - animate beak
-    animateBeak();
-
     STATE.renderer.render(STATE.scene, STATE.camera);
 }
 
-// Mouth animation function - controlled by isSpeaking + isWordActive
-function animateBeak() {
-    if (!STATE.beakMesh) return;
+// ============================================
+// DEBUG FUNCTIONS
+// ============================================
 
-    const baseRotation = STATE.beakOriginalRotation || 0;
-
-    if (STATE.isSpeaking && STATE.isWordActive) {
-        // Open mouth SUBTLY - fixed small opening
-        STATE.beakMesh.rotation.x = baseRotation + 0.06;
-    } else {
-        // Mouth closed (original position)
-        STATE.beakMesh.rotation.x = baseRotation;
-    }
-}
-
-// Global function to test beak manually
-window.testBeak = function() {
-    console.log('========================================');
-    console.log('MANUAL BEAK TEST');
-    console.log('beakMesh:', STATE.beakMesh);
-    console.log('isSpeaking:', STATE.isSpeaking);
-    console.log('========================================');
-
-    if (!STATE.beakMesh) {
-        console.error('❌ beakMesh is NULL! Beak was not found.');
+window.listMorphTargets = function() {
+    if (!STATE.model) {
+        console.log('❌ Model not loaded yet');
         return;
     }
 
-    console.log('Testing X axis...');
-    STATE.beakMesh.rotation.x = 0.5;
-    setTimeout(() => {
-        STATE.beakMesh.rotation.x = 0;
-        console.log('Testing Y axis...');
-        STATE.beakMesh.rotation.y = 0.5;
-    }, 1000);
-    setTimeout(() => {
-        STATE.beakMesh.rotation.y = 0;
-        console.log('Testing Z axis...');
-        STATE.beakMesh.rotation.z = 0.5;
-    }, 2000);
-    setTimeout(() => {
-        STATE.beakMesh.rotation.z = 0;
-        console.log('Test complete!');
-    }, 3000);
-};
-
-// Global function to simulate speech (no TTS, animation only)
-window.simulateSpeech = function() {
-    console.log('🎤 SIMULATING SPEECH FOR 5 SECONDS...');
-    console.log('beakMesh exists?', STATE.beakMesh !== null);
-    STATE.isSpeaking = true;
-    setTimeout(() => {
-        STATE.isSpeaking = false;
-        console.log('🔇 END OF SIMULATION');
-    }, 5000);
+    console.log('========================================');
+    console.log('=== MORPH TARGETS ===');
+    STATE.model.traverse((child) => {
+        if (child.isMesh && child.morphTargetDictionary) {
+            console.log('Mesh:', child.name);
+            console.log('Morph Targets:', child.morphTargetDictionary);
+            console.log('Influences:', child.morphTargetInfluences);
+        }
+    });
+    console.log('========================================');
 };
 
 // Global function to test full TTS pipeline
@@ -1095,7 +1035,7 @@ window.testTTS = function() {
     console.log('2. Voices loaded:', STATE.voices.length);
     console.log('3. soundEnabled:', STATE.soundEnabled);
     console.log('4. voiceEnabled:', STATE.voiceEnabled);
-    console.log('5. beakMesh exists?', STATE.beakMesh !== null);
+    console.log('5. mixer exists?', STATE.mixer !== null);
     console.log('6. isSpeaking:', STATE.isSpeaking);
     console.log('========================================');
     console.log('Starting speech test...');
@@ -1110,6 +1050,17 @@ window.testTTS = function() {
         console.log('========================================');
         STATE.soundEnabled = originalSound;
     });
+};
+
+window.debugState = function() {
+    console.log('========================================');
+    console.log('DEBUG STATE');
+    console.log('1. model:', STATE.model);
+    console.log('2. mixer:', STATE.mixer);
+    console.log('3. soundEnabled:', STATE.soundEnabled);
+    console.log('4. voiceEnabled:', STATE.voiceEnabled);
+    console.log('5. isSpeaking:', STATE.isSpeaking);
+    console.log('========================================');
 };
 
 // ============================================

@@ -1,5 +1,5 @@
 /**
- * THE TANK TIMES - NEWS PAGE
+ * THE SHIBA TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 

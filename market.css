@@ -1,24 +1,24 @@
 /* ============================================
-   MR. TANK - FINANCIAL TERMINAL
-   Arctic Market Data Theme
+   AKAI INU - FINANCIAL TERMINAL
+   Shiba Market Data Theme
    ============================================ */
 
 :root {
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Arctic Dark Theme */
-    --bg-primary: #0a1929;
-    --bg-secondary: #0f1d2e;
-    --bg-hover: rgba(136, 212, 247, 0.08);
+    /* Shiba Dark Theme */
+    --bg-primary: #1a0f08;
+    --bg-secondary: #2a1810;
+    --bg-hover: rgba(230, 126, 34, 0.08);
 
-    --border: rgba(136, 212, 247, 0.15);
-    --border-light: rgba(136, 212, 247, 0.25);
+    --border: rgba(230, 126, 34, 0.15);
+    --border-light: rgba(230, 126, 34, 0.25);
 
-    --text-primary: #e8f4f8;
-    --text-secondary: #a8c5d6;
-    --text-muted: #5a7a8a;
+    --text-primary: #fff5e8;
+    --text-secondary: #d4a574;
+    --text-muted: #8a6a4a;
 
-    --accent: #88d4f7;
+    --accent: #E67E22;
     --green: #4ade80;
     --red: #f87171;
     --turquoise: #2dd4bf;

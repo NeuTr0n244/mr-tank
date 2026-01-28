@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - MR. TANK
+ * KNOWLEDGE GRAPH - AKAI INU
  * 3D Visualization with Three.js
  */
 
@@ -290,7 +290,7 @@ function createCentralHub() {
     STATE.scene.add(glow);
 
     // Label
-    addLabel('MR. TANK', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
+    addLabel('AKAI INU', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
 }
 
 function createNodes() {

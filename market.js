@@ -1,6 +1,6 @@
 /**
- * MR. TANK - FINANCIAL TERMINAL
- * Arctic Market Data System
+ * AKAI INU - FINANCIAL TERMINAL
+ * Shiba Market Data System
  * Multi-Source Token Aggregator
  */
 
@@ -890,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'MR. TANK') {
+function addRemark(text, source = 'AKAI INU') {
     const remark = {
         text,
         source,

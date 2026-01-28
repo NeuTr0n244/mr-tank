@@ -1,5 +1,5 @@
 /**
- * MR. TANK - FIREBASE REAL-TIME DATABASE
+ * AKAI INU - FIREBASE REAL-TIME DATABASE
  * Synchronizes data across all users in real-time
  */
 
@@ -7,7 +7,7 @@
 // FIREBASE CONFIGURATION
 // ============================================
 
-// Firebase Configuration - MR. TANK Real-Time Database
+// Firebase Configuration - AKAI INU Real-Time Database
 const firebaseConfig = {
     apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
     authDomain: "tank-c748f.firebaseapp.com",

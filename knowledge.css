@@ -1,16 +1,16 @@
-/* KNOWLEDGE GRAPH - Arctic Theme (matching main page) */
+/* KNOWLEDGE GRAPH - Shiba Theme (matching main page) */
 
 :root {
-    --bg-primary: #0a1628;
-    --bg-secondary: #0f1d2e;
+    --bg-primary: #1a0f08;
+    --bg-secondary: #2a1810;
     --bg-panel: #1b2838;
     --bg-hover: #243447;
 
-    --text-primary: #e8f4f8;
-    --text-secondary: #88a4b8;
-    --text-muted: #5a7a8a;
+    --text-primary: #fff5e8;
+    --text-secondary: #d4a574;
+    --text-muted: #8a6a4a;
 
-    --accent: #88d4f7;
+    --accent: #E67E22;
     --accent-dim: #5bb8e0;
     --accent-glow: rgba(136, 212, 247, 0.3);
     --green: #4adeab;

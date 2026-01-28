@@ -1,22 +1,22 @@
-/* MR. TANK V1.0 - Arctic Winter Theme */
+/* AKAI INU V1.0 - Shiba Orange Theme */
 
 :root {
-    --bg-primary: #0a1628;
-    --bg-secondary: #0f1d2e;
-    --bg-panel: #1b2838;
-    --bg-hover: #243447;
+    --bg-primary: #1a0f08;
+    --bg-secondary: #2a1810;
+    --bg-panel: #3a2418;
+    --bg-hover: #4a3020;
 
-    --text-primary: #e8f4f8;
-    --text-secondary: #88a4b8;
-    --text-muted: #5a7a8a;
+    --text-primary: #fff5e8;
+    --text-secondary: #d4a574;
+    --text-muted: #8a6a4a;
 
-    --accent: #88d4f7;
-    --accent-dim: #5bb8e0;
-    --accent-glow: rgba(136, 212, 247, 0.3);
+    --accent: #E67E22;
+    --accent-dim: #d35400;
+    --accent-glow: rgba(230, 126, 34, 0.3);
     --green: #4adeab;
     --blue: #88d4f7;
     --pink: #f788b0;
-    --red: #f788b0;
+    --red: #e74c3c;
     --turquoise: #4fd1c5;
     --aurora-purple: #a78bfa;
 
@@ -51,7 +51,7 @@ body {
     background: transparent;
 }
 
-/* Arctic background - z-index -3 */
+/* Shiba background - z-index -3 */
 body::after {
     content: '';
     position: fixed;
@@ -59,7 +59,7 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('public/images/arctic_background.jpg');
+    background: linear-gradient(135deg, #2c1810 0%, #1a0f08 50%, #2c1810 100%);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -67,7 +67,7 @@ body::after {
     pointer-events: none;
 }
 
-/* Blur layer - z-index -1 (in front of particles) */
+/* Warm layer - z-index -1 (in front of particles) */
 body::before {
     content: '';
     position: fixed;
@@ -75,7 +75,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(230, 126, 34, 0.05);
     backdrop-filter: blur(2px);
     z-index: -1;
     pointer-events: none;
@@ -1688,10 +1688,10 @@ body::before {
     box-shadow: 0 0 6px rgba(247, 136, 176, 0.4);
 }
 
-/* Arctic Model Viewer - Ice blue gradient */
+/* Shiba Model Viewer - Warm gradient */
 .model-viewer {
-    background: linear-gradient(to bottom, #b8c8d8 0%, #ccd6e3 40%, #dde4ec 100%) !important;
-    box-shadow: inset 0 0 50px rgba(136, 212, 247, 0.15);
+    background: linear-gradient(to bottom, #f5deb3 0%, #ffe4b5 40%, #fff8dc 100%) !important;
+    box-shadow: inset 0 0 50px rgba(230, 126, 34, 0.15);
     flex: 1 1 auto !important;
 }
 
@@ -1715,9 +1715,9 @@ body::before {
     color: var(--turquoise);
 }
 
-/* Arctic Header Styling */
+/* Shiba Header Styling */
 .logo {
-    text-shadow: 0 0 10px rgba(136, 212, 247, 0.5);
+    text-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
 }
 
 /* Breathing Frost Effect (when speaking) */

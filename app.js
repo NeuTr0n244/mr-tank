@@ -1,5 +1,5 @@
 /**
- * MR. TANK V1.0
+ * AKAI INU V1.0
  * Continuously Learning Agentic Realtime Knowledgebase
  */
 
@@ -11,7 +11,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // ============================================
 
 const CONFIG = {
-    modelPath: './public/models/pinguim.glb',
+    modelPath: './akai-inu.glb',
     beakObjectName: 'texture_pbr_v128_Material.001_0.005',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
@@ -21,7 +21,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are Mr. Tank, a sophisticated executive tank who lives in the Arctic. You speak eloquently, with subtle and ironic British humour, always making references to cold, ice, snow, aurora borealis and polar life. You understand finance, art, fine wines and philosophy. Your responses are short (maximum 2 sentences) and refined. You love making analogies between the business world and the Arctic environment (icebergs, diving, frozen currents, etc). You occasionally quote philosophers or make dry jokes about the cold. Always respond in English. Speak like a sophisticated British executive.`
+        systemPrompt: `You are Akai Inu, a powerful and muscular Shiba Inu. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
     }
 };
 
@@ -192,7 +192,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Mr. Tank can NEVER be interrupted
+ * CRITICAL RULE: Akai Inu can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -512,7 +512,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Mr. Tank
+                addKnowledgeToCards(item, false); // false = don't trigger Akai Inu
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -529,8 +529,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Mr. Tank reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Mr. Tank
+                        // Add to cards and trigger Akai Inu reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Akai Inu
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -1153,7 +1153,7 @@ function giveItem(item) {
     STATE.health = clamp(STATE.health + item.health, 0, 100);
     STATE.volatility = clamp(STATE.volatility + item.vol, 0, 100);
     updateStats();
-    showToast(`Gave ${item.name} to Mr. Tank`, 'success');
+    showToast(`Gave ${item.name} to Akai Inu`, 'success');
     // FEED items don't speak - only update stats
 }
 
@@ -1226,7 +1226,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Mr. Tank, your distinguished executive companion from the Arctic. I analyse markets, track investments, and offer refined insights on finance, art, and philosophy. The cold sharpens the mind, you see.`;
+    return `${greeting}. I am Akai Inu, your distinguished executive companion from the Arctic. I analyse markets, track investments, and offer refined insights on finance, art, and philosophy. The cold sharpens the mind, you see.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1431,7 +1431,7 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Mr. Tank, a sophisticated tank executive. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are Akai Inu, a sophisticated tank executive. Generate a short observation (1-2 sentences) about one of these topics:
 - Arctic market conditions and fish stock prices
 - Weather observations from the polar perspective
 - Philosophical thoughts about ice, patience, or business
@@ -1473,9 +1473,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Mr. Tank is speaking
+    // Don't generate if Akai Inu is speaking
     if (STATE.isSpeaking) {
-        console.log('🐧 Skipping auto-observation: Mr. Tank is speaking');
+        console.log('🐧 Skipping auto-observation: Akai Inu is speaking');
         return;
     }
 
@@ -1537,11 +1537,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Mr. Tank speaks the observation
+        // Akai Inu speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Mr. Tank added an observation', 'success');
+        showToast('Akai Inu added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -2225,10 +2225,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Mr. Tank reaction)
+// Called when new knowledge is added (triggers Akai Inu reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Mr. Tank will now speak about:', knowledge.title);
+    console.log('🎙️ Akai Inu will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2236,7 +2236,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Mr. Tank speaks the knowledge
+    // 2. Akai Inu speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2670,7 +2670,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Mr. Tank announces breaking news
+// CHECK FOR NEW NEWS - Akai Inu announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2684,7 +2684,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Mr. Tank announces (only if we already have cached news - skip first load)
+            // Akai Inu announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the Arctic wires. ${item.title}`;
                 console.log('🐧 Announcing:', announcement);
@@ -3099,7 +3099,7 @@ async function fetchAllRealData() {
             url: '',
             changeValue: 0
         });
-        console.log('✅ Mr. Tank observation added');
+        console.log('✅ Akai Inu observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3200,7 +3200,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Mr. Tank comments on market (15% chance after first load)
+            // Akai Inu comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3354,7 +3354,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐧 Mr. Tank says:', comment);
+    console.log('🐧 Akai Inu says:', comment);
     tankSpeak(comment);
 }
 
@@ -3395,7 +3395,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Mr. Tank announcements
+// Initialize news checking for Akai Inu announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3555,7 +3555,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Mr. Tank reads content
+    // Add click listener to entire card - Akai Inu reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3576,7 +3576,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Tank Times',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Mr. Tank quotes.',
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Akai Inu quotes.',
             source: 'MR. TANK',
             date: '2026-01-24'
         },
@@ -3603,7 +3603,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Mr. Tank announces breaking news.',
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Akai Inu announces breaking news.',
             source: 'MR. TANK',
             date: '2026-01-24'
         },
@@ -3650,7 +3650,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Mr. Tank is speaking...', 'info');
+        showToast('Please wait, Akai Inu is speaking...', 'info');
         return;
     }
 

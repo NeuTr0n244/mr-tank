@@ -473,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAutonomousSpeech();
     initArcticEffects();
     initAutoObservations();
+    initTimestampUpdater();
 });
 
 // ============================================
@@ -3384,15 +3385,68 @@ function renderArchivesFeed() {
     renderFeedCards(feed, items);
 }
 
-// Remove duplicate cards based on title + source
+// Remove duplicate cards based on ID first, then title + source
 function removeDuplicates(cards) {
-    const seen = new Set();
+    const seenIds = new Set();
+    const seenTitles = new Set();
+
     return cards.filter(card => {
-        const key = (card.title || '') + '|' + (card.source || '');
-        if (seen.has(key)) return false;
-        seen.add(key);
+        // Check by ID first (most reliable)
+        if (card.id && seenIds.has(card.id)) {
+            return false;
+        }
+
+        // Check by title + source (for items without unique IDs)
+        const titleKey = (card.title || '').toLowerCase().trim() + '|' + (card.source || '');
+        if (seenTitles.has(titleKey)) {
+            return false;
+        }
+
+        // Add to both sets
+        if (card.id) seenIds.add(card.id);
+        seenTitles.add(titleKey);
+
         return true;
     });
+}
+
+// Format timestamp to relative time or absolute time
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'Unknown time';
+
+    const now = Date.now();
+    const diff = now - timestamp;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    // Relative time for recent items
+    if (seconds < 60) {
+        return 'há menos de 1 min';
+    } else if (minutes < 60) {
+        return `há ${minutes} min`;
+    } else if (hours < 24) {
+        return `há ${hours} hora${hours > 1 ? 's' : ''}`;
+    } else if (days < 7) {
+        return `há ${days} dia${days > 1 ? 's' : ''}`;
+    }
+
+    // Absolute time for older items
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+
+    // Show year only if different from current year
+    const currentYear = new Date().getFullYear();
+    if (year !== currentYear) {
+        return `${year}-${month}-${day} ${hour}:${minute}`;
+    }
+
+    return `${month}-${day} ${hour}:${minute}`;
 }
 
 // Helper function to render feed cards
@@ -3407,23 +3461,26 @@ function renderFeedCards(feed, items) {
         return;
     }
 
-    // Remove duplicates
-    items = removeDuplicates(items);
-
-    // Sort by timestamp (newest first)
+    // Sort by timestamp FIRST (newest first) - ensures proper ordering
     items.sort((a, b) => {
         const timeA = a.timestamp || new Date(a.date).getTime() || 0;
         const timeB = b.timestamp || new Date(b.date).getTime() || 0;
-        return timeB - timeA;
+        return timeB - timeA; // Descending order (newest first)
     });
 
-    console.log('   Sorted items by timestamp, newest first');
+    // Remove duplicates AFTER sorting (keeps the newest version)
+    items = removeDuplicates(items);
+
+    console.log('   Sorted and deduplicated:', items.length, 'items (newest first)');
 
     feed.innerHTML = items.map(item => {
         // Determine trend styling based on change value
         const changeValue = item.changeValue || 0;
         const trendClass = item.category === 'market' && !item.isUserKnowledge ? (changeValue >= 0 ? 'trend-up' : 'trend-down') : '';
         const userClass = item.isUserKnowledge ? 'user-knowledge' : '';
+
+        // Format timestamp for display
+        const displayTime = formatTimestamp(item.timestamp);
 
         return `
         <div class="feed-card cat-${item.category} ${trendClass} ${userClass}" data-id="${item.id}" data-type="${item.category.toUpperCase()}">
@@ -3435,7 +3492,7 @@ function renderFeedCards(feed, items) {
             <div class="feed-card-title">${escapeHtml(item.title)}</div>
             <div class="feed-card-content">${escapeHtml(item.content)}</div>
             <div class="feed-card-footer">
-                <span class="feed-card-date">${item.date}</span>
+                <span class="feed-card-date" title="Adicionado: ${displayTime}">${displayTime}</span>
                 <span class="feed-card-hear" data-id="${item.id}">CLICK TO HEAR ~</span>
             </div>
         </div>
@@ -3756,6 +3813,14 @@ function initTicks() {
         STATE.ticks++;
         document.getElementById('tickCount').textContent = STATE.ticks;
     }, 1000);
+}
+
+// Update relative timestamps every minute
+function initTimestampUpdater() {
+    // Update timestamps every 60 seconds to keep "há X min" accurate
+    setInterval(() => {
+        renderArchivesFeed();
+    }, 60000); // 1 minute
 }
 
 // ============================================

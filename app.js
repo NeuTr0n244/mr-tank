@@ -55,6 +55,10 @@ const STATE = {
     beakMesh: null,
     beakOriginalRotation: null,
 
+    // Animation
+    mixer: null,
+    clock: new THREE.Clock(),
+
     // Mouse tracking
     targetRotationX: 0,
     targetRotationY: 0,
@@ -939,6 +943,32 @@ function loadModel() {
                 console.log('✅ Beak ready for animation via isSpeaking');
             }
 
+            // ========================================
+            // ANIMATION SETUP - Play morph target animations
+            // ========================================
+            if (gltf.animations && gltf.animations.length > 0) {
+                console.log('========================================');
+                console.log('=== ANIMATIONS FOUND ===');
+                console.log('Number of animations:', gltf.animations.length);
+                gltf.animations.forEach((clip, index) => {
+                    console.log(`Animation ${index}:`, clip.name, '| Duration:', clip.duration.toFixed(2), 's');
+                });
+                console.log('========================================');
+
+                // Create AnimationMixer
+                STATE.mixer = new THREE.AnimationMixer(STATE.model);
+
+                // Play all animations in loop
+                gltf.animations.forEach((clip, index) => {
+                    const action = STATE.mixer.clipAction(clip);
+                    action.setLoop(THREE.LoopRepeat);
+                    action.play();
+                    console.log(`✅ Playing animation ${index}: ${clip.name}`);
+                });
+            } else {
+                console.log('⚠️ No animations found in model');
+            }
+
             loadingEl.classList.add('hidden');
         },
         (progress) => {
@@ -971,6 +1001,12 @@ function onMouseMove(event) {
 
 function animate() {
     requestAnimationFrame(animate);
+
+    // Update animation mixer for morph target animations
+    const delta = STATE.clock.getDelta();
+    if (STATE.mixer) {
+        STATE.mixer.update(delta);
+    }
 
     // Smooth mouse follow - rotate the PIVOT only
     if (STATE.modelPivot) {

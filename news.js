@@ -1,5 +1,5 @@
 /**
- * THE SHIBA TIMES - NEWS PAGE
+ * THE AKAI TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 
@@ -770,7 +770,7 @@ function renderNewsLoading() {
     newsStream.innerHTML = `
         <div class="loading-placeholder" style="text-align: center; padding: 60px 20px;">
             <div style="font-size: 48px; margin-bottom: 20px;">📰</div>
-            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING SHIBA TIMES...</div>
+            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING AKAI TIMES...</div>
             <div style="font-size: 14px; opacity: 0.7;">Fetching latest news from the pack archives...</div>
         </div>
     `;

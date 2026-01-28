@@ -4,3 +4,6 @@ node_modules/
 nul
 
 .vercel
+
+# API keys configuration
+config.js

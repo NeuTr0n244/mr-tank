@@ -38,6 +38,8 @@ const STATE = {
     isSpeaking: false,
     isWordActive: false,
     wordTimeout: null,
+    currentAudio: null, // Current playing audio (for Uberduck)
+    mouthInterval: null, // Interval for mouth animation
 
     // Stats
     mood: 75,
@@ -1583,8 +1585,14 @@ async function speakText(text) {
     // Show speaking bar
     showSpeakingBar(text);
 
-    console.log('   Using Web Speech API...');
-    await speakWebSpeech(text);
+    // Check if Uberduck API is configured
+    if (typeof API_CONFIG !== 'undefined' && API_CONFIG.UBERDUCK && API_CONFIG.UBERDUCK.API_KEY !== 'YOUR_UBERDUCK_API_KEY_HERE') {
+        console.log('   Using Uberduck API...');
+        await speakWithUberduck(text);
+    } else {
+        console.log('   Using Web Speech API (Uberduck not configured)...');
+        await speakWebSpeech(text);
+    }
 
     // Hide speaking bar when done
     hideSpeakingBar();
@@ -1733,6 +1741,135 @@ function simulateWordBoundaries(text) {
                 STATE.isWordActive = false;
             }, 120); // mouth opening duration
         }, index * avgWordDuration);
+    });
+}
+
+// ============================================
+// UBERDUCK TEXT-TO-SPEECH
+// ============================================
+
+/**
+ * Speak text using Uberduck API
+ * @param {string} text - Text to speak
+ * @returns {Promise} - Resolves when speech is complete
+ */
+async function speakWithUberduck(text) {
+    return new Promise(async (resolve, reject) => {
+        console.log('🎙️ speakWithUberduck() starting...');
+
+        // Check if API is configured
+        if (!API_CONFIG || !API_CONFIG.UBERDUCK || !API_CONFIG.UBERDUCK.API_KEY) {
+            console.error('❌ Uberduck API not configured');
+            resolve();
+            return;
+        }
+
+        // Truncate text if it exceeds the limit
+        const maxChars = API_CONFIG.UBERDUCK.MAX_CHARS || 1500;
+        if (text.length > maxChars) {
+            console.warn(`⚠️ Text truncated from ${text.length} to ${maxChars} characters`);
+            text = text.substring(0, maxChars) + '...';
+        }
+
+        try {
+            // Cancel any ongoing speech
+            if (STATE.currentAudio) {
+                STATE.currentAudio.pause();
+                STATE.currentAudio = null;
+            }
+            STATE.isSpeaking = false;
+            STATE.isWordActive = false;
+            clearTimeout(STATE.wordTimeout);
+            clearInterval(STATE.mouthInterval);
+
+            console.log('   Calling Uberduck API...');
+            console.log('   Text length:', text.length, 'characters');
+
+            // Call Uberduck API
+            const response = await fetch(API_CONFIG.UBERDUCK.API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(API_CONFIG.UBERDUCK.API_KEY + ':' + API_CONFIG.UBERDUCK.API_KEY),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    speech: text,
+                    voicemodel_uuid: API_CONFIG.UBERDUCK.VOICE_MODEL
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Uberduck API error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('   ✅ Audio URL received:', data.path);
+
+            // Create and play audio
+            const audio = new Audio(data.path);
+            STATE.currentAudio = audio;
+
+            // Start mouth animation when audio starts
+            audio.onplay = () => {
+                console.log('🎤 Audio started playing');
+                STATE.isSpeaking = true;
+
+                // Animate mouth with varying intensity
+                // Open/close mouth rhythmically to simulate speech
+                STATE.mouthInterval = setInterval(() => {
+                    if (!STATE.isSpeaking) {
+                        clearInterval(STATE.mouthInterval);
+                        return;
+                    }
+
+                    // Alternate between open and closed with random variation
+                    STATE.isWordActive = !STATE.isWordActive;
+
+                    // Vary the interval slightly for more natural movement
+                    const nextDelay = 80 + Math.random() * 40; // 80-120ms
+                    clearInterval(STATE.mouthInterval);
+                    STATE.mouthInterval = setInterval(() => {
+                        if (!STATE.isSpeaking) return;
+                        STATE.isWordActive = !STATE.isWordActive;
+                    }, nextDelay);
+                }, 100);
+            };
+
+            // Stop mouth animation when audio ends
+            audio.onended = () => {
+                console.log('🔇 Audio finished playing');
+                STATE.isSpeaking = false;
+                STATE.isWordActive = false;
+                clearInterval(STATE.mouthInterval);
+                STATE.currentAudio = null;
+                resolve();
+            };
+
+            // Handle audio errors
+            audio.onerror = (error) => {
+                console.error('❌ Audio playback error:', error);
+                STATE.isSpeaking = false;
+                STATE.isWordActive = false;
+                clearInterval(STATE.mouthInterval);
+                STATE.currentAudio = null;
+                reject(error);
+            };
+
+            // Start playback
+            console.log('   Playing audio...');
+            await audio.play();
+
+        } catch (error) {
+            console.error('❌ Uberduck error:', error);
+            STATE.isSpeaking = false;
+            STATE.isWordActive = false;
+            clearInterval(STATE.mouthInterval);
+
+            // Fallback to Web Speech API
+            console.log('   Falling back to Web Speech API...');
+            await speakWebSpeech(text);
+            resolve();
+        }
     });
 }
 

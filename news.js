@@ -93,18 +93,18 @@ function formatNewsAge(timestamp) {
     return `${minutes}m ago`;
 }
 
-// Mr. Tank quotes for the sidebar
-const TANK_QUOTES = [
-    "The cold sharpens the mind. Hence my remarkable perspicacity in matters of finance.",
-    "In the Arctic of business, only those who can swim survive.",
-    "Patience is a virtue... especially at -30 degrees.",
-    "Icebergs show only 10%. Much like sound investments.",
-    "My portfolio is as solid as the permafrost.",
-    "The aurora borealis reminds me of growth charts.",
-    "Strategy is like swimming beneath the ice: it requires absolute precision.",
-    "A tank of my calibre knows when to dive and when to wait.",
-    "The silence of the Arctic is conducive to grand decisions.",
-    "Global thawing concerns me... yet it opens new markets."
+// Akai Inu quotes for the sidebar
+const AKAI_QUOTES = [
+    "Strength and discipline forge success. Stay strong, stay loyal.",
+    "In the crypto jungle, only the pack survives together.",
+    "Patience is the warrior's greatest weapon.",
+    "True strength shows in restraint, not aggression.",
+    "My portfolio is built on solid foundations and iron will.",
+    "The rising sun reminds me of growth charts.",
+    "Strategy is like a samurai's sword: precision is everything.",
+    "A wise Shiba knows when to pounce and when to hold.",
+    "The dojo of crypto requires discipline and focus.",
+    "Community is strength. Together we are unstoppable."
 ];
 
 // ============================================
@@ -311,7 +311,7 @@ function updateWeather() {
 }
 
 function setRandomQuote() {
-    const quote = TANK_QUOTES[Math.floor(Math.random() * TANK_QUOTES.length)];
+    const quote = AKAI_QUOTES[Math.floor(Math.random() * AKAI_QUOTES.length)];
     document.querySelector('.quote-text').textContent = `"${quote}"`;
 }
 
@@ -770,8 +770,8 @@ function renderNewsLoading() {
     newsStream.innerHTML = `
         <div class="loading-placeholder" style="text-align: center; padding: 60px 20px;">
             <div style="font-size: 48px; margin-bottom: 20px;">📰</div>
-            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING ARCTIC TIMES...</div>
-            <div style="font-size: 14px; opacity: 0.7;">Fetching latest news from the frozen archives...</div>
+            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING SHIBA TIMES...</div>
+            <div style="font-size: 14px; opacity: 0.7;">Fetching latest news from the pack archives...</div>
         </div>
     `;
 }
@@ -782,11 +782,11 @@ function renderNewsError() {
 
     newsStream.innerHTML = `
         <div style="text-align: center; padding: 60px 20px;">
-            <h2 class="main-headline">DISPATCH FROM THE ARCTIC</h2>
-            <div class="main-subhead">Mr. Tank's morning briefing awaits fresh intelligence from the frozen markets.</div>
+            <h2 class="main-headline">DISPATCH FROM THE PACK</h2>
+            <div class="main-subhead">Akai Inu's morning briefing awaits fresh intelligence from the crypto markets.</div>
             <div class="main-content-text">
-                <p>The telegraph lines from the mainland appear to be experiencing difficulties due to the extreme cold. Our correspondents are working diligently to restore communications.</p>
-                <p>In the meantime, Mr. Tank recommends reviewing one's portfolio with the patience of an emperor tank guarding an egg through the Antarctic winter.</p>
+                <p>The network connections appear to be experiencing difficulties. Our correspondents are working diligently to restore communications.</p>
+                <p>In the meantime, Akai Inu recommends reviewing your portfolio with the patience and discipline of a warrior.</p>
             </div>
         </div>
     `;

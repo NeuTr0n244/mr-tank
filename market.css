@@ -7,16 +7,16 @@
     --font-mono: 'IBM Plex Mono', monospace;
 
     /* Shiba Dark Theme */
-    --bg-primary: #1a0f08;
-    --bg-secondary: #2a1810;
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
     --bg-hover: rgba(230, 126, 34, 0.08);
 
     --border: rgba(230, 126, 34, 0.15);
     --border-light: rgba(230, 126, 34, 0.25);
 
-    --text-primary: #fff5e8;
-    --text-secondary: #d4a574;
-    --text-muted: #8a6a4a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --text-muted: #707070;
 
     --accent: #E67E22;
     --green: #4ade80;
@@ -63,7 +63,7 @@ body {
     top: -20px;
     color: rgba(255, 255, 255, 0.4);
     animation: fall linear infinite;
-    text-shadow: 0 0 5px rgba(136, 212, 247, 0.5);
+    text-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
 }
 
 @keyframes fall {
@@ -127,7 +127,7 @@ body {
     font-weight: 600;
     color: var(--accent);
     letter-spacing: 0.1em;
-    text-shadow: 0 0 10px rgba(136, 212, 247, 0.5);
+    text-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
 }
 
 .version {
@@ -303,8 +303,8 @@ body {
     font-size: 9px;
     color: var(--accent);
     padding: 2px 6px;
-    background: rgba(136, 212, 247, 0.1);
-    border: 1px solid rgba(136, 212, 247, 0.2);
+    background: rgba(230, 126, 34, 0.1);
+    border: 1px solid rgba(230, 126, 34, 0.2);
     border-radius: var(--radius);
 }
 
@@ -398,7 +398,7 @@ body {
     font-size: 8px;
     color: var(--accent);
     padding: 2px 4px;
-    background: rgba(136, 212, 247, 0.1);
+    background: rgba(230, 126, 34, 0.1);
     border-radius: 2px;
     display: inline-block;
     margin-top: 4px;
@@ -488,8 +488,8 @@ body {
 .watchlist-item {
     font-size: 10px;
     padding: 4px 8px;
-    background: rgba(136, 212, 247, 0.1);
-    border: 1px solid rgba(136, 212, 247, 0.2);
+    background: rgba(230, 126, 34, 0.1);
+    border: 1px solid rgba(230, 126, 34, 0.2);
     border-radius: var(--radius);
     color: var(--accent);
     cursor: pointer;
@@ -497,7 +497,7 @@ body {
 }
 
 .watchlist-item:hover {
-    background: rgba(136, 212, 247, 0.2);
+    background: rgba(230, 126, 34, 0.2);
 }
 
 /* ============================================
@@ -697,7 +697,7 @@ body {
     font-size: 11px;
     font-weight: 600;
     color: var(--text-primary);
-    background: rgba(136, 212, 247, 0.15);
+    background: rgba(230, 126, 34, 0.15);
     border: 1px solid var(--accent);
     border-radius: var(--radius);
     padding: 6px 12px;
@@ -707,9 +707,9 @@ body {
 }
 
 .add-token-btn:hover {
-    background: rgba(136, 212, 247, 0.25);
+    background: rgba(230, 126, 34, 0.25);
     transform: translateY(-1px);
-    box-shadow: 0 0 15px rgba(136, 212, 247, 0.3);
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.3);
 }
 
 .add-token-btn:active {
@@ -859,7 +859,7 @@ body {
 
 .modal-body input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(136, 212, 247, 0.1);
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
 }
 
 .modal-body input::placeholder {
@@ -906,11 +906,11 @@ body {
 
 .modal-btn.confirm {
     color: var(--text-primary);
-    background: rgba(136, 212, 247, 0.15);
+    background: rgba(230, 126, 34, 0.15);
     border: 1px solid var(--accent);
 }
 
 .modal-btn.confirm:hover {
-    background: rgba(136, 212, 247, 0.25);
-    box-shadow: 0 0 15px rgba(136, 212, 247, 0.3);
+    background: rgba(230, 126, 34, 0.25);
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.3);
 }

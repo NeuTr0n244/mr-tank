@@ -91,10 +91,29 @@ A animação da boca do modelo 3D está sincronizada com o áudio:
 - Se você ver "Using Web Speech API (Uberduck not configured)", significa que o config.js não foi encontrado ou está incorreto
 - Verifique se o arquivo está no local correto e contém a API key
 
+## Deploy em Produção (Vercel)
+
+O site usa uma **Vercel Serverless Function** (`/api/tts`) para manter a API key segura no servidor:
+
+1. **No Vercel Dashboard**:
+   - Acesse Project Settings → Environment Variables
+   - Adicione: `UBERDUCK_API_KEY` = `sua-api-key`
+   - Redeploy o projeto
+
+2. **Como funciona**:
+   - **Local**: Usa `config.js` (chamada direta ao Uberduck)
+   - **Produção**: Usa `/api/tts` (serverless proxy, mantém key segura)
+
+3. **Serverless Function**: `api/tts.js`
+   - Recebe texto do frontend
+   - Chama Uberduck com API key do servidor
+   - Retorna URL do áudio
+
 ## Segurança
 
 ⚠️ **IMPORTANTE**:
 - Nunca commite `config.js` com API keys reais
 - O arquivo está em `.gitignore` para evitar commits acidentais
 - Use apenas `config.example.js` para commits
-- Para deploy em produção, use variáveis de ambiente
+- Em produção, a API key fica segura como variável de ambiente no Vercel
+- O frontend nunca tem acesso direto à API key em produção

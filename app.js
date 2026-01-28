@@ -1585,12 +1585,12 @@ async function speakText(text) {
     // Show speaking bar
     showSpeakingBar(text);
 
-    // Check if Uberduck API is configured
-    if (typeof API_CONFIG !== 'undefined' && API_CONFIG.UBERDUCK && API_CONFIG.UBERDUCK.API_KEY !== 'YOUR_UBERDUCK_API_KEY_HERE') {
-        console.log('   Using Uberduck API...');
+    // Try Uberduck first, fallback to Web Speech if it fails
+    console.log('   Trying Uberduck TTS...');
+    try {
         await speakWithUberduck(text);
-    } else {
-        console.log('   Using Web Speech API (Uberduck not configured)...');
+    } catch (error) {
+        console.log('   Uberduck failed, using Web Speech API...');
         await speakWebSpeech(text);
     }
 
@@ -1757,15 +1757,8 @@ async function speakWithUberduck(text) {
     return new Promise(async (resolve, reject) => {
         console.log('🎙️ speakWithUberduck() starting...');
 
-        // Check if API is configured
-        if (!API_CONFIG || !API_CONFIG.UBERDUCK || !API_CONFIG.UBERDUCK.API_KEY) {
-            console.error('❌ Uberduck API not configured');
-            resolve();
-            return;
-        }
-
         // Truncate text if it exceeds the limit
-        const maxChars = API_CONFIG.UBERDUCK.MAX_CHARS || 1500;
+        const maxChars = 1500;
         if (text.length > maxChars) {
             console.warn(`⚠️ Text truncated from ${text.length} to ${maxChars} characters`);
             text = text.substring(0, maxChars) + '...';
@@ -1782,27 +1775,56 @@ async function speakWithUberduck(text) {
             clearTimeout(STATE.wordTimeout);
             clearInterval(STATE.mouthInterval);
 
-            console.log('   Calling Uberduck API...');
             console.log('   Text length:', text.length, 'characters');
 
-            // Call Uberduck API
-            const response = await fetch(API_CONFIG.UBERDUCK.API_URL, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Basic ' + btoa(API_CONFIG.UBERDUCK.API_KEY + ':' + API_CONFIG.UBERDUCK.API_KEY),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    speech: text,
-                    voicemodel_uuid: API_CONFIG.UBERDUCK.VOICE_MODEL
-                })
-            });
+            // Determine if we're running locally or on Vercel
+            const isLocal = typeof API_CONFIG !== 'undefined' &&
+                           API_CONFIG.UBERDUCK &&
+                           API_CONFIG.UBERDUCK.API_KEY !== 'YOUR_UBERDUCK_API_KEY_HERE';
 
-            if (!response.ok) {
-                throw new Error(`Uberduck API error: ${response.status} ${response.statusText}`);
+            let data;
+
+            if (isLocal) {
+                // LOCAL: Use API_CONFIG to call Uberduck directly
+                console.log('   Mode: LOCAL - Calling Uberduck API directly...');
+
+                const response = await fetch(API_CONFIG.UBERDUCK.API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(API_CONFIG.UBERDUCK.API_KEY + ':' + API_CONFIG.UBERDUCK.API_KEY),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        speech: text,
+                        voicemodel_uuid: API_CONFIG.UBERDUCK.VOICE_MODEL
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Uberduck API error: ${response.status} ${response.statusText}`);
+                }
+
+                data = await response.json();
+            } else {
+                // PRODUCTION: Use Vercel serverless function
+                console.log('   Mode: PRODUCTION - Using Vercel serverless function...');
+
+                const response = await fetch('/api/tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`TTS API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+                }
+
+                data = await response.json();
             }
 
-            const data = await response.json();
             console.log('   ✅ Audio URL received:', data.path);
 
             // Create and play audio

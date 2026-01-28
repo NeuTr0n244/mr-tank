@@ -11,7 +11,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // ============================================
 
 const CONFIG = {
-    modelPath: './akai-inu.glb',
+    modelPath: './shibainu.glb',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',

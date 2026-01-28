@@ -1573,9 +1573,11 @@ function initVoice() {
 }
 
 async function speakText(text) {
+    console.log('📢 ========================================');
     console.log('📢 speakText() called');
-    console.log('   soundEnabled:', STATE.soundEnabled);
-    console.log('   text:', text.substring(0, 50) + '...');
+    console.log('📢 soundEnabled:', STATE.soundEnabled);
+    console.log('📢 text:', text.substring(0, 50) + '...');
+    console.log('📢 ========================================');
 
     if (!STATE.soundEnabled) {
         console.log('❌ Sound disabled, will not speak');
@@ -1586,11 +1588,18 @@ async function speakText(text) {
     showSpeakingBar(text);
 
     // Try Uberduck first, fallback to Web Speech if it fails
-    console.log('   Trying Uberduck TTS...');
+    console.log('🎯 STEP 1: Attempting Uberduck TTS...');
     try {
         await speakWithUberduck(text);
+        console.log('✅ Uberduck TTS completed successfully!');
     } catch (error) {
-        console.log('   Uberduck failed, using Web Speech API...');
+        console.error('❌ ========================================');
+        console.error('❌ UBERDUCK FAILED - Details:');
+        console.error('❌ Error type:', error.constructor.name);
+        console.error('❌ Error message:', error.message);
+        console.error('❌ Full error:', error);
+        console.error('❌ ========================================');
+        console.log('🔄 STEP 2: Falling back to Web Speech API...');
         await speakWebSpeech(text);
     }
 
@@ -1755,7 +1764,9 @@ function simulateWordBoundaries(text) {
  */
 async function speakWithUberduck(text) {
     return new Promise(async (resolve, reject) => {
+        console.log('🎙️ ========================================');
         console.log('🎙️ speakWithUberduck() starting...');
+        console.log('🎙️ ========================================');
 
         // Truncate text if it exceeds the limit
         const maxChars = 1500;
@@ -1767,6 +1778,7 @@ async function speakWithUberduck(text) {
         try {
             // Cancel any ongoing speech
             if (STATE.currentAudio) {
+                console.log('🔄 Stopping previous audio...');
                 STATE.currentAudio.pause();
                 STATE.currentAudio = null;
             }
@@ -1775,18 +1787,27 @@ async function speakWithUberduck(text) {
             clearTimeout(STATE.wordTimeout);
             clearInterval(STATE.mouthInterval);
 
-            console.log('   Text length:', text.length, 'characters');
+            console.log('📝 Text length:', text.length, 'characters');
+            console.log('📝 Text preview:', text.substring(0, 100) + '...');
 
             // Determine if we're running locally or on Vercel
+            console.log('🔍 Checking environment...');
+            console.log('   typeof API_CONFIG:', typeof API_CONFIG);
+
             const isLocal = typeof API_CONFIG !== 'undefined' &&
                            API_CONFIG.UBERDUCK &&
                            API_CONFIG.UBERDUCK.API_KEY !== 'YOUR_UBERDUCK_API_KEY_HERE';
+
+            console.log('   isLocal:', isLocal);
 
             let data;
 
             if (isLocal) {
                 // LOCAL: Use API_CONFIG to call Uberduck directly
-                console.log('   Mode: LOCAL - Calling Uberduck API directly...');
+                console.log('🏠 Mode: LOCAL - Calling Uberduck API directly...');
+                console.log('   API_URL:', API_CONFIG.UBERDUCK.API_URL);
+                console.log('   VOICE_MODEL:', API_CONFIG.UBERDUCK.VOICE_MODEL);
+                console.log('   API_KEY (first 20 chars):', API_CONFIG.UBERDUCK.API_KEY.substring(0, 20) + '...');
 
                 const response = await fetch(API_CONFIG.UBERDUCK.API_URL, {
                     method: 'POST',
@@ -1800,14 +1821,21 @@ async function speakWithUberduck(text) {
                     })
                 });
 
+                console.log('📡 Uberduck API response status:', response.status);
+                console.log('📡 Uberduck API response statusText:', response.statusText);
+
                 if (!response.ok) {
-                    throw new Error(`Uberduck API error: ${response.status} ${response.statusText}`);
+                    const errorText = await response.text();
+                    console.error('❌ Uberduck API error response:', errorText);
+                    throw new Error(`Uberduck API error: ${response.status} ${response.statusText} - ${errorText}`);
                 }
 
                 data = await response.json();
+                console.log('📦 Uberduck response data:', data);
             } else {
                 // PRODUCTION: Use Vercel serverless function
-                console.log('   Mode: PRODUCTION - Using Vercel serverless function...');
+                console.log('☁️ Mode: PRODUCTION - Using Vercel serverless function...');
+                console.log('   Calling /api/tts endpoint...');
 
                 const response = await fetch('/api/tts', {
                     method: 'POST',
@@ -1817,23 +1845,37 @@ async function speakWithUberduck(text) {
                     body: JSON.stringify({ text })
                 });
 
+                console.log('📡 Serverless function response status:', response.status);
+                console.log('📡 Serverless function response statusText:', response.statusText);
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`TTS API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+                    const errorData = await response.json().catch(() => ({ error: 'Could not parse error response' }));
+                    console.error('❌ Serverless function error response:', errorData);
+                    throw new Error(`TTS API error: ${response.status} - ${JSON.stringify(errorData)}`);
                 }
 
                 data = await response.json();
+                console.log('📦 Serverless function response data:', data);
             }
 
-            console.log('   ✅ Audio URL received:', data.path);
+            console.log('✅ Audio URL received:', data.path);
+
+            // Validate audio URL
+            if (!data.path) {
+                throw new Error('No audio path received from API');
+            }
 
             // Create and play audio
+            console.log('🎵 Creating Audio object...');
             const audio = new Audio(data.path);
             STATE.currentAudio = audio;
+            console.log('🎵 Audio object created successfully');
 
             // Start mouth animation when audio starts
             audio.onplay = () => {
-                console.log('🎤 Audio started playing');
+                console.log('🎤 ========================================');
+                console.log('🎤 AUDIO STARTED PLAYING!');
+                console.log('🎤 ========================================');
                 STATE.isSpeaking = true;
 
                 // Animate mouth with varying intensity
@@ -1869,7 +1911,13 @@ async function speakWithUberduck(text) {
 
             // Handle audio errors
             audio.onerror = (error) => {
-                console.error('❌ Audio playback error:', error);
+                console.error('❌ ========================================');
+                console.error('❌ AUDIO PLAYBACK ERROR:');
+                console.error('❌ Error object:', error);
+                console.error('❌ Audio src:', audio.src);
+                console.error('❌ Audio error code:', audio.error ? audio.error.code : 'N/A');
+                console.error('❌ Audio error message:', audio.error ? audio.error.message : 'N/A');
+                console.error('❌ ========================================');
                 STATE.isSpeaking = false;
                 STATE.isWordActive = false;
                 clearInterval(STATE.mouthInterval);
@@ -1878,19 +1926,27 @@ async function speakWithUberduck(text) {
             };
 
             // Start playback
-            console.log('   Playing audio...');
+            console.log('▶️ Attempting to play audio...');
+            console.log('▶️ Audio source:', audio.src);
             await audio.play();
+            console.log('▶️ audio.play() called successfully');
+
 
         } catch (error) {
-            console.error('❌ Uberduck error:', error);
+            console.error('❌ ========================================');
+            console.error('❌ UBERDUCK ERROR CAUGHT:');
+            console.error('❌ Error type:', error.constructor.name);
+            console.error('❌ Error message:', error.message);
+            console.error('❌ Stack trace:', error.stack);
+            console.error('❌ ========================================');
+
             STATE.isSpeaking = false;
             STATE.isWordActive = false;
             clearInterval(STATE.mouthInterval);
 
-            // Fallback to Web Speech API
-            console.log('   Falling back to Web Speech API...');
-            await speakWebSpeech(text);
-            resolve();
+            // REJECT the promise so speakText() can handle the fallback
+            console.log('🚫 Rejecting promise to trigger fallback...');
+            reject(error);
         }
     });
 }

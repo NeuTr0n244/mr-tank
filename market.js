@@ -1,6 +1,6 @@
 /**
- * AKAI INU - FINANCIAL TERMINAL
- * Shiba Market Data System
+ * YUKI - FINANCIAL TERMINAL
+ * Market Data System
  * Multi-Source Token Aggregator
  */
 
@@ -890,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'AKAI INU') {
+function addRemark(text, source = 'YUKI') {
     const remark = {
         text,
         source,

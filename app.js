@@ -1,5 +1,5 @@
 /**
- * AKAI INU V1.0
+ * YUKI V1.0
  * Continuously Learning Agentic Realtime Knowledgebase
  */
 
@@ -20,7 +20,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are Akai Inu, a powerful and muscular Shiba Inu. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
+        systemPrompt: `You are Yuki, a powerful and loyal companion. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
     }
 };
 
@@ -87,7 +87,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Shiba Archives
+// Global speech queue for automatic reading of Yuki Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -195,7 +195,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Akai Inu can NEVER be interrupted
+ * CRITICAL RULE: Yuki can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -435,7 +435,7 @@ const PHRASES = {
         "Market currents require both power and patience to navigate.",
         "My portfolio has shown excellent strength this quarter.",
         "Strategy is like the blockchain: it requires absolute precision.",
-        "A Shiba of my calibre knows when to strike and when to wait.",
+        "One of my calibre knows when to strike and when to wait.",
         "Volatility creates opportunity for those with conviction.",
         "In the crypto markets, only the strongest prosper.",
         "The charts remind me of growth in motion.",
@@ -513,7 +513,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Akai Inu
+                addKnowledgeToCards(item, false); // false = don't trigger Yuki
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -530,8 +530,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Akai Inu reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Akai Inu
+                        // Add to cards and trigger Yuki reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Yuki
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -1117,7 +1117,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Akai Inu, your powerful and loyal Shiba companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
+    return `${greeting}. I am Yuki, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1321,7 +1321,7 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Akai Inu, a powerful and loyal Shiba companion. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are Yuki, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
 - Crypto market conditions and blockchain trends
 - Market observations from a strategic perspective
 - Philosophical thoughts about strength, loyalty, patience, or strategy
@@ -1363,9 +1363,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Akai Inu is speaking
+    // Don't generate if Yuki is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: Akai Inu is speaking');
+        console.log('🐕 Skipping auto-observation: Yuki is speaking');
         return;
     }
 
@@ -1412,7 +1412,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'AKAI INU',
+            author: 'YUKI',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -1427,11 +1427,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Akai Inu speaks the observation
+        // Yuki speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Akai Inu added an observation', 'success');
+        showToast('Yuki added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1635,7 +1635,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep male voice for Akai Inu
+        // Find a deep male voice for Yuki
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -1654,7 +1654,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, strong voice for Akai Inu
+        // Deep, strong voice for Yuki
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2065,7 +2065,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Shiba Archives', 'success');
+    showToast('Knowledge saved to Yuki Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2121,10 +2121,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Akai Inu reaction)
+// Called when new knowledge is added (triggers Yuki reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Akai Inu will now speak about:', knowledge.title);
+    console.log('🎙️ Yuki will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2132,7 +2132,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Akai Inu speaks the knowledge
+    // 2. Yuki speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2566,7 +2566,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Akai Inu announces breaking news
+// CHECK FOR NEW NEWS - Yuki announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2580,7 +2580,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Akai Inu announces (only if we already have cached news - skip first load)
+            // Yuki announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -2989,13 +2989,13 @@ async function fetchAllRealData() {
             icon: '📊',
             title: 'Market Analysis',
             content: observation,
-            source: 'AKAI INU',
+            source: 'YUKI',
             date: today,
             timestamp: now + 1000,
             url: '',
             changeValue: 0
         });
-        console.log('✅ Akai Inu observation added');
+        console.log('✅ Yuki observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3005,7 +3005,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE SHIBA ARCHIVES WITH REAL DATA
+// UPDATE YUKI ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3015,7 +3015,7 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING SHIBA ARCHIVES...');
+    console.log('🔄 UPDATING YUKI ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
@@ -3089,7 +3089,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ SHIBA ARCHIVES UPDATED!`);
+            console.log(`✅ YUKI ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3103,7 +3103,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Akai Inu comments on market (15% chance after first load)
+            // Yuki comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3257,7 +3257,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 Akai Inu says:', comment);
+    console.log('🐕 Yuki says:', comment);
     tankSpeak(comment);
 }
 
@@ -3286,7 +3286,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// SHIBA ARCHIVES (Unified Panel)
+// YUKI ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3298,7 +3298,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Akai Inu announcements
+// Initialize news checking for Yuki announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3347,7 +3347,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Akai Inu Art Gallery coming soon...', 'info');
+            showToast('Yuki Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3514,7 +3514,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Akai Inu reads content
+    // Add click listener to entire card - Yuki reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3535,8 +3535,8 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Akai Inu quotes.',
-            source: 'AKAI INU',
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Yuki quotes.',
+            source: 'YUKI',
             date: '2026-01-24'
         },
         {
@@ -3545,7 +3545,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'AKAI INU',
+            source: 'YUKI',
             date: '2026-01-24'
         },
         {
@@ -3554,7 +3554,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'AKAI INU',
+            source: 'YUKI',
             date: '2026-01-24'
         },
         {
@@ -3562,17 +3562,17 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Akai Inu announces breaking news.',
-            source: 'AKAI INU',
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Yuki announces breaking news.',
+            source: 'YUKI',
             date: '2026-01-24'
         },
         {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - Shiba Archives Integration',
+            title: 'V1.0 - Yuki Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'AKAI INU',
+            source: 'YUKI',
             date: '2026-01-24'
         },
         {
@@ -3581,16 +3581,16 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'AKAI INU',
+            source: 'YUKI',
             date: '2026-01-23'
         },
         {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Akai Inu Theme',
-            content: 'Complete visual overhaul with powerful Shiba aesthetics and warm orange accent colors.',
-            source: 'AKAI INU',
+            title: 'Yuki Theme',
+            content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
+            source: 'YUKI',
             date: '2026-01-22'
         }
     ];
@@ -3609,7 +3609,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Akai Inu is speaking...', 'info');
+        showToast('Please wait, Yuki is speaking...', 'info');
         return;
     }
 
@@ -3775,7 +3775,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'SHIBA TIMES';
+        sourceEl.textContent = source || 'YUKI TIMES';
     }
 
     // Set type

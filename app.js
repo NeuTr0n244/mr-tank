@@ -3038,6 +3038,13 @@ async function updateArcticArchives() {
 
             realTimeCards = [...userCards, ...cards];
 
+            // Sort by timestamp immediately after merging (newest first)
+            realTimeCards.sort((a, b) => {
+                const timeA = a.timestamp || new Date(a.date).getTime() || 0;
+                const timeB = b.timestamp || new Date(b.date).getTime() || 0;
+                return timeB - timeA; // Descending order (newest first)
+            });
+
             // AUTOMATIC SPEECH: Add new cards to speech queue
             if (newCards.length > 0) {
                 console.log(`🔊 ${newCards.length} new cards detected - adding to speech queue`);

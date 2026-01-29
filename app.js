@@ -2986,7 +2986,7 @@ async function fetchAllRealData() {
         cards.push({
             id: `akai_obs_${now}`,
             category: 'observation',
-            icon: '🐕',
+            icon: '📊',
             title: 'Market Analysis',
             content: observation,
             source: 'AKAI INU',
@@ -3022,7 +3022,7 @@ async function updateArcticArchives() {
     // Show loading state if no data yet
     const feed = document.getElementById('archivesFeed');
     if (feed && realTimeCards.filter(c => !c.isUserKnowledge).length === 0) {
-        feed.innerHTML = '<div class="archives-loading">🐕 Fetching live data from the blockchain...</div>';
+        feed.innerHTML = '<div class="archives-loading">Fetching live data from the blockchain...</div>';
     }
 
     try {
@@ -3468,7 +3468,7 @@ function renderFeedCards(feed, items) {
     // Show loading or empty state
     if (items.length === 0) {
         if (isLoadingData) {
-            feed.innerHTML = '<div class="archives-loading">🐕 Fetching live data from the blockchain...</div>';
+            feed.innerHTML = '<div class="archives-loading">Fetching live data from the blockchain...</div>';
         } else {
             feed.innerHTML = '<div class="archives-empty">No data available. Add knowledge or check connection.</div>';
         }

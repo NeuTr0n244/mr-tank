@@ -87,7 +87,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Arctic Archives
+// Global speech queue for automatic reading of Shiba Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -308,14 +308,14 @@ function createKnowledgeSpeech(card) {
 // ============================================
 
 const LIFECYCLE = [
-    { start: 6, end: 9, time: '06:00', text: 'Morning fishing in Arctic frozen waters' },
-    { start: 9, end: 12, time: '09:00', text: 'Hot cocoa and financial iceberg analysis' },
-    { start: 12, end: 14, time: '12:00', text: 'Executive lunch: fresh Arctic salmon' },
-    { start: 14, end: 17, time: '14:00', text: 'Strategic market dive in polar waters' },
-    { start: 17, end: 19, time: '18:00', text: 'Contemplating the northern lights' },
-    { start: 19, end: 22, time: '20:00', text: 'Whisky on the rocks under polar stars' },
-    { start: 22, end: 24, time: '22:00', text: 'Meditation on the eternal ice' },
-    { start: 0, end: 6, time: '00:00', text: 'Rest in the executive igloo' }
+    { start: 6, end: 9, time: '06:00', text: 'Morning patrol: scanning crypto markets' },
+    { start: 9, end: 12, time: '09:00', text: 'Strategy session and blockchain analysis' },
+    { start: 12, end: 14, time: '12:00', text: 'Power lunch: high-protein meal' },
+    { start: 14, end: 17, time: '14:00', text: 'Deep market dive and trend hunting' },
+    { start: 17, end: 19, time: '18:00', text: 'Observing market movements' },
+    { start: 19, end: 22, time: '20:00', text: 'Evening analysis with premium spirits' },
+    { start: 22, end: 24, time: '22:00', text: 'Meditation on market wisdom' },
+    { start: 0, end: 6, time: '00:00', text: 'Rest and recovery mode' }
 ];
 
 // ============================================
@@ -323,16 +323,16 @@ const LIFECYCLE = [
 // ============================================
 
 const INVENTORY = [
-    { id: 'salmon', name: 'Fresh Salmon', desc: 'Straight from Arctic waters', cost: 8, mood: 6, health: 4, vol: 1 },
-    { id: 'hotchoco', name: 'Hot Chocolate', desc: 'To warm the flippers', cost: 5, mood: 5, health: 2, vol: 2 },
-    { id: 'whisky', name: 'Whisky On The Rocks', desc: 'Cold as an iceberg', cost: 10, mood: 4, health: -1, vol: 5 },
-    { id: 'ice', name: 'Premium Ice Cube', desc: 'Crystalline and sophisticated', cost: 3, mood: 2, health: 1, vol: 1 },
-    { id: 'newspaper', name: 'Antarctic Times', desc: 'News from the frozen continent', cost: 2, mood: 3, health: 0, vol: 2 },
-    { id: 'caviar', name: 'Arctic Caviar', desc: 'Luxury from frozen depths', cost: 15, mood: 5, health: 3, vol: 3 },
-    { id: 'tea', name: 'Glacial Mint Tea', desc: 'Refreshing and invigorating', cost: 4, mood: 4, health: 3, vol: -1 },
-    { id: 'goldfish', name: 'Golden Fish', desc: 'Rare delicacy from cold waters', cost: 12, mood: 6, health: 5, vol: 2 },
-    { id: 'scarf', name: 'Silk Scarf', desc: 'Elegance against the cold', cost: 6, mood: 3, health: 1, vol: 1 },
-    { id: 'vodka', name: 'Aurora Borealis Vodka', desc: 'Distilled under the northern lights', cost: 10, mood: 4, health: -2, vol: 6 }
+    { id: 'salmon', name: 'Fresh Salmon', desc: 'Premium quality protein', cost: 8, mood: 6, health: 4, vol: 1 },
+    { id: 'hotchoco', name: 'Hot Chocolate', desc: 'Rich and comforting', cost: 5, mood: 5, health: 2, vol: 2 },
+    { id: 'whisky', name: 'Whisky On The Rocks', desc: 'Smooth and powerful', cost: 10, mood: 4, health: -1, vol: 5 },
+    { id: 'ice', name: 'Premium Ice Cube', desc: 'Crystal clear and pure', cost: 3, mood: 2, health: 1, vol: 1 },
+    { id: 'newspaper', name: 'Crypto Times', desc: 'Latest blockchain news', cost: 2, mood: 3, health: 0, vol: 2 },
+    { id: 'caviar', name: 'Premium Caviar', desc: 'Luxury from the depths', cost: 15, mood: 5, health: 3, vol: 3 },
+    { id: 'tea', name: 'Green Mint Tea', desc: 'Refreshing and invigorating', cost: 4, mood: 4, health: 3, vol: -1 },
+    { id: 'goldfish', name: 'Golden Fish', desc: 'Rare and precious delicacy', cost: 12, mood: 6, health: 5, vol: 2 },
+    { id: 'scarf', name: 'Silk Scarf', desc: 'Elegance and style', cost: 6, mood: 3, health: 1, vol: 1 },
+    { id: 'vodka', name: 'Premium Vodka', desc: 'Crystal clear and strong', cost: 10, mood: 4, health: -2, vol: 6 }
 ];
 
 // ============================================
@@ -348,105 +348,105 @@ let lastDataUpdate = null;
 // ============================================
 
 const PHRASES = {
-    // Routine phrases (time of day) - ARCTIC THEME
+    // Routine phrases (time of day)
     routine: {
         morning: [
-            "The temperature is perfect today... -20°C, just as I prefer.",
-            "Nothing like an icy dive to start the day properly.",
-            "The Arctic sun is particularly inspiring this morning.",
-            "The waters are calm. Time to fish for opportunities."
+            "The markets are waking up. Time to show our strength.",
+            "Nothing like a morning analysis to start the day right.",
+            "The blockchain never sleeps, and neither does loyalty.",
+            "The markets are active. Time to hunt for opportunities."
         ],
         afternoon: [
-            "Business flows like the currents of the Antarctic Ocean.",
-            "My private iceberg has the finest view of the market.",
-            "I prefer my meetings like my habitat: cold and calculated.",
-            "The ice creaks beneath my feet. Music to my executive ears."
+            "Business flows like the blockchain: transparent and strong.",
+            "My watchful eye catches every market movement.",
+            "I prefer my strategy like my character: powerful and calculated.",
+            "The market moves with energy. Music to a trader's ears."
         ],
         evening: [
-            "Time for my strategic dive. The finest fish lurk in the depths.",
-            "The aurora borealis never fails to inspire grand ideas.",
-            "In the corporate Arctic, only those who can swim survive.",
-            "The colours of the polar sky reflect the complexity of the markets."
+            "Time for my strategic analysis. The best opportunities emerge now.",
+            "The evening charts never fail to inspire bold ideas.",
+            "In the crypto markets, only the strong and loyal prosper.",
+            "The complexity of the markets reflects the depth of opportunity."
         ],
         night: [
-            "A whisky on the rocks... well, everything here is on the rocks.",
-            "The polar stars guard the secrets of the great investors.",
-            "Contemplating the aurora borealis is my most sophisticated hobby.",
-            "The Arctic night is long. Perfect for deep reflections."
+            "A whisky on the rocks... perfect for late-night analysis.",
+            "The night reveals secrets to those who stay vigilant.",
+            "Contemplating market patterns is my most rewarding pursuit.",
+            "The night is long. Perfect for deep strategic thinking."
         ]
     },
 
-    // Item reaction phrases - ARCTIC THEME
+    // Item reaction phrases
     items: {
         salmon: [
-            "Ah, fresh salmon! Caught in the purest Arctic waters.",
-            "Nothing like premium protein from the frozen depths.",
-            "Excellent choice. Arctic salmon is simply incomparable."
+            "Ah, fresh salmon! Premium protein for peak performance.",
+            "Nothing like quality nutrition to maintain strength.",
+            "Excellent choice. High-quality fuel for the mind and body."
         ],
         hotchoco: [
-            "Hot chocolate... a necessary indulgence in the polar cold.",
-            "Warms the flippers and the executive soul.",
-            "Ah, comforting warmth amidst the eternal ice."
+            "Hot chocolate... a well-deserved indulgence.",
+            "Rich and comforting, perfect for strategic thinking.",
+            "Ah, warming comfort to fuel the next analysis."
         ],
         whisky: [
-            "Whisky on the rocks... quite literally, here in the Arctic.",
-            "Cold as my negotiator's heart. Perfect.",
-            "The amber liquid glows like the aurora borealis."
+            "Whisky on the rocks... a classic choice for contemplation.",
+            "Smooth and powerful. Just how I like it.",
+            "The amber liquid reflects like cryptocurrency gains."
         ],
         ice: [
-            "Premium ice. Crystalline as my market vision.",
-            "Ah, the purity of ancient ice. Absolute sophistication.",
-            "A perfect cube for a perfect tank."
+            "Premium ice. Crystal clear as my market vision.",
+            "Ah, the purity of perfect clarity. Absolute precision.",
+            "A perfect cube for a perfect strategy."
         ],
         newspaper: [
-            "The Antarctic Times... the coldest news in the market.",
-            "Let us see what transpires on the frozen continent today.",
-            "Information is power, even at extreme latitudes."
+            "The Crypto Times... essential blockchain intelligence.",
+            "Let us see what developments shape the markets today.",
+            "Information is power in the digital age."
         ],
         caviar: [
-            "Arctic caviar! From the most exclusive depths.",
-            "Luxury from frozen waters. You know me well.",
-            "The finest roe in the northern hemisphere."
+            "Premium caviar! From the most exclusive sources.",
+            "Luxury and quality. You know my standards well.",
+            "The finest delicacy for strategic minds."
         ],
         tea: [
-            "Glacial mint tea... refreshing as a polar breeze.",
+            "Green mint tea... refreshing and energizing.",
             "Invigorates the body and sharpens the strategic mind.",
-            "Arctic mint has a rather unique flavour."
+            "Premium tea for premium thinking."
         ],
         goldfish: [
-            "Golden fish! A rarity from the cold currents.",
-            "A delicacy worthy of an executive of my calibre.",
-            "The gold of the Arctic Ocean. Excellent choice."
+            "Golden fish! A rare and precious treat.",
+            "A delicacy worthy of those who seek excellence.",
+            "Golden rewards for golden insights. Excellent choice."
         ],
         scarf: [
-            "A silk scarf... elegance against the biting cold.",
-            "Style and function. The pillars of Arctic fashion.",
-            "Sophisticated comfort for meetings on the ice."
+            "A silk scarf... elegance and sophistication.",
+            "Style and substance. The marks of true quality.",
+            "Refined comfort for the discerning analyst."
         ],
         vodka: [
-            "Aurora Borealis Vodka... distilled beneath the northern lights.",
-            "The spirit of the Arctic in liquid form.",
-            "Crystalline as ice, strong as a polar bear."
+            "Premium Vodka... crystal clear and powerful.",
+            "The spirit of strength in liquid form.",
+            "Clear as crystal, strong as conviction."
         ]
     },
 
-    // Random idle phrases - ARCTIC THEME
+    // Random idle phrases
     idle: [
-        "Market currents are as unpredictable as those of the Arctic...",
-        "My personal iceberg has appreciated nicely this quarter.",
-        "Strategy is like swimming beneath the ice: it requires absolute precision.",
-        "A tank of my calibre knows when to dive and when to wait.",
-        "The financial temperature is in freefall... just as I prefer.",
-        "In the Arctic of business, only the most adapted prosper.",
-        "The aurora borealis reminds me of growth charts.",
-        "Patience is a virtue... especially at -30 degrees.",
-        "Icebergs show only 10%. Much like sound investments.",
-        "The cold sharpens the mind. Hence my remarkable perspicacity.",
-        "Each snowflake is unique. As is each opportunity.",
-        "The silence of the Arctic is conducive to grand decisions.",
-        "My portfolio is as solid as the permafrost.",
-        "Global thawing concerns me... yet it opens new markets.",
-        "Socrates said he knew nothing. I rather disagree. Particularly regarding ice."
+        "Market currents require both power and patience to navigate.",
+        "My portfolio has shown excellent strength this quarter.",
+        "Strategy is like the blockchain: it requires absolute precision.",
+        "A Shiba of my calibre knows when to strike and when to wait.",
+        "Volatility creates opportunity for those with conviction.",
+        "In the crypto markets, only the strongest prosper.",
+        "The charts remind me of growth in motion.",
+        "Patience is a virtue... especially in volatile markets.",
+        "True value shows gradually. Much like sound investments.",
+        "Strength and wisdom sharpen the mind. Hence my success.",
+        "Each opportunity is unique. As is each market cycle.",
+        "Focus and discipline are conducive to bold decisions.",
+        "My portfolio is as strong as my loyalty.",
+        "Market evolution brings challenges... and new opportunities.",
+        "Loyalty and strength are everything. Particularly in these markets."
     ]
 };
 
@@ -1117,7 +1117,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Akai Inu, your distinguished executive companion from the Arctic. I analyse markets, track investments, and offer refined insights on finance, art, and philosophy. The cold sharpens the mind, you see.`;
+    return `${greeting}. I am Akai Inu, your powerful and loyal Shiba companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1303,12 +1303,11 @@ async function callGroqAPI(userMessage, context = '') {
 function getRoutineContext() {
     const period = getCurrentPeriod();
     const hour = new Date().getHours();
-    const temp = -10 - Math.floor(Math.random() * 15);
     const contexts = {
-        morning: `It's ${hour}:00 in the Arctic, temperature ${temp}°C. Time for an icy dive, hot chocolate and reviewing the financial icebergs. The polar sun is rising.`,
-        afternoon: `It's ${hour}:00 in the Arctic, ${temp}°C. Time for strategic dives, market current analysis and meetings on the ice.`,
-        evening: `It's ${hour}:00 in the Arctic, ${temp}°C. The aurora borealis is appearing. Time to contemplate, review the portfolio and appreciate the northern lights.`,
-        night: `It's ${hour}:00 at night in the Arctic, ${temp}°C. The polar stars are shining. Time for whisky on the rocks, deep reflections and contemplating the eternal ice.`
+        morning: `It's ${hour}:00. Time for morning analysis, hot beverages and reviewing the market landscape. A new day of opportunities begins.`,
+        afternoon: `It's ${hour}:00. Time for strategic planning, deep market analysis and focused work sessions.`,
+        evening: `It's ${hour}:00. The markets are active. Time to contemplate, review the portfolio and observe the opportunities.`,
+        night: `It's ${hour}:00 at night. The stars are shining. Time for whisky on the rocks, deep reflections and strategic thinking.`
     };
     return contexts[period] || contexts.afternoon;
 }
@@ -1322,14 +1321,14 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Akai Inu, a sophisticated tank executive. Generate a short observation (1-2 sentences) about one of these topics:
-- Arctic market conditions and fish stock prices
-- Weather observations from the polar perspective
-- Philosophical thoughts about ice, patience, or business
-- Investment insights with arctic metaphors
-- Observations about the eternal polar night/day
+    prompt: `You are Akai Inu, a powerful and loyal Shiba companion. Generate a short observation (1-2 sentences) about one of these topics:
+- Crypto market conditions and blockchain trends
+- Market observations from a strategic perspective
+- Philosophical thoughts about strength, loyalty, patience, or strategy
+- Investment insights with power and conviction
+- Observations about market cycles and opportunity
 
-Respond with ONLY the observation text, nothing else. Be witty and sophisticated.`
+Respond with ONLY the observation text, nothing else. Be bold and insightful.`
 };
 
 function initAutoObservations() {
@@ -1339,7 +1338,7 @@ function initAutoObservations() {
         return;
     }
 
-    console.log('🐧 Auto-observations system initialized');
+    console.log('🐕 Auto-observations system initialized');
 
     // Schedule first observation after 1-2 minutes
     const firstDelay = 60000 + Math.random() * 60000;
@@ -1366,12 +1365,12 @@ async function generateAutoObservation() {
 
     // Don't generate if Akai Inu is speaking
     if (STATE.isSpeaking) {
-        console.log('🐧 Skipping auto-observation: Akai Inu is speaking');
+        console.log('🐕 Skipping auto-observation: Akai Inu is speaking');
         return;
     }
 
     try {
-        console.log('🐧 Generating auto-observation...');
+        console.log('🐕 Generating auto-observation...');
 
         // Call Groq API with observation prompt
         const response = await fetch(CONFIG.groq.endpoint, {
@@ -1413,7 +1412,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'MR. TANK',
+            author: 'AKAI INU',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -2066,7 +2065,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Arctic Archives', 'success');
+    showToast('Knowledge saved to Shiba Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2362,7 +2361,7 @@ async function deleteCurrentKnowledge() {
             await FirebaseDB.deleteKnowledge(currentDetailId);
             closeDetailModal();
             showToast('Knowledge deleted', 'success');
-            tankSpeak('I have purged that from my Arctic archives.');
+            tankSpeak('I have removed that from my knowledge database.');
         } catch (e) {
             console.error('Error deleting knowledge:', e);
             showToast('Error deleting knowledge', 'error');
@@ -2376,7 +2375,7 @@ async function deleteCurrentKnowledge() {
             renderKnowledgeList();
             closeDetailModal();
             showToast('Knowledge deleted', 'success');
-            tankSpeak('I have purged that from my Arctic archives.');
+            tankSpeak('I have removed that from my knowledge database.');
         }
     }
 }
@@ -2583,8 +2582,8 @@ async function checkForNewNews() {
 
             // Akai Inu announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
-                const announcement = `Breaking news from the Arctic wires. ${item.title}`;
-                console.log('🐧 Announcing:', announcement);
+                const announcement = `Breaking news from the crypto world. ${item.title}`;
+                console.log('🐕 Announcing:', announcement);
                 tankSpeak(announcement);
                 showSpeakingBar(announcement);
                 showTankView(item.source, item.url, 'NEWS');
@@ -2973,24 +2972,24 @@ async function fetchAllRealData() {
     if (btcData) {
         const isUp = parseFloat(btcData.change) >= 0;
         const observations = isUp ? [
-            `Bitcoin swimming upward at ${btcData.change}%. The arctic markets are warming nicely.`,
-            `BTC rises ${btcData.change}% today. The icebergs of profit are within reach.`,
-            `A green day in the frozen markets. Bitcoin up ${btcData.change}%.`
+            `Bitcoin rising strong at ${btcData.change}%. The markets show their power.`,
+            `BTC gains ${btcData.change}% today. Strength prevails in the markets.`,
+            `A green day in the crypto markets. Bitcoin up ${btcData.change}%.`
         ] : [
-            `Bitcoin diving ${btcData.change}% into cold waters. Patience, fellow tanks.`,
-            `BTC drops ${btcData.change}% today. The market currents run cold.`,
-            `A red tide in the arctic markets. Bitcoin down ${btcData.change}%.`
+            `Bitcoin down ${btcData.change}%. Patience and loyalty will prevail.`,
+            `BTC drops ${btcData.change}% today. The strong hold their position.`,
+            `Red candles in the crypto markets. Bitcoin down ${btcData.change}%.`
         ];
 
         const observation = observations[Math.floor(Math.random() * observations.length)];
 
         cards.push({
-            id: `tank_obs_${now}`,
+            id: `akai_obs_${now}`,
             category: 'observation',
-            icon: '🐧',
+            icon: '🐕',
             title: 'Market Analysis',
             content: observation,
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: today,
             timestamp: now + 1000,
             url: '',
@@ -3006,7 +3005,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE ARCTIC ARCHIVES WITH REAL DATA
+// UPDATE SHIBA ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3016,14 +3015,14 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING ARCTIC ARCHIVES...');
+    console.log('🔄 UPDATING SHIBA ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
     // Show loading state if no data yet
     const feed = document.getElementById('archivesFeed');
     if (feed && realTimeCards.filter(c => !c.isUserKnowledge).length === 0) {
-        feed.innerHTML = '<div class="archives-loading">❄️ Fetching live data from the Arctic servers...</div>';
+        feed.innerHTML = '<div class="archives-loading">🐕 Fetching live data from the blockchain...</div>';
     }
 
     try {
@@ -3083,7 +3082,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ ARCTIC ARCHIVES UPDATED!`);
+            console.log(`✅ SHIBA ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3222,7 +3221,7 @@ async function tankMarketComment() {
 
     const btcCard = realTimeCards.find(c => c.id === 'coincap_bitcoin');
     if (!btcCard) {
-        console.log('🐧 No BTC data for comment');
+        console.log('🐕 No BTC data for comment');
         return;
     }
 
@@ -3230,28 +3229,28 @@ async function tankMarketComment() {
     let comment = '';
 
     if (btcChange >= 5) {
-        comment = `Extraordinary! Bitcoin surging ${btcChange.toFixed(2)}% today. The Arctic markets are positively ablaze.`;
+        comment = `Extraordinary! Bitcoin surging ${btcChange.toFixed(2)}% today. The markets are showing incredible strength.`;
     } else if (btcChange >= 2) {
-        comment = `Bitcoin swimming upward at ${btcChange.toFixed(2)}% today. The frozen waters are warming nicely.`;
+        comment = `Bitcoin rising strong at ${btcChange.toFixed(2)}% today. The markets show their power.`;
     } else if (btcChange >= 0) {
-        comment = `Bitcoin holding steady at ${btcChange.toFixed(2)}%. Calm waters in the crypto fjords.`;
+        comment = `Bitcoin holding steady at ${btcChange.toFixed(2)}%. Stable strength in the markets.`;
     } else if (btcChange >= -2) {
-        comment = `Bitcoin dipping ${btcChange.toFixed(2)}% today. A minor chill in the markets.`;
+        comment = `Bitcoin dipping ${btcChange.toFixed(2)}% today. Minor volatility ahead.`;
     } else if (btcChange >= -5) {
-        comment = `Bitcoin diving ${btcChange.toFixed(2)}% today. Cold currents ahead, tanks stay vigilant.`;
+        comment = `Bitcoin down ${btcChange.toFixed(2)}% today. Stay strong and vigilant.`;
     } else {
-        comment = `Bitcoin plunging ${btcChange.toFixed(2)}% today. A proper Arctic storm in the markets. Time for whisky.`;
+        comment = `Bitcoin plunging ${btcChange.toFixed(2)}% today. Turbulent markets require patience. Time for whisky.`;
     }
 
     const ethCard = realTimeCards.find(c => c.id === 'coincap_ethereum');
     if (ethCard && Math.random() < 0.5) {
         const ethChange = ethCard.changeValue || 0;
         if ((btcChange >= 0 && ethChange < 0) || (btcChange < 0 && ethChange >= 0)) {
-            comment += ` Meanwhile, Ethereum diverges at ${ethChange.toFixed(2)}%. Interesting currents.`;
+            comment += ` Meanwhile, Ethereum diverges at ${ethChange.toFixed(2)}%. Interesting dynamics.`;
         }
     }
 
-    console.log('🐧 Akai Inu says:', comment);
+    console.log('🐕 Akai Inu says:', comment);
     tankSpeak(comment);
 }
 
@@ -3280,7 +3279,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// ARCTIC ARCHIVES (Unified Panel)
+// SHIBA ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3341,7 +3340,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Arctic Art Gallery coming soon...', 'info');
+            showToast('Akai Inu Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3462,7 +3461,7 @@ function renderFeedCards(feed, items) {
     // Show loading or empty state
     if (items.length === 0) {
         if (isLoadingData) {
-            feed.innerHTML = '<div class="archives-loading">❄️ Fetching live data from the Arctic servers...</div>';
+            feed.innerHTML = '<div class="archives-loading">🐕 Fetching live data from the blockchain...</div>';
         } else {
             feed.innerHTML = '<div class="archives-empty">No data available. Add knowledge or check connection.</div>';
         }
@@ -3528,9 +3527,9 @@ function getChangelogItems() {
             id: 'cl0000',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.4 - The Tank Times',
+            title: 'V1.4 - The Crypto Chronicle',
             content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Akai Inu quotes.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-24'
         },
         {
@@ -3539,7 +3538,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-24'
         },
         {
@@ -3548,7 +3547,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-24'
         },
         {
@@ -3557,16 +3556,16 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.1 - Live News Integration',
             content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Akai Inu announces breaking news.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-24'
         },
         {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - Arctic Archives Integration',
+            title: 'V1.0 - Shiba Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-24'
         },
         {
@@ -3575,16 +3574,16 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'MR. TANK',
+            source: 'AKAI INU',
             date: '2026-01-23'
         },
         {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Arctic Winter Theme',
-            content: 'Complete visual overhaul with snowfall effects, aurora lighting, and ice-blue color palette.',
-            source: 'MR. TANK',
+            title: 'Akai Inu Theme',
+            content: 'Complete visual overhaul with powerful Shiba aesthetics and warm orange accent colors.',
+            source: 'AKAI INU',
             date: '2026-01-22'
         }
     ];
@@ -3769,7 +3768,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'ARCTIC TIMES';
+        sourceEl.textContent = source || 'SHIBA TIMES';
     }
 
     // Set type

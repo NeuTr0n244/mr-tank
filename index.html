@@ -51,8 +51,8 @@
                     <span class="network-dot"></span>
                     NETWORK: ONLINE
                 </span>
-                <div class="wallet-address" id="walletAddress">
-                    CA: SOON
+                <div class="wallet-address" id="walletAddress" onclick="copyCA()" title="Click to copy full address">
+                    CA: 6qVo...pump
                 </div>
                 <div class="voice-controls">
                     <button class="voice-btn" id="voiceToggle">
@@ -364,6 +364,20 @@
     </script>
     <script type="module" src="app.js"></script>
 
-    <!-- CA will be available soon -->
+    <!-- CA Copy Function -->
+    <script>
+    function copyCA() {
+        const ca = "6qVooLx4tbabk6zKaAtna9rTGeuE1wa5SK7fvQy5pump";
+        navigator.clipboard.writeText(ca);
+
+        // Show feedback
+        const el = document.querySelector('#walletAddress');
+        const original = el.textContent;
+        el.textContent = "✓ Copied!";
+        setTimeout(() => {
+            el.textContent = original;
+        }, 1500);
+    }
+    </script>
 </body>
 </html>

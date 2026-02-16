@@ -1,5 +1,5 @@
 /**
- * YUKI - FIREBASE REAL-TIME DATABASE
+ * SENKO - FIREBASE REAL-TIME DATABASE
  * Synchronizes data across all users in real-time
  */
 
@@ -7,7 +7,7 @@
 // FIREBASE CONFIGURATION
 // ============================================
 
-// Firebase Configuration - YUKI Real-Time Database
+// Firebase Configuration - SENKO Real-Time Database
 const firebaseConfig = {
     apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
     authDomain: "tank-c748f.firebaseapp.com",

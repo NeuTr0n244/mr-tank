@@ -63,7 +63,7 @@ async function clearCollection(collectionName) {
  */
 async function clearAllData() {
     console.log('╔═══════════════════════════════════════════╗');
-    console.log('║   🧹 FIREBASE CLEANUP - YUKI        ║');
+    console.log('║   🧹 FIREBASE CLEANUP - SENKO        ║');
     console.log('║   Clearing ALL data from Firebase        ║');
     console.log('╚═══════════════════════════════════════════╝');
 

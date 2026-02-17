@@ -5,7 +5,6 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ============================================
 // CONFIGURATION
@@ -790,61 +789,49 @@ function initThreeJS() {
     STATE.scene = new THREE.Scene();
     STATE.scene.background = new THREE.Color(0xccd6e3);
 
-    // Camera - will be loaded from GLB, this is fallback
+    // Camera - FIXED POSITION
     const aspect = container.clientWidth / container.clientHeight;
     STATE.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    STATE.camera.position.set(0, 2.5, 3);
-    STATE.camera.lookAt(0, 2.0, 0);
+    STATE.camera.position.set(3.116, 1.882, -0.071);
+    STATE.camera.lookAt(-0.408, 1.833, -0.071);
 
-    // Renderer - ice blue background
+    // Renderer
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     STATE.renderer.setClearColor(0xccd6e3, 1);
     STATE.renderer.setSize(container.clientWidth, container.clientHeight);
     STATE.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;
     STATE.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    STATE.renderer.toneMappingExposure = 1.0;
+    STATE.renderer.toneMappingExposure = 1.5; // Increased for better visibility
+    STATE.renderer.physicallyCorrectLights = false; // Disabled for brighter lights
 
-    // Lighting - Will use lights from GLB file
-    // (No manual lights created - all lighting comes from kimchi.glb)
+    // STRONG LIGHTING - Model needs proper illumination
+    // Ambient light - provides overall brightness
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    STATE.scene.add(ambient);
 
-    // OrbitControls - permite movimentar a câmera
-    STATE.controls = new OrbitControls(STATE.camera, canvas);
-    STATE.controls.enableDamping = true;
-    STATE.controls.dampingFactor = 0.05;
-    STATE.controls.minDistance = 2;
-    STATE.controls.maxDistance = 10;
+    // Key light - main light source (bright)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    keyLight.position.set(5, 10, 7);
+    STATE.scene.add(keyLight);
 
-    // Mouse tracking - tank follows cursor
+    // Fill light - softens shadows
+    const fillLight = new THREE.DirectionalLight(0xb8d4e8, 1.0);
+    fillLight.position.set(-5, 5, -5);
+    STATE.scene.add(fillLight);
+
+    // Rim light - adds definition to edges
+    const rimLight = new THREE.DirectionalLight(0xe8f4f8, 0.8);
+    rimLight.position.set(0, 3, -10);
+    STATE.scene.add(rimLight);
+
+    // Additional point light for close-up detail
+    const pointLight = new THREE.PointLight(0xffffff, 1.2, 50);
+    pointLight.position.set(3, 2, 0);
+    STATE.scene.add(pointLight);
+
+    // Mouse tracking - model follows cursor
     document.addEventListener('mousemove', onMouseMove);
-
-    // Keyboard listener - Press P to print camera position
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'p' || event.key === 'P') {
-            console.log('========================================');
-            console.log('📷 CAMERA POSITION:');
-            console.log('Position:', {
-                x: STATE.camera.position.x.toFixed(3),
-                y: STATE.camera.position.y.toFixed(3),
-                z: STATE.camera.position.z.toFixed(3)
-            });
-            console.log('Rotation:', {
-                x: STATE.camera.rotation.x.toFixed(3),
-                y: STATE.camera.rotation.y.toFixed(3),
-                z: STATE.camera.rotation.z.toFixed(3)
-            });
-            console.log('Target:', {
-                x: STATE.controls.target.x.toFixed(3),
-                y: STATE.controls.target.y.toFixed(3),
-                z: STATE.controls.target.z.toFixed(3)
-            });
-            console.log('========================================');
-            console.log('// Para fixar esta posição, use:');
-            console.log(`STATE.camera.position.set(${STATE.camera.position.x.toFixed(3)}, ${STATE.camera.position.y.toFixed(3)}, ${STATE.camera.position.z.toFixed(3)});`);
-            console.log(`STATE.controls.target.set(${STATE.controls.target.x.toFixed(3)}, ${STATE.controls.target.y.toFixed(3)}, ${STATE.controls.target.z.toFixed(3)});`);
-            console.log('========================================');
-        }
-    });
 
     // Load Model
     loadModel();
@@ -866,50 +853,14 @@ function loadModel() {
             STATE.model = gltf.scene;
 
             // ========================================
-            // EXTRACT CAMERA AND LIGHTS FROM GLB
+            // MODEL LOADED - Keep original materials
             // ========================================
             console.log('========================================');
             console.log('=== LOADING KIMCHI.GLB ===');
-
-            // Extract camera from GLB
-            let glbCamera = null;
-            gltf.scene.traverse((child) => {
-                if (child.isCamera && !glbCamera) {
-                    glbCamera = child;
-                    console.log('✅ Camera found in GLB:', child.name);
-                }
-            });
-
-            if (glbCamera) {
-                // Use GLB camera
-                STATE.camera = glbCamera;
-                const container = document.getElementById('modelViewer');
-                STATE.camera.aspect = container.clientWidth / container.clientHeight;
-                STATE.camera.updateProjectionMatrix();
-                console.log('✅ Using camera from maya.glb');
-                console.log('Camera position:', STATE.camera.position);
-                console.log('Camera rotation:', STATE.camera.rotation);
-            } else {
-                console.log('⚠️ No camera in GLB, using fallback camera');
-            }
-
-            // Extract lights from GLB and add to scene
-            const glbLights = [];
-            gltf.scene.traverse((child) => {
-                if (child.isLight) {
-                    glbLights.push(child);
-                    // Clone the light and add to scene (not just model)
-                    const lightClone = child.clone();
-                    STATE.scene.add(lightClone);
-                    console.log('✅ Light found and added:', child.type, child.name);
-                }
-            });
-
-            if (glbLights.length > 0) {
-                console.log(`✅ Using ${glbLights.length} light(s) from maya.glb`);
-            } else {
-                console.log('⚠️ No lights in GLB - scene may be dark');
-            }
+            console.log('✅ Model loaded successfully');
+            console.log('✅ Using fixed camera position');
+            console.log('✅ Using manual lighting setup');
+            console.log('✅ Materials preserved from GLB');
             console.log('========================================');
 
             // ========================================
@@ -1014,11 +965,6 @@ function onMouseMove(event) {
 
 function animate() {
     requestAnimationFrame(animate);
-
-    // Update OrbitControls
-    if (STATE.controls) {
-        STATE.controls.update();
-    }
 
     // Update animation mixer for morph target animations
     const delta = STATE.clock.getDelta();

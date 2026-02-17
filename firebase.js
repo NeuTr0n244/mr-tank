@@ -1,5 +1,5 @@
 /**
- * SENKO - FIREBASE REAL-TIME DATABASE
+ * KIMCHI - FIREBASE REAL-TIME DATABASE
  * Synchronizes data across all users in real-time
  */
 
@@ -7,7 +7,7 @@
 // FIREBASE CONFIGURATION
 // ============================================
 
-// Firebase Configuration - SENKO Real-Time Database
+// Firebase Configuration - KIMCHI Real-Time Database
 const firebaseConfig = {
     apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
     authDomain: "tank-c748f.firebaseapp.com",

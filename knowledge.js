@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - SENKO
+ * KNOWLEDGE GRAPH - KIMCHI
  * 3D Visualization with Three.js
  */
 

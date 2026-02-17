@@ -1,5 +1,5 @@
 /**
- * SENKO - FINANCIAL TERMINAL
+ * KIMCHI - FINANCIAL TERMINAL
  * Market Data System
  * Multi-Source Token Aggregator
  */

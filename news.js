@@ -1,5 +1,5 @@
 /**
- * THE SENKO TIMES - NEWS PAGE
+ * THE KIMCHI TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 

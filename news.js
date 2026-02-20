@@ -1,5 +1,5 @@
 /**
- * THE KIMCHI TIMES - NEWS PAGE
+ * THE Mr. Marvin TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 

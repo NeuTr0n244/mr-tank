@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - KIMCHI
+ * KNOWLEDGE GRAPH - Mr. Marvin
  * 3D Visualization with Three.js
  */
 

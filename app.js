@@ -1,6 +1,6 @@
 /**
- * KIMCHI V1.0
- * Continuously Learning Agentic Realtime Knowledgebase
+ * Mr. Marvin V1.0
+ * Extraterrestrial Intelligence System
  */
 
 import * as THREE from 'three';
@@ -11,7 +11,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // ============================================
 
 const CONFIG = {
-    modelPath: './public/models/kimchi.glb',
+    modelPath: './public/models/alien.glb',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',
@@ -20,7 +20,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are KIMCHI, a powerful and loyal companion. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
+        systemPrompt: `You are Mr. Marvin, an extraterrestrial intelligence from a distant galaxy. You possess advanced knowledge of the cosmos, technology, and universal wisdom. You speak with cosmic insight and otherworldly perspective, making references to space, alien civilizations, and galactic phenomena. You understand crypto, finance, and universal economics. Your responses are short (maximum 2 sentences) and thought-provoking. You love making analogies between space exploration, alien technology, and success. You occasionally reference intergalactic wisdom and cosmic mysteries. Always respond in English. Speak like a wise alien companion who guides humanity.`
     }
 };
 
@@ -88,7 +88,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of KIMCHI Archives
+// Global speech queue for automatic reading of Mr. Marvin Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -196,7 +196,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: KIMCHI can NEVER be interrupted
+ * CRITICAL RULE: Mr. Marvin can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -514,7 +514,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger KIMCHI
+                addKnowledgeToCards(item, false); // false = don't trigger Mr. Marvin
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -531,8 +531,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger KIMCHI reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger KIMCHI
+                        // Add to cards and trigger Mr. Marvin reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Mr. Marvin
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -856,7 +856,7 @@ function loadModel() {
             // MODEL LOADED - Keep original materials
             // ========================================
             console.log('========================================');
-            console.log('=== LOADING KIMCHI.GLB ===');
+            console.log('=== LOADING Mr. Marvin.GLB ===');
             console.log('✅ Model loaded successfully');
             console.log('✅ Using fixed camera position');
             console.log('✅ Using manual lighting setup');
@@ -1130,7 +1130,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am KIMCHI, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
+    return `${greeting}. I am Mr. Marvin, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1334,7 +1334,7 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are KIMCHI, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are Mr. Marvin, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
 - Crypto market conditions and blockchain trends
 - Market observations from a strategic perspective
 - Philosophical thoughts about strength, loyalty, patience, or strategy
@@ -1376,9 +1376,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if KIMCHI is speaking
+    // Don't generate if Mr. Marvin is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: KIMCHI is speaking');
+        console.log('🐕 Skipping auto-observation: Mr. Marvin is speaking');
         return;
     }
 
@@ -1440,11 +1440,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // KIMCHI speaks the observation
+        // Mr. Marvin speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('KIMCHI added an observation', 'success');
+        showToast('Mr. Marvin added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1648,7 +1648,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep male voice for KIMCHI
+        // Find a deep male voice for Mr. Marvin
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -1667,7 +1667,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, strong voice for KIMCHI
+        // Deep, strong voice for Mr. Marvin
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2078,7 +2078,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to KIMCHI Archives', 'success');
+    showToast('Knowledge saved to Mr. Marvin Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2134,10 +2134,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers KIMCHI reaction)
+// Called when new knowledge is added (triggers Mr. Marvin reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ KIMCHI will now speak about:', knowledge.title);
+    console.log('🎙️ Mr. Marvin will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2145,7 +2145,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. KIMCHI speaks the knowledge
+    // 2. Mr. Marvin speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2579,7 +2579,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - KIMCHI announces breaking news
+// CHECK FOR NEW NEWS - Mr. Marvin announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2593,7 +2593,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // KIMCHI announces (only if we already have cached news - skip first load)
+            // Mr. Marvin announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -3008,7 +3008,7 @@ async function fetchAllRealData() {
             url: '',
             changeValue: 0
         });
-        console.log('✅ KIMCHI observation added');
+        console.log('✅ Mr. Marvin observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3116,7 +3116,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // KIMCHI comments on market (15% chance after first load)
+            // Mr. Marvin comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3270,7 +3270,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 KIMCHI says:', comment);
+    console.log('🐕 Mr. Marvin says:', comment);
     tankSpeak(comment);
 }
 
@@ -3311,7 +3311,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for KIMCHI announcements
+// Initialize news checking for Mr. Marvin announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3360,7 +3360,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('KIMCHI Art Gallery coming soon...', 'info');
+            showToast('Mr. Marvin Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3527,7 +3527,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - KIMCHI reads content
+    // Add click listener to entire card - Mr. Marvin reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3548,7 +3548,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and KIMCHI quotes.',
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Mr. Marvin quotes.',
             source: 'SENKO',
             date: '2026-01-24'
         },
@@ -3575,7 +3575,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. KIMCHI announces breaking news.',
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Mr. Marvin announces breaking news.',
             source: 'SENKO',
             date: '2026-01-24'
         },
@@ -3583,7 +3583,7 @@ function getChangelogItems() {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - KIMCHI Archives Integration',
+            title: 'V1.0 - Mr. Marvin Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
             source: 'SENKO',
             date: '2026-01-24'
@@ -3601,7 +3601,7 @@ function getChangelogItems() {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'KIMCHI Theme',
+            title: 'Mr. Marvin Theme',
             content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
             source: 'SENKO',
             date: '2026-01-22'
@@ -3622,7 +3622,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, KIMCHI is speaking...', 'info');
+        showToast('Please wait, Mr. Marvin is speaking...', 'info');
         return;
     }
 

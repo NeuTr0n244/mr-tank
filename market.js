@@ -1,5 +1,5 @@
 /**
- * KIMCHI - FINANCIAL TERMINAL
+ * Mr. Marvin - FINANCIAL TERMINAL
  * Market Data System
  * Multi-Source Token Aggregator
  */

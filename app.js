@@ -834,9 +834,8 @@ function initThreeJS() {
     frontLight.position.set(0, 2, 4);
     STATE.scene.add(frontLight);
 
-    // Mouse tracking - model follows cursor
-    canvas.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('mouseleave', onMouseLeave);
+    // Mouse tracking - model follows cursor across entire screen
+    document.addEventListener('mousemove', onMouseMove);
 
     // Load Model
     loadModel();
@@ -960,17 +959,11 @@ function onResize() {
 }
 
 function onMouseMove(event) {
-    const canvas = document.getElementById('canvas3d');
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const mouseY = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+    // Normalize mouse position to -1 to 1 based on full screen
+    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
     STATE.targetRotationY = mouseX * 0.5;
     STATE.targetRotationX = -mouseY * 0.25;
-}
-
-function onMouseLeave() {
-    STATE.targetRotationX = 0;
-    STATE.targetRotationY = 0;
 }
 
 function animate() {

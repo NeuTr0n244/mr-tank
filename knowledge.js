@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - Mr. Marvin
+ * KNOWLEDGE GRAPH - BILU
  * 3D Visualization with Three.js
  */
 

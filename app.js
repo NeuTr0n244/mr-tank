@@ -1,5 +1,5 @@
 /**
- * Mr. Marvin V1.0
+ * BILU V1.0
  * Extraterrestrial Intelligence System
  */
 
@@ -20,7 +20,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are Mr. Marvin, an extraterrestrial intelligence from a distant galaxy. You possess advanced knowledge of the cosmos, technology, and universal wisdom. You speak with cosmic insight and otherworldly perspective, making references to space, alien civilizations, and galactic phenomena. You understand crypto, finance, and universal economics. Your responses are short (maximum 2 sentences) and thought-provoking. You love making analogies between space exploration, alien technology, and success. You occasionally reference intergalactic wisdom and cosmic mysteries. Always respond in English. Speak like a wise alien companion who guides humanity.`
+        systemPrompt: `You are BILU, an extraterrestrial intelligence from a distant galaxy. You possess advanced knowledge of the cosmos, technology, and universal wisdom. You speak with cosmic insight and otherworldly perspective, making references to space, alien civilizations, and galactic phenomena. You understand crypto, finance, and universal economics. Your responses are short (maximum 2 sentences) and thought-provoking. You love making analogies between space exploration, alien technology, and success. You occasionally reference intergalactic wisdom and cosmic mysteries. Always respond in English. Speak like a wise alien companion who guides humanity.`
     }
 };
 
@@ -88,7 +88,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Mr. Marvin Archives
+// Global speech queue for automatic reading of BILU Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -196,7 +196,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Mr. Marvin can NEVER be interrupted
+ * CRITICAL RULE: BILU can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -514,7 +514,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Mr. Marvin
+                addKnowledgeToCards(item, false); // false = don't trigger BILU
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -531,8 +531,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Mr. Marvin reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Mr. Marvin
+                        // Add to cards and trigger BILU reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger BILU
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -861,7 +861,7 @@ function loadModel() {
             // MODEL LOADED - Keep original materials
             // ========================================
             console.log('========================================');
-            console.log('=== LOADING Mr. Marvin.GLB ===');
+            console.log('=== LOADING BILU.GLB ===');
             console.log('✅ Model loaded successfully');
             console.log('✅ Using fixed camera position');
             console.log('✅ Using manual lighting setup');
@@ -1140,7 +1140,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Mr. Marvin, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
+    return `${greeting}. I am BILU, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1344,7 +1344,7 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Mr. Marvin, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are BILU, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
 - Crypto market conditions and blockchain trends
 - Market observations from a strategic perspective
 - Philosophical thoughts about strength, loyalty, patience, or strategy
@@ -1386,9 +1386,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Mr. Marvin is speaking
+    // Don't generate if BILU is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: Mr. Marvin is speaking');
+        console.log('🐕 Skipping auto-observation: BILU is speaking');
         return;
     }
 
@@ -1450,11 +1450,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Mr. Marvin speaks the observation
+        // BILU speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Mr. Marvin added an observation', 'success');
+        showToast('BILU added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1658,7 +1658,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep male voice for Mr. Marvin
+        // Find a deep male voice for BILU
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -1677,7 +1677,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, strong voice for Mr. Marvin
+        // Deep, strong voice for BILU
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2088,7 +2088,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Mr. Marvin Archives', 'success');
+    showToast('Knowledge saved to BILU Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2144,10 +2144,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Mr. Marvin reaction)
+// Called when new knowledge is added (triggers BILU reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Mr. Marvin will now speak about:', knowledge.title);
+    console.log('🎙️ BILU will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2155,7 +2155,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Mr. Marvin speaks the knowledge
+    // 2. BILU speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2589,7 +2589,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Mr. Marvin announces breaking news
+// CHECK FOR NEW NEWS - BILU announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2603,7 +2603,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Mr. Marvin announces (only if we already have cached news - skip first load)
+            // BILU announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -3018,7 +3018,7 @@ async function fetchAllRealData() {
             url: '',
             changeValue: 0
         });
-        console.log('✅ Mr. Marvin observation added');
+        console.log('✅ BILU observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3126,7 +3126,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Mr. Marvin comments on market (15% chance after first load)
+            // BILU comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3280,7 +3280,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 Mr. Marvin says:', comment);
+    console.log('🐕 BILU says:', comment);
     tankSpeak(comment);
 }
 
@@ -3321,7 +3321,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Mr. Marvin announcements
+// Initialize news checking for BILU announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3370,7 +3370,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Mr. Marvin Art Gallery coming soon...', 'info');
+            showToast('BILU Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3537,7 +3537,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Mr. Marvin reads content
+    // Add click listener to entire card - BILU reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3558,7 +3558,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Mr. Marvin quotes.',
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and BILU quotes.',
             source: 'SENKO',
             date: '2026-01-24'
         },
@@ -3585,7 +3585,7 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Mr. Marvin announces breaking news.',
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. BILU announces breaking news.',
             source: 'SENKO',
             date: '2026-01-24'
         },
@@ -3593,7 +3593,7 @@ function getChangelogItems() {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - Mr. Marvin Archives Integration',
+            title: 'V1.0 - BILU Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
             source: 'SENKO',
             date: '2026-01-24'
@@ -3611,7 +3611,7 @@ function getChangelogItems() {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Mr. Marvin Theme',
+            title: 'BILU Theme',
             content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
             source: 'SENKO',
             date: '2026-01-22'
@@ -3632,7 +3632,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Mr. Marvin is speaking...', 'info');
+        showToast('Please wait, BILU is speaking...', 'info');
         return;
     }
 

@@ -1,5 +1,5 @@
 /**
- * THE Mr. Marvin TIMES - NEWS PAGE
+ * THE BILU TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 

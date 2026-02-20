@@ -1428,7 +1428,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'SENKO',
+            author: 'BILU',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -3005,7 +3005,7 @@ async function fetchAllRealData() {
             icon: '📊',
             title: 'Market Analysis',
             content: observation,
-            source: 'SENKO',
+            source: 'BILU',
             date: today,
             timestamp: now + 1000,
             url: '',
@@ -3021,7 +3021,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE SENKO ARCHIVES WITH REAL DATA
+// UPDATE BILU ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3031,7 +3031,7 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING SENKO ARCHIVES...');
+    console.log('🔄 UPDATING BILU ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
@@ -3105,7 +3105,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ SENKO ARCHIVES UPDATED!`);
+            console.log(`✅ BILU ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3302,7 +3302,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// SENKO ARCHIVES (Unified Panel)
+// BILU ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3552,7 +3552,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
             content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and BILU quotes.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-24'
         },
         {
@@ -3561,7 +3561,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-24'
         },
         {
@@ -3570,7 +3570,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-24'
         },
         {
@@ -3579,7 +3579,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.1 - Live News Integration',
             content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. BILU announces breaking news.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-24'
         },
         {
@@ -3588,7 +3588,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.0 - BILU Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-24'
         },
         {
@@ -3597,7 +3597,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-23'
         },
         {
@@ -3606,7 +3606,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'BILU Theme',
             content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
-            source: 'SENKO',
+            source: 'BILU',
             date: '2026-01-22'
         }
     ];
@@ -3791,7 +3791,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'SENKO TIMES';
+        sourceEl.textContent = source || 'BILU TIMES';
     }
 
     // Set type

@@ -290,7 +290,7 @@ function createCentralHub() {
     STATE.scene.add(glow);
 
     // Label
-    addLabel('SENKO', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
+    addLabel('BILU', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
 }
 
 function createNodes() {

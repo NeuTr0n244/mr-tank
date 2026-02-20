@@ -890,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'SENKO') {
+function addRemark(text, source = 'BILU') {
     const remark = {
         text,
         source,

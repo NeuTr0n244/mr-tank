@@ -5,6 +5,7 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ============================================
 // CONFIGURATION
@@ -789,11 +790,31 @@ function initThreeJS() {
     STATE.scene = new THREE.Scene();
     STATE.scene.background = new THREE.Color(0x1a1a1a);
 
-    // Camera - FIXED position (obtained with P key)
+    // Camera - FREE for positioning (press P to log position)
     const aspect = container.clientWidth / container.clientHeight;
     STATE.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     STATE.camera.position.set(-0.102, 1.636, 3.397);
-    STATE.camera.lookAt(0.015, 1.560, 0.051);
+
+    // OrbitControls - FREE CAMERA for finding the right angle
+    STATE.controls = new OrbitControls(STATE.camera, canvas);
+    STATE.controls.enableRotate = true;
+    STATE.controls.enableZoom = true;
+    STATE.controls.enablePan = true;
+    STATE.controls.enableDamping = true;
+    STATE.controls.dampingFactor = 0.05;
+    STATE.controls.update();
+
+    // PRESS P to log camera position
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'p' || e.key === 'P') {
+            const pos = STATE.camera.position;
+            const target = STATE.controls.target;
+            console.log('========================================');
+            console.log(`STATE.camera.position.set(${pos.x.toFixed(3)}, ${pos.y.toFixed(3)}, ${pos.z.toFixed(3)});`);
+            console.log(`STATE.controls.target.set(${target.x.toFixed(3)}, ${target.y.toFixed(3)}, ${target.z.toFixed(3)});`);
+            console.log('========================================');
+        }
+    });
 
     // Renderer
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -834,9 +855,9 @@ function initThreeJS() {
     frontLight.position.set(0, 2, 4);
     STATE.scene.add(frontLight);
 
-    // Mouse tracking - enabled on canvas
-    canvas.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('mouseleave', onMouseLeave);
+    // Mouse tracking - DISABLED while using OrbitControls for positioning
+    // canvas.addEventListener('mousemove', onMouseMove);
+    // canvas.addEventListener('mouseleave', onMouseLeave);
 
     // Load Model
     loadModel();
@@ -982,13 +1003,18 @@ function animate() {
         STATE.mixer.update(delta);
     }
 
-    // Mouse pivot rotation
-    if (STATE.modelPivot) {
-        STATE.currentRotationY += (STATE.targetRotationY - STATE.currentRotationY) * 0.05;
-        STATE.currentRotationX += (STATE.targetRotationX - STATE.currentRotationX) * 0.05;
-        STATE.modelPivot.rotation.y = STATE.currentRotationY;
-        STATE.modelPivot.rotation.x = STATE.currentRotationX;
+    // Update OrbitControls (free camera for positioning)
+    if (STATE.controls) {
+        STATE.controls.update();
     }
+
+    // Mouse pivot rotation - DISABLED while using OrbitControls
+    // if (STATE.modelPivot) {
+    //     STATE.currentRotationY += (STATE.targetRotationY - STATE.currentRotationY) * 0.05;
+    //     STATE.currentRotationX += (STATE.targetRotationX - STATE.currentRotationX) * 0.05;
+    //     STATE.modelPivot.rotation.y = STATE.currentRotationY;
+    //     STATE.modelPivot.rotation.x = STATE.currentRotationX;
+    // }
 
     // Breathing animation - subtle scale on Y axis
     if (STATE.model && STATE.originalScale) {

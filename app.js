@@ -785,19 +785,19 @@ function initThreeJS() {
     const container = document.getElementById('modelViewer');
     const canvas = document.getElementById('canvas3d');
 
-    // Scene - Ice blue background
+    // Scene - Dark alien background
     STATE.scene = new THREE.Scene();
-    STATE.scene.background = new THREE.Color(0xccd6e3);
+    STATE.scene.background = new THREE.Color(0x1a1a1a);
 
-    // Camera - FIXED POSITION
+    // Camera - FIXED position (obtained with P key)
     const aspect = container.clientWidth / container.clientHeight;
     STATE.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    STATE.camera.position.set(3.116, 1.882, -0.071);
-    STATE.camera.lookAt(-0.408, 1.833, -0.071);
+    STATE.camera.position.set(-0.102, 1.636, 3.397);
+    STATE.camera.lookAt(0.015, 1.560, 0.051);
 
     // Renderer
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    STATE.renderer.setClearColor(0xccd6e3, 1);
+    STATE.renderer.setClearColor(0x1a1a1a, 1);
     STATE.renderer.setSize(container.clientWidth, container.clientHeight);
     STATE.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -805,33 +805,38 @@ function initThreeJS() {
     STATE.renderer.toneMappingExposure = 1.5; // Increased for better visibility
     STATE.renderer.physicallyCorrectLights = false; // Disabled for brighter lights
 
-    // STRONG LIGHTING - Model needs proper illumination
-    // Ambient light - provides overall brightness
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    // LIGHTING FOR ALIEN - dark background, model well visible
+    // Ambient - fills shadows
+    const ambient = new THREE.AmbientLight(0x404050, 0.6);
     STATE.scene.add(ambient);
 
-    // Key light - main light source (bright)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    keyLight.position.set(5, 10, 7);
+    // Hemisphere - sky/ground
+    const hemisphere = new THREE.HemisphereLight(0x606070, 0x202020, 0.5);
+    STATE.scene.add(hemisphere);
+
+    // Key Light - warm lateral, main
+    const keyLight = new THREE.DirectionalLight(0xffeedd, 1.8);
+    keyLight.position.set(3, 4, 2);
     STATE.scene.add(keyLight);
 
-    // Fill light - softens shadows
-    const fillLight = new THREE.DirectionalLight(0xb8d4e8, 1.0);
-    fillLight.position.set(-5, 5, -5);
+    // Fill Light - opposite side, cool
+    const fillLight = new THREE.DirectionalLight(0xaabbdd, 0.8);
+    fillLight.position.set(-3, 3, 1);
     STATE.scene.add(fillLight);
 
-    // Rim light - adds definition to edges
-    const rimLight = new THREE.DirectionalLight(0xe8f4f8, 0.8);
-    rimLight.position.set(0, 3, -10);
+    // Rim Light - outline from behind
+    const rimLight = new THREE.DirectionalLight(0xddddee, 0.9);
+    rimLight.position.set(0, 3, -3);
     STATE.scene.add(rimLight);
 
-    // Additional point light for close-up detail
-    const pointLight = new THREE.PointLight(0xffffff, 1.2, 50);
-    pointLight.position.set(3, 2, 0);
-    STATE.scene.add(pointLight);
+    // Front Light - illuminates face
+    const frontLight = new THREE.DirectionalLight(0xeeeeff, 0.5);
+    frontLight.position.set(0, 2, 4);
+    STATE.scene.add(frontLight);
 
-    // Mouse tracking - model follows cursor
-    document.addEventListener('mousemove', onMouseMove);
+    // Mouse tracking - enabled on canvas
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseleave', onMouseLeave);
 
     // Load Model
     loadModel();
@@ -864,16 +869,12 @@ function loadModel() {
             console.log('========================================');
 
             // ========================================
-            // DEBUG: Lista TODAS as meshes do modelo
+            // Materials preserved from GLB - NO modifications
             // ========================================
             console.log('========================================');
-            console.log('=== MODEL MESHES ===');
-            console.log('========================================');
-            STATE.model.traverse((child) => {
-                if (child.isMesh) {
-                    console.log('Name:', child.name, '| Type:', child.type);
-                }
-            });
+            console.log('=== MODEL LOADED ===');
+            console.log('✅ Textures preserved from GLB');
+            console.log('✅ Materials untouched');
             console.log('========================================');
 
             // Scale and position model with face as focus
@@ -895,9 +896,9 @@ function loadModel() {
             STATE.model.position.z = -center.z;
             STATE.model.position.y = -min.y;
 
-            // Rotate model to show face forward (alien orientation fix)
+            // Rotate model - RESET to zero, use OrbitControls to find correct angle
             STATE.model.rotation.x = 0;
-            STATE.model.rotation.y = Math.PI; // 180 degrees - face forward
+            STATE.model.rotation.y = 0; // Was Math.PI (wrong), try 0 first
             STATE.model.rotation.z = 0;
 
             // Create pivot container for mouse rotation
@@ -959,13 +960,17 @@ function onResize() {
 }
 
 function onMouseMove(event) {
-    // Normalize mouse position to -1 to 1
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+    const canvas = document.getElementById('canvas3d');
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const mouseY = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+    STATE.targetRotationY = mouseX * 0.5;
+    STATE.targetRotationX = -mouseY * 0.25;
+}
 
-    // Set target rotation (max ~15 degrees = 0.26 radians)
-    STATE.targetRotationY = mouseX * 0.25;
-    STATE.targetRotationX = mouseY * 0.1;
+function onMouseLeave() {
+    STATE.targetRotationX = 0;
+    STATE.targetRotationY = 0;
 }
 
 function animate() {
@@ -977,7 +982,7 @@ function animate() {
         STATE.mixer.update(delta);
     }
 
-    // Smooth mouse follow - rotate the PIVOT only
+    // Mouse pivot rotation
     if (STATE.modelPivot) {
         STATE.currentRotationY += (STATE.targetRotationY - STATE.currentRotationY) * 0.05;
         STATE.currentRotationX += (STATE.targetRotationX - STATE.currentRotationX) * 0.05;

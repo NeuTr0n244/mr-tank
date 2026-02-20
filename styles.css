@@ -1,32 +1,31 @@
-/* AKAI INU V1.0 - Dark Mode Shiba Theme */
+/* Mr. Marvin V1.0 - Alien ET Theme */
 
 :root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-panel: #0f0f1a;
-    --bg-hover: rgba(230, 126, 34, 0.1);
+    --bg-primary: #0a0e0a;
+    --bg-secondary: #0f1a0f;
+    --bg-panel: #0f1a0f;
+    --bg-hover: #2e4a2e;
 
-    --text-primary: #f5f5f5;
-    --text-secondary: #a0a0a0;
-    --text-muted: #707070;
+    --text-primary: #c8e6c9;
+    --text-secondary: #81c784;
+    --text-muted: #4a6a4a;
 
-    --accent: #E67E22;
-    --accent-hover: #F39C12;
-    --accent-dim: #d35400;
-    --accent-glow: rgba(230, 126, 34, 0.3);
-    --cream: #2a2a3e;
-    --brown: #5D4037;
-    --green: #4adeab;
-    --blue: #88d4f7;
-    --pink: #f788b0;
-    --red: #e74c3c;
+    --accent: #00ff6a;
+    --accent-hover: #00e676;
+    --accent-dim: #66bb6a;
+    --accent-glow: rgba(0, 255, 106, 0.2);
 
-    --border: rgba(230, 126, 34, 0.5);
-    --border-solid: #E67E22;
-    --border-light: rgba(230, 126, 34, 0.3);
+    --green: #00ff6a;
+    --blue: #00e5ff;
+    --pink: #ffc107;
+    --red: #ff5252;
 
-    --font-mono: 'Tahoma', 'Arial', sans-serif;
-    --font-sans: 'Tahoma', 'Arial', sans-serif;
+    --border: rgba(0, 255, 106, 0.12);
+    --border-solid: rgba(0, 255, 106, 0.2);
+    --border-light: rgba(0, 255, 106, 0.08);
+
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-sans: 'Share Tech Mono', monospace;
 
     --radius: 0px;
     --radius-lg: 0px;
@@ -53,16 +52,27 @@ body {
     color: var(--text-primary);
     line-height: 1.5;
     overflow-x: hidden;
-    background: var(--bg-primary);
+    background: linear-gradient(135deg, #0a0e0a 0%, #0f1a0f 50%, #0a0e0a 100%);
 }
 
-/* Clean background */
+/* Grid background overlay */
 body::after {
     display: none;
 }
 
 body::before {
-    display: none;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 255, 106, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 106, 0.015) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .app {
@@ -100,7 +110,7 @@ body::before {
 }
 
 .logo {
-    font-family: var(--font-mono);
+    font-family: 'Orbitron', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -147,7 +157,7 @@ body::before {
 }
 
 .live-badge {
-    font-family: var(--font-mono);
+    font-family: 'Orbitron', sans-serif;
     font-size: 10px;
     letter-spacing: 0.15em;
     color: var(--red);
@@ -225,7 +235,7 @@ body::before {
 }
 
 .clock-time {
-    font-family: var(--font-mono);
+    font-family: 'Orbitron', sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: var(--accent);
@@ -331,7 +341,7 @@ body::before {
 }
 
 .panel-title {
-    font-family: var(--font-mono);
+    font-family: 'Orbitron', sans-serif;
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -562,7 +572,7 @@ body::before {
     flex: 1 1 0;
     min-height: 400px;
     height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+    background: linear-gradient(135deg, #0a120a 0%, #0f1a0f 50%, #0a120a 100%);
     border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -1651,9 +1661,9 @@ body::before {
     background: var(--pink);
 }
 
-/* Shiba Model Viewer - Dark gradient */
+/* Alien Model Viewer - Dark green gradient */
 .model-viewer {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%) !important;
+    background: linear-gradient(135deg, #0a120a 0%, #0f1a0f 50%, #0a120a 100%) !important;
     border: 2px solid var(--border);
     flex: 1 1 auto !important;
 }
@@ -1675,8 +1685,9 @@ body::before {
     font-weight: 600;
 }
 
-/* Shiba Header Styling - Clean */
+/* Alien Header Styling - Clean */
 .logo {
+    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     color: var(--accent);
 }

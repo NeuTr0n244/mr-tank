@@ -895,6 +895,11 @@ function loadModel() {
             STATE.model.position.z = -center.z;
             STATE.model.position.y = -min.y;
 
+            // Rotate model to show face forward (alien orientation fix)
+            STATE.model.rotation.x = 0;
+            STATE.model.rotation.y = Math.PI; // 180 degrees - face forward
+            STATE.model.rotation.z = 0;
+
             // Create pivot container for mouse rotation
             STATE.modelPivot = new THREE.Group();
             STATE.modelPivot.add(STATE.model);

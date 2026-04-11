@@ -795,7 +795,7 @@ function initThreeJS() {
 
     // Scene - Deep sea gray background
     STATE.scene = new THREE.Scene();
-    STATE.scene.background = new THREE.Color(0x1a1a1a);
+    STATE.scene.background = new THREE.Color(0x252525);
 
     // Camera - TEMPORARY: Full control enabled for positioning
     const aspect = container.clientWidth / container.clientHeight;
@@ -838,14 +838,14 @@ function initThreeJS() {
 
     // Renderer - dark terminal background with physically correct lighting
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    STATE.renderer.setClearColor(0x0d0d0d, 1);
+    STATE.renderer.setClearColor(0x252525, 1);
     STATE.renderer.setSize(container.clientWidth, container.clientHeight);
     STATE.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     // CONFIGURACAO ESSENCIAL PARA TEXTURAS CORRETAS
     STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;  // Cores corretas
     STATE.renderer.toneMapping = THREE.ACESFilmicToneMapping; // Tom cinematografico
-    STATE.renderer.toneMappingExposure = 1.2;                 // Exposicao realista - modelo bem visivel
+    STATE.renderer.toneMappingExposure = 2.0;                 // Exposicao realista - modelo bem visivel
     STATE.renderer.shadowMap.enabled = true;
     STATE.renderer.shadowMap.type = THREE.PCFSoftShadowMap;   // Sombras suaves
     // physicallyCorrectLights DESATIVADO - com ele ligado as luzes ficam MUITO mais fracas
@@ -857,16 +857,16 @@ function initThreeJS() {
     // ============================================
 
     // 1. AMBIENT - preenche sombras para nada ficar 100% preto
-    const ambientLight = new THREE.AmbientLight(0x404050, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     STATE.scene.add(ambientLight);
 
     // 2. HEMISPHERE - simula ceu claro + chao escuro
-    const hemiLight = new THREE.HemisphereLight(0x606070, 0x202020, 0.6);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
     hemiLight.position.set(0, 10, 0);
     STATE.scene.add(hemiLight);
 
     // 3. KEY LIGHT - luz principal forte, lateral, cor quente
-    const keyLight = new THREE.DirectionalLight(0xffeedd, 1.5);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
     keyLight.position.set(-3, 5, 2);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
@@ -877,17 +877,17 @@ function initThreeJS() {
     STATE.scene.add(keyLight);
 
     // 4. FILL LIGHT - lado oposto, cor fria, metade da key
-    const fillLight = new THREE.DirectionalLight(0xaabbdd, 0.7);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.2);
     fillLight.position.set(3, 3, -1);
     STATE.scene.add(fillLight);
 
     // 5. RIM/BACK LIGHT - contorno para separar do fundo
-    const rimLight = new THREE.DirectionalLight(0xddddee, 0.8);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 1.0);
     rimLight.position.set(0, 4, -4);
     STATE.scene.add(rimLight);
 
     // 6. FRONT FILL - luz frontal suave para iluminar o rosto
-    const frontLight = new THREE.DirectionalLight(0xeeeeff, 0.4);
+    const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
     frontLight.position.set(0, 2, 5);
     STATE.scene.add(frontLight);
 

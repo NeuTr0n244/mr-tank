@@ -1,5 +1,5 @@
 /**
- * MR. TRUNK - FINANCIAL TERMINAL
+ * GOGO - FINANCIAL TERMINAL
  * Deep Sea Market Data System
  */
 
@@ -11,8 +11,8 @@ const STATE = {
     tokens: [],
     trending: [],
     predictions: [],
-    watchlist: JSON.parse(localStorage.getItem('trunk_watchlist') || '[]'),
-    remarks: JSON.parse(localStorage.getItem('trunk_remarks') || '[]'),
+    watchlist: JSON.parse(localStorage.getItem('gogo_watchlist') || '[]'),
+    remarks: JSON.parse(localStorage.getItem('gogo_remarks') || '[]'),
     lastUpdate: null,
     isLoading: false
 };
@@ -877,7 +877,7 @@ function addToWatchlist(symbol) {
         if (STATE.watchlist.length > 20) {
             STATE.watchlist.pop();
         }
-        localStorage.setItem('trunk_watchlist', JSON.stringify(STATE.watchlist));
+        localStorage.setItem('gogo_watchlist', JSON.stringify(STATE.watchlist));
 
         // Save to Firebase for real-time sync
         if (typeof FirebaseDB !== 'undefined' && FirebaseDB.isAvailable()) {
@@ -889,7 +889,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'MR. TRUNK') {
+function addRemark(text, source = 'GOGO') {
     const remark = {
         text,
         source,
@@ -902,7 +902,7 @@ function addRemark(text, source = 'MR. TRUNK') {
         STATE.remarks.pop();
     }
 
-    localStorage.setItem('trunk_remarks', JSON.stringify(STATE.remarks));
+    localStorage.setItem('gogo_remarks', JSON.stringify(STATE.remarks));
 
     // Save to Firebase for real-time sync
     if (typeof FirebaseDB !== 'undefined' && FirebaseDB.isAvailable()) {

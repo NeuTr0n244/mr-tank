@@ -32,11 +32,11 @@ const CONFIG = {
 
 const STATE = {
     // API Key - set here or will load from localStorage if previously saved
-    groqApiKey: localStorage.getItem('gogo_groq_key') || localStorage.getItem('trunk_groq_key') || '',
+    groqApiKey: localStorage.getItem('gogo_groq_key') || localStorage.getItem('gogo_groq_key') || '',
 
     // Voice - always starts ON
     voiceEnabled: true,
-    soundEnabled: localStorage.getItem('gogo_sound_enabled') || localStorage.getItem('trunk_sound_enabled') !== 'false',
+    soundEnabled: localStorage.getItem('gogo_sound_enabled') || localStorage.getItem('gogo_sound_enabled') !== 'false',
     isSpeaking: false,
     isWordActive: false,
     wordTimeout: null,
@@ -92,7 +92,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Mr. Trunk Archives
+// Global speech queue for automatic reading of Gogo Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -114,11 +114,11 @@ async function markAsSpoken(newsId) {
         await FirebaseDB.markNewsAsSpoken(newsId);
     } else {
         // Fallback to localStorage if Firebase not available
-        const spoken = JSON.parse(localStorage.getItem('trunk_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('gogo_spoken_news') || '[]');
         if (!spoken.includes(newsId)) {
             spoken.push(newsId);
             if (spoken.length > 500) spoken.shift();
-            localStorage.setItem('trunk_spoken_news', JSON.stringify(spoken));
+            localStorage.setItem('gogo_spoken_news', JSON.stringify(spoken));
         }
     }
 }
@@ -133,7 +133,7 @@ async function wasAlreadySpoken(newsId) {
         return await FirebaseDB.wasNewsSpoken(newsId);
     } else {
         // Fallback to localStorage
-        const spoken = JSON.parse(localStorage.getItem('trunk_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('gogo_spoken_news') || '[]');
         return spoken.includes(newsId);
     }
 }
@@ -200,7 +200,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Mr. Trunk can NEVER be interrupted
+ * CRITICAL RULE: Gogo can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -522,7 +522,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Mr. Trunk
+                addKnowledgeToCards(item, false); // false = don't trigger Gogo
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -539,8 +539,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Mr. Trunk reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Mr. Trunk
+                        // Add to cards and trigger Gogo reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Gogo
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -1719,9 +1719,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Mr. Trunk is speaking
+    // Don't generate if Gogo is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: Mr. Trunk is speaking');
+        console.log('🐕 Skipping auto-observation: Gogo is speaking');
         return;
     }
 
@@ -1768,7 +1768,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'MR. TRUNK',
+            author: 'GOGO',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -1783,11 +1783,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Mr. Trunk speaks the observation
+        // Gogo speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Mr. Trunk added an observation', 'success');
+        showToast('Gogo added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1907,7 +1907,7 @@ function initVoice() {
         document.getElementById('soundState').textContent = STATE.soundEnabled ? 'on' : 'off';
 
         // Save preference to localStorage
-        localStorage.setItem('trunk_sound_enabled', STATE.soundEnabled);
+        localStorage.setItem('gogo_sound_enabled', STATE.soundEnabled);
 
         if (!STATE.soundEnabled) {
             // IMMEDIATELY stop any current speech
@@ -1991,7 +1991,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep commanding voice for Mr. Trunk
+        // Find a deep commanding voice for Gogo
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -2010,7 +2010,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, powerful voice for Mr. Trunk
+        // Deep, powerful voice for Gogo
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2208,7 +2208,7 @@ function initKnowledge() {
 }
 
 function loadKnowledgeFromStorage() {
-    const stored = localStorage.getItem('trunk_knowledge_db');
+    const stored = localStorage.getItem('gogo_knowledge_db');
     if (stored) {
         try {
             STATE.knowledgeDB = JSON.parse(stored);
@@ -2218,7 +2218,7 @@ function loadKnowledgeFromStorage() {
     }
 
     // Migrate old format if exists
-    const oldKnowledge = localStorage.getItem('trunk_knowledge');
+    const oldKnowledge = localStorage.getItem('gogo_knowledge');
     if (oldKnowledge && !stored) {
         try {
             const oldData = JSON.parse(oldKnowledge);
@@ -2242,7 +2242,7 @@ function loadKnowledgeFromStorage() {
                     saveKnowledgeToFirebase(item);
                 });
 
-                localStorage.removeItem('trunk_knowledge');
+                localStorage.removeItem('gogo_knowledge');
             }
         } catch (e) {}
     }
@@ -2305,7 +2305,7 @@ function loadUserKnowledgeToCards() {
 }
 
 function saveKnowledgeToStorage() {
-    localStorage.setItem('trunk_knowledge_db', JSON.stringify(STATE.knowledgeDB));
+    localStorage.setItem('gogo_knowledge_db', JSON.stringify(STATE.knowledgeDB));
     updateKnowledgeCount();
 }
 
@@ -2438,7 +2438,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Mr. Trunk Archives', 'success');
+    showToast('Knowledge saved to Gogo Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2494,10 +2494,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Mr. Trunk reaction)
+// Called when new knowledge is added (triggers Gogo reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Mr. Trunk will now speak about:', knowledge.title);
+    console.log('🎙️ Gogo will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2505,7 +2505,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Mr. Trunk speaks the knowledge
+    // 2. Gogo speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2939,7 +2939,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Mr. Trunk announces breaking news
+// CHECK FOR NEW NEWS - Gogo announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2953,7 +2953,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Mr. Trunk announces (only if we already have cached news - skip first load)
+            // Gogo announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -3341,7 +3341,7 @@ async function fetchAllRealData() {
         console.error('❌ Polymarket Crypto error:', e);
     }
 
-    // 10. MR. TANK OBSERVATION - Based on market data
+    // 10. GOGO OBSERVATION - Based on market data
     if (btcData) {
         const isUp = parseFloat(btcData.change) >= 0;
         const observations = isUp ? [
@@ -3357,18 +3357,18 @@ async function fetchAllRealData() {
         const observation = observations[Math.floor(Math.random() * observations.length)];
 
         cards.push({
-            id: `akai_obs_${now}`,
+            id: `gogo_obs_${now}`,
             category: 'observation',
             icon: '📊',
             title: 'Market Analysis',
             content: observation,
-            source: 'MR. TRUNK',
+            source: 'GOGO',
             date: today,
             timestamp: now + 1000,
             url: '',
             changeValue: 0
         });
-        console.log('✅ Mr. Trunk observation added');
+        console.log('✅ Gogo observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3378,7 +3378,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE MR. TRUNK ARCHIVES WITH REAL DATA
+// UPDATE GOGO ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3388,7 +3388,7 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING MR. TRUNK ARCHIVES...');
+    console.log('🔄 UPDATING GOGO ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
@@ -3462,7 +3462,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ MR. TRUNK ARCHIVES UPDATED!`);
+            console.log(`✅ GOGO ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3476,7 +3476,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Mr. Trunk comments on market (15% chance after first load)
+            // Gogo comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3595,7 +3595,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cleanOldNewsFromStorage();
 });
 
-// MR. TANK MARKET COMMENTARY
+// GOGO MARKET COMMENTARY
 async function tankMarketComment() {
     if (STATE.isSpeaking) return;
 
@@ -3630,7 +3630,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 Mr. Trunk says:', comment);
+    console.log('🐕 Gogo says:', comment);
     tankSpeak(comment);
 }
 
@@ -3659,7 +3659,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// MR. TRUNK ARCHIVES (Unified Panel)
+// GOGO ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3671,7 +3671,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Mr. Trunk announcements
+// Initialize news checking for Gogo announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3720,7 +3720,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Mr. Trunk Art Gallery coming soon...', 'info');
+            showToast('Gogo Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3887,7 +3887,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Mr. Trunk reads content
+    // Add click listener to entire card - Gogo reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3908,9 +3908,9 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Mr. Trunk quotes.',
-            source: 'MR. TRUNK',
-            date: '2026-01-24'
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Gogo quotes.',
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl000',
@@ -3918,8 +3918,8 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'MR. TRUNK',
-            date: '2026-01-24'
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl00',
@@ -3927,26 +3927,26 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'MR. TRUNK',
-            date: '2026-01-24'
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl0',
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Mr. Trunk announces breaking news.',
-            source: 'MR. TRUNK',
-            date: '2026-01-24'
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Gogo announces breaking news.',
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - Mr. Trunk Archives Integration',
+            title: 'V1.0 - GOGO Launch',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'MR. TRUNK',
-            date: '2026-01-24'
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl2',
@@ -3954,17 +3954,17 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'MR. TRUNK',
-            date: '2026-01-23'
+            source: 'GOGO',
+            date: '2026-04-11'
         },
         {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Mr. Trunk Theme',
-            content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
-            source: 'MR. TRUNK',
-            date: '2026-01-22'
+            title: 'Gogo Theme',
+            content: 'Complete visual overhaul with GOGO monkey jungle tech noir theme. Green accents, primal intelligence system.',
+            source: 'GOGO',
+            date: '2026-04-11'
         }
     ];
 }
@@ -3982,7 +3982,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Mr. Trunk is speaking...', 'info');
+        showToast('Please wait, Gogo is speaking...', 'info');
         return;
     }
 
@@ -4164,7 +4164,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'MR. TRUNK TIMES';
+        sourceEl.textContent = source || 'GOGO TIMES';
     }
 
     // Set type

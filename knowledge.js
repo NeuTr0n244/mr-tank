@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - MR. TRUNK
+ * KNOWLEDGE GRAPH - GOGO
  * Deep Sea Intelligence Network - 3D Visualization
  */
 
@@ -188,7 +188,7 @@ function loadKnowledge() {
 
 // Fallback to localStorage
 function loadKnowledgeFromLocal() {
-    const stored = localStorage.getItem('trunk_knowledge_db');
+    const stored = localStorage.getItem('gogo_knowledge_db');
     if (stored) {
         try {
             STATE.knowledgeDB = JSON.parse(stored);
@@ -290,7 +290,7 @@ function createCentralHub() {
     STATE.scene.add(glow);
 
     // Label
-    addLabel('MR. TRUNK', new THREE.Vector3(0, 5, 0), 0xe0e0e0);
+    addLabel('GOGO', new THREE.Vector3(0, 5, 0), 0xe0e0e0);
 }
 
 function createNodes() {

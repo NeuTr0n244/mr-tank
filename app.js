@@ -13,7 +13,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const CONFIG = {
     // CORRECAO: Caminho atualizado para servir corretamente na Vercel (pasta public/)
-    modelPath: './mrape1.glb',
+    modelPath: './public/models/mrape1.glb',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',

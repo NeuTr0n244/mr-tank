@@ -71,7 +71,6 @@ body {
     align-items: center;
     padding: 10px 16px;
     background: rgba(42, 34, 24, 0.95);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -264,7 +263,6 @@ body {
     justify-content: space-between;
     padding: 10px 16px;
     background: rgba(42, 34, 24, 0.6);
-    backdrop-filter: blur(8px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
 }
@@ -314,7 +312,6 @@ body {
     justify-content: center;
     padding: 12px 16px;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     text-align: center;
@@ -401,7 +398,6 @@ body {
     display: flex;
     flex-direction: column;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -444,7 +440,6 @@ body {
     display: flex;
     flex-direction: column;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow:
@@ -532,7 +527,6 @@ body {
     display: flex;
     flex-direction: column;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow:
@@ -604,7 +598,6 @@ body {
     display: flex;
     flex-direction: column;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow:
@@ -699,7 +692,6 @@ body {
 .footer {
     padding: 12px 20px;
     background: rgba(42, 34, 24, 0.8);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     text-align: center;
@@ -718,7 +710,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(42, 34, 24, 0.95);
-    backdrop-filter: blur(15px);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     padding: 0;
@@ -800,7 +791,6 @@ body {
     background: rgba(0, 0, 0, 0.7);
     z-index: 999;
     display: none;
-    backdrop-filter: blur(4px);
 }
 
 .overlay.active {

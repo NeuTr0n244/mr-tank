@@ -57,7 +57,6 @@ body::before {
     align-items: center;
     padding: 12px 20px;
     background: rgba(42, 34, 24, 0.95);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(196, 162, 101, 0.15);
     border-radius: 8px;
     position: relative;

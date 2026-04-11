@@ -384,44 +384,5 @@
 
     <!-- Three.js handles model loading with GLB embedded camera -->
 
-    <!-- FLASHLIGHT EFFECT -->
-    <div id="flashlight-overlay"></div>
-    <style>
-        #flashlight-overlay {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: screen;
-            background: radial-gradient(
-                circle 180px at -999px -999px,
-                rgba(180, 255, 200, 0.18) 0%,
-                rgba(100, 255, 150, 0.08) 50%,
-                transparent 100%
-            );
-        }
-    </style>
-    <script>
-        (function() {
-            const overlay = document.getElementById('flashlight-overlay');
-            let mx = -999, my = -999;
-            let radius = 180;
-
-            function update() {
-                overlay.style.background = `radial-gradient(
-                    circle ${radius}px at ${mx}px ${my}px,
-                    rgba(200, 255, 220, 0.22) 0%,
-                    rgba(120, 255, 160, 0.10) 50%,
-                    transparent 100%
-                )`;
-            }
-
-            document.addEventListener('mousemove', (e) => {
-                mx = e.clientX;
-                my = e.clientY;
-                update();
-            });
-        })();
-    </script>
 </body>
 </html>

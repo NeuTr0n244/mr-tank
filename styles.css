@@ -6,24 +6,24 @@
     --bg-panel: #141414;
     --bg-hover: #2a2a2a;
 
-    --text-primary: #f0f0f0;
-    --text-secondary: #b0b0b0;
-    --text-muted: #888888;
+    --text-primary: #f5f5f5;
+    --text-secondary: #c8c8c8;
+    --text-muted: #909090;
 
-    --accent: #00c853;
-    --accent-hover: #00e676;
-    --accent-dim: #00813a;
-    --accent-glow: rgba(0, 200, 83, 0.25);
+    --accent: #1adb6a;
+    --accent-hover: #2eff80;
+    --accent-dim: #0d7a3a;
+    --accent-glow: rgba(26, 219, 106, 0.3);
     --cream: #2a2a2a;
     --brown: #242424;
-    --green: #00c853;
-    --blue: #00c853;
-    --pink: #cccccc;
+    --green: #1adb6a;
+    --blue: #1adb6a;
+    --pink: #dddddd;
     --red: #ff4444;
 
-    --border: rgba(0, 200, 83, 0.15);
-    --border-solid: #2a2a2a;
-    --border-light: rgba(0, 200, 83, 0.1);
+    --border: rgba(26, 219, 106, 0.18);
+    --border-solid: #2c2c2c;
+    --border-light: rgba(26, 219, 106, 0.1);
 
     --font-mono: 'Tahoma', 'Arial', sans-serif;
     --font-sans: 'Tahoma', 'Arial', sans-serif;
@@ -125,7 +125,7 @@ body::before {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: #00c853;
+    color: var(--accent);
     text-shadow: 0 0 10px rgba(0, 200, 83, 0.4);
 }
 
@@ -145,7 +145,7 @@ body::before {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.1em;
-    color: #00c853;
+    color: var(--accent);
     padding: 4px 8px;
     background: rgba(0, 200, 83, 0.08);
     border: 1px solid rgba(0, 200, 83, 0.25);
@@ -175,7 +175,7 @@ body::before {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.15em;
-    color: #00e676;
+    color: var(--accent-hover);
     padding: 4px 12px;
     background: rgba(0, 200, 83, 0.12);
     border: 1px solid rgba(0, 200, 83, 0.4);
@@ -222,7 +222,7 @@ body::before {
 }
 
 .voice-btn.active {
-    border-color: #00c853;
+    border-color: var(--accent);
     color: #ffffff;
     background: rgba(0, 200, 83, 0.15);
     box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
@@ -233,7 +233,7 @@ body::before {
 }
 
 .voice-btn.active .btn-state {
-    color: #00e676;
+    color: var(--accent-hover);
     font-weight: 600;
 }
 
@@ -275,14 +275,14 @@ body::before {
     gap: 6px;
     font-family: var(--font-mono);
     font-size: 10px;
-    color: #00c853;
+    color: var(--accent);
     letter-spacing: 0.05em;
 }
 
 .network-dot {
     width: 6px;
     height: 6px;
-    background: #00c853;
+    background: var(--accent);
     border-radius: 50%;
     box-shadow: 0 0 6px rgba(0, 200, 83, 0.8);
     animation: pulse 2s infinite;
@@ -1658,9 +1658,9 @@ body::before {
 }
 
 .live-badge {
-    background: #00c853;
+    background: var(--accent);
     color: #ffffff;
-    border: 2px solid #00e676;
+    border: 2px solid var(--accent-hover);
     font-weight: 600;
     box-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
     animation: livePulse 2s ease-in-out infinite;
@@ -1677,7 +1677,7 @@ body::before {
 
 .voice-btn.active {
     background: rgba(0, 200, 83, 0.15);
-    border: 2px solid #00c853;
+    border: 2px solid var(--accent);
     color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
 }
@@ -1775,7 +1775,7 @@ body::before {
 
 .archives-btn.active {
     background: rgba(0, 200, 83, 0.15);
-    border-color: #00c853;
+    border-color: var(--accent);
     color: #ffffff;
     font-weight: 600;
     box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
@@ -1809,7 +1809,7 @@ body::before {
 
 .filter-btn.active {
     background: rgba(0, 200, 83, 0.2);
-    border-color: #00c853;
+    border-color: var(--accent);
     color: #ffffff;
     font-weight: 600;
     box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);

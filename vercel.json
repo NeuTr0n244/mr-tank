@@ -1,5 +1,21 @@
 {
   "version": 2,
   "buildCommand": "",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/models/(.*)",
+      "headers": [
+        { "key": "Content-Type", "value": "model/gltf-binary" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/(.*).glb",
+      "headers": [
+        { "key": "Content-Type", "value": "model/gltf-binary" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
 }

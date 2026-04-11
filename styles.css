@@ -1,31 +1,32 @@
-/* Mr. Marvin V1.0 - Alien ET Theme */
+/* GOGO V1.0 - Dark Terminal Theme */
 
 :root {
-    --bg-primary: #0a0e0a;
-    --bg-secondary: #0f1a0f;
-    --bg-panel: #0f1a0f;
-    --bg-hover: #2e4a2e;
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #1a1a1a;
+    --bg-panel: #1a1a1a;
+    --bg-hover: #3a3a3a;
 
-    --text-primary: #c8e6c9;
-    --text-secondary: #81c784;
-    --text-muted: #4a6a4a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #999999;
+    --text-muted: #666666;
 
-    --accent: #00ff6a;
-    --accent-hover: #00e676;
-    --accent-dim: #66bb6a;
-    --accent-glow: rgba(0, 255, 106, 0.2);
+    --accent: #ffffff;
+    --accent-hover: #f0f0f0;
+    --accent-dim: #888888;
+    --accent-glow: rgba(255, 255, 255, 0.2);
+    --cream: #2a2a2a;
+    --brown: #242424;
+    --green: #888888;
+    --blue: #888888;
+    --pink: #cccccc;
+    --red: #ffffff;
 
-    --green: #00ff6a;
-    --blue: #00e5ff;
-    --pink: #ffc107;
-    --red: #ff5252;
+    --border: rgba(51, 51, 51, 0.8);
+    --border-solid: #333333;
+    --border-light: rgba(68, 68, 68, 0.5);
 
-    --border: rgba(0, 255, 106, 0.12);
-    --border-solid: rgba(0, 255, 106, 0.2);
-    --border-light: rgba(0, 255, 106, 0.08);
-
-    --font-mono: 'Share Tech Mono', monospace;
-    --font-sans: 'Share Tech Mono', monospace;
+    --font-mono: 'Tahoma', 'Arial', sans-serif;
+    --font-sans: 'Tahoma', 'Arial', sans-serif;
 
     --radius: 0px;
     --radius-lg: 0px;
@@ -52,14 +53,24 @@ body {
     color: var(--text-primary);
     line-height: 1.5;
     overflow-x: hidden;
-    background: linear-gradient(135deg, #0a0e0a 0%, #0f1a0f 50%, #0a0e0a 100%);
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+    position: relative;
 }
 
-/* Grid background overlay */
+/* Dark terminal fog effect */
 body::after {
-    display: none;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(13, 13, 13, 0.8) 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
+/* Subtle grid texture overlay */
 body::before {
     content: '';
     position: fixed;
@@ -68,11 +79,11 @@ body::before {
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(rgba(0, 255, 106, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 106, 0.015) 1px, transparent 1px);
-    background-size: 20px 20px;
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, transparent 1px, transparent 2px, rgba(255, 255, 255, 0.02) 3px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0px, transparent 1px, transparent 2px, rgba(255, 255, 255, 0.02) 3px);
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
+    opacity: 0.3;
 }
 
 .app {
@@ -110,7 +121,7 @@ body::before {
 }
 
 .logo {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-mono);
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -130,10 +141,10 @@ body::before {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.1em;
-    color: var(--green);
+    color: var(--text-primary);
     padding: 4px 8px;
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius);
 }
 
@@ -157,13 +168,13 @@ body::before {
 }
 
 .live-badge {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.15em;
-    color: var(--red);
+    color: var(--accent);
     padding: 4px 12px;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--radius);
     animation: livePulse 1.5s infinite;
 }
@@ -190,9 +201,9 @@ body::before {
     gap: 6px;
     padding: 6px 10px;
     background: var(--bg-panel);
-    border: 1px solid var(--border);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--radius);
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-family: var(--font-mono);
     font-size: 11px;
     cursor: pointer;
@@ -201,12 +212,15 @@ body::before {
 
 .voice-btn:hover {
     background: var(--bg-hover);
-    border-color: var(--border-light);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
 }
 
 .voice-btn.active {
-    border-color: var(--accent);
-    color: var(--text-primary);
+    border-color: #00c853;
+    color: #ffffff;
+    background: rgba(0, 200, 83, 0.15);
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
 }
 
 .btn-state {
@@ -214,7 +228,8 @@ body::before {
 }
 
 .voice-btn.active .btn-state {
-    color: var(--green);
+    color: #00e676;
+    font-weight: 600;
 }
 
 .wallet-address {
@@ -235,7 +250,7 @@ body::before {
 }
 
 .clock-time {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 600;
     color: var(--accent);
@@ -264,7 +279,7 @@ body::before {
     height: 6px;
     background: var(--green);
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(74, 222, 171, 0.5);
+    box-shadow: 0 0 6px rgba(196, 162, 101, 0.5);
     animation: pulse 2s infinite;
 }
 
@@ -341,7 +356,7 @@ body::before {
 }
 
 .panel-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -397,7 +412,7 @@ body::before {
     align-items: flex-start;
     gap: 10px;
     padding: 8px 10px;
-    background: rgba(15, 29, 46, 0.5);
+    background: rgba(42, 34, 24, 0.5);
     border-radius: var(--radius);
     transition: background 0.15s ease;
 }
@@ -446,7 +461,7 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
-    background: rgba(15, 29, 46, 0.5);
+    background: rgba(42, 34, 24, 0.5);
     border: 1px solid transparent;
     border-radius: var(--radius);
     cursor: pointer;
@@ -572,7 +587,7 @@ body::before {
     flex: 1 1 0;
     min-height: 400px;
     height: 100%;
-    background: linear-gradient(135deg, #0a120a 0%, #0f1a0f 50%, #0a120a 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
     border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -585,6 +600,13 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+#canvas3d:active {
+    cursor: grabbing;
 }
 
 .model-loading {
@@ -613,7 +635,7 @@ body::before {
     left: 0;
     right: 0;
     z-index: 100;
-    background: rgba(15, 29, 46, 0.92);
+    background: rgba(42, 34, 24, 0.92);
     backdrop-filter: blur(10px);
     padding: 12px 20px;
     font-family: var(--font-mono);
@@ -1036,7 +1058,7 @@ body::before {
 
 .footer {
     padding: 12px 20px;
-    background: rgba(15, 29, 46, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
     text-align: center;
@@ -1055,7 +1077,7 @@ body::before {
     justify-content: center;
     width: 32px;
     height: 32px;
-    border: 1px solid rgba(230, 126, 34, 0.5);
+    border: 1px solid rgba(196, 162, 101, 0.5);
     border-radius: 4px;
     color: #f5f5f5;
     margin-left: 15px;
@@ -1064,9 +1086,9 @@ body::before {
 }
 
 .social-link-x:hover {
-    background: #E67E22;
+    background: #555555;
     color: #fff;
-    border-color: #E67E22;
+    border-color: #555555;
 }
 
 /* ============================================
@@ -1078,7 +1100,7 @@ body::before {
     bottom: 20px;
     right: 20px;
     padding: 10px 16px;
-    background: rgba(27, 40, 56, 0.95);
+    background: rgba(42, 34, 24, 0.95);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1234,7 +1256,7 @@ body::before {
 
 .kb-item {
     padding: 10px 12px;
-    background: rgba(15, 29, 46, 0.5);
+    background: rgba(42, 34, 24, 0.5);
     border: 1px solid transparent;
     border-radius: var(--radius);
     cursor: pointer;
@@ -1324,7 +1346,7 @@ body::before {
 }
 
 .modal-content {
-    background: rgba(27, 40, 56, 0.95);
+    background: rgba(42, 34, 24, 0.95);
     backdrop-filter: blur(15px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -1636,16 +1658,28 @@ body::before {
 }
 
 .live-badge {
-    background: var(--accent);
-    color: var(--bg-primary);
-    border: 2px solid var(--accent-dim);
+    background: #00c853;
+    color: #ffffff;
+    border: 2px solid #00e676;
     font-weight: 600;
+    box-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(0, 230, 118, 0.8);
+    }
 }
 
 .voice-btn.active {
-    background: var(--bg-secondary);
-    border: 2px solid var(--accent);
-    color: var(--accent);
+    background: rgba(0, 200, 83, 0.15);
+    border: 2px solid #00c853;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
 }
 
 /* Bar Styling - Flat design */
@@ -1661,9 +1695,9 @@ body::before {
     background: var(--pink);
 }
 
-/* Alien Model Viewer - Dark green gradient */
+/* African Savanna Model Viewer - Earthy gradient */
 .model-viewer {
-    background: linear-gradient(135deg, #0a120a 0%, #0f1a0f 50%, #0a120a 100%) !important;
+    background: linear-gradient(135deg, #1a1410 0%, #2a2218 50%, #1a1410 100%) !important;
     border: 2px solid var(--border);
     flex: 1 1 auto !important;
 }
@@ -1685,9 +1719,8 @@ body::before {
     font-weight: 600;
 }
 
-/* Alien Header Styling - Clean */
+/* Shiba Header Styling - Clean */
 .logo {
-    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     color: var(--accent);
 }
@@ -1721,9 +1754,9 @@ body::before {
     flex: 1;
     padding: 6px 4px;
     background: var(--bg-secondary);
-    border: 1px solid var(--border);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
     border-radius: var(--radius);
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.7);
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.02em;
@@ -1735,14 +1768,17 @@ body::before {
 
 .archives-btn:hover {
     background: var(--bg-hover);
-    border-color: var(--border-light);
-    color: var(--text-secondary);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
 }
 
 .archives-btn.active {
-    background: var(--bg-hover);
-    border-color: var(--accent);
-    color: var(--text-primary);
+    background: rgba(0, 200, 83, 0.15);
+    border-color: #00c853;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
 }
 
 /* Link buttons - same style as buttons */
@@ -1772,9 +1808,11 @@ body::before {
 }
 
 .filter-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg-primary);
+    background: rgba(0, 200, 83, 0.2);
+    border-color: #00c853;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);
 }
 
 /* Feed Content */
@@ -1938,7 +1976,7 @@ body::before {
     align-items: center;
     justify-content: center;
     padding: 16px 12px;
-    background: rgba(15, 29, 46, 0.4);
+    background: rgba(42, 34, 24, 0.4);
     border-top: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.15s ease;
@@ -2043,7 +2081,7 @@ body::before {
 
 .feed-card.user-knowledge:hover {
     background: var(--bg-hover);
-    box-shadow: 0 0 15px rgba(167, 139, 250, 0.2);
+    box-shadow: 0 0 15px rgba(196, 162, 101, 0.2);
 }
 
 /* Knowledge category */
@@ -2073,7 +2111,7 @@ body::before {
     bottom: 20px;
     right: 20px;
     width: 280px;
-    background: rgba(10, 20, 30, 0.95);
+    background: rgba(26, 20, 16, 0.95);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -2105,7 +2143,7 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: rgba(15, 29, 46, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border-bottom: 1px solid var(--border);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
@@ -2150,11 +2188,11 @@ body::before {
     font-weight: 600;
     letter-spacing: 0.1em;
     color: var(--aurora-purple);
-    background: rgba(167, 139, 250, 0.15);
+    background: rgba(196, 162, 101, 0.15);
     padding: 3px 8px;
     border-radius: var(--radius);
     display: inline-block;
-    border: 1px solid rgba(167, 139, 250, 0.3);
+    border: 1px solid rgba(196, 162, 101, 0.3);
 }
 
 .view-url {

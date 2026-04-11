@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BILU</title>
-    <meta name="description" content="BILU - Your extraterrestrial intelligence companion. An advanced alien system for crypto and cosmic wisdom.">
-    <meta name="keywords" content="BILU, alien, ET, cryptocurrency, space, cosmic intelligence">
+    <title>Gogo</title>
+    <link rel="icon" type="image/png" href="./public/images/favicon.png">
+    <link rel="apple-touch-icon" href="./public/images/favicon.png">
+    <meta name="description" content="Gogo - The sharpest mind swinging through the markets. Primal intelligence for crypto and finance.">
+    <meta name="keywords" content="Gogo, cryptocurrency, meme token, crypto">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="BILU">
-    <meta property="og:description" content="Your extraterrestrial intelligence companion. An advanced alien system for crypto and cosmic wisdom.">
+    <meta property="og:title" content="Gogo">
+    <meta property="og:description" content="The sharpest mind swinging through the markets. Primal intelligence for crypto and finance.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="BILU">
-    <meta property="twitter:description" content="Your extraterrestrial intelligence companion. An advanced alien system for crypto and cosmic wisdom.">
+    <meta property="twitter:title" content="Gogo">
+    <meta property="twitter:description" content="The sharpest mind swinging through the markets. Primal intelligence for crypto and finance.">
+
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="shortcut icon" href="/public/images/favicon.png">
+    <link rel="apple-touch-icon" href="/public/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Model Viewer not needed - using Three.js with GLB camera -->
+    <!-- <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script> -->
 </head>
 <body>
     <div class="app">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <span class="logo">BILU</span>
+                <span class="logo">GOGO</span>
                 <span class="version">V1.0</span>
                 <span class="status-badge">
                     <span class="status-dot"></span>
-                    BILU ONLINE
+                    GOGO ONLINE
                 </span>
             </div>
             <div class="header-center">
@@ -43,7 +52,7 @@
                     <span class="network-dot"></span>
                     NETWORK: ONLINE
                 </span>
-                <div class="wallet-address" id="walletAddress">
+                <div class="wallet-address" id="walletAddress" onclick="copyCA()" title="Click to copy">
                     CA SOON
                 </div>
                 <div class="voice-controls">
@@ -66,12 +75,12 @@
                 <!-- Radio Section -->
                 <section class="panel">
                     <div class="panel-header">
-                        <span class="panel-title">🎵 BILU LO-FI</span>
-                        <span class="panel-badge">DOGE DJ</span>
+                        <span class="panel-title">GOGO LO-FI</span>
+                        <span class="panel-badge">GOGO DJ</span>
                     </div>
                     <div class="radio-container">
                         <div class="radio-info">
-                            <span class="radio-station" id="radioStation">Tokyo Chill Beats</span>
+                            <span class="radio-station" id="radioStation">Jungle Groove Sessions</span>
                         </div>
                         <div class="radio-controls">
                             <button class="radio-btn" id="radioPlayPause">pause</button>
@@ -91,27 +100,28 @@
                 <div class="model-viewer" id="modelViewer">
                     <!-- Speaking Bar (overlay) -->
                     <div class="speaking-bar" id="speakingBar">
-                        <span class="speaking-label">🎤 BILU SPEAKING</span>
+                        <span class="speaking-label">GOGO SPEAKING</span>
                         <span class="speaking-text" id="speakingText">...</span>
                     </div>
 
                     <!-- Tank View (bottom-right popup) -->
                     <div class="tank-view" id="tankView">
                         <div class="tank-view-header">
-                            <span>BILU VIEW</span>
+                            <span>GOGO VIEW</span>
                             <button class="close-view" id="closeTankView">&times;</button>
                         </div>
                         <div class="tank-view-content">
-                            <p class="view-source" id="viewSource">BILU TIMES</p>
+                            <p class="view-source" id="viewSource">GOGO TIMES</p>
                             <p class="view-type" id="viewType">KNOWLEDGE</p>
                             <p class="view-url" id="viewUrl"></p>
                             <a class="view-link" id="viewLink" href="#" target="_blank">OPEN IN NEW TAB &rarr;</a>
                         </div>
                     </div>
 
+                    <!-- Three.js canvas with GLB embedded camera -->
                     <canvas id="canvas3d"></canvas>
                     <div class="model-loading" id="modelLoading">
-                        <span>Loading model...</span>
+                        <span>Loading Gogo model...</span>
                     </div>
                 </div>
 
@@ -119,7 +129,7 @@
                 <div class="speech-container">
                     <div class="speech-log" id="speechLog">
                         <div class="speech-entry">
-                            <span class="speech-text">I am BILU, your extraterrestrial intelligence from the cosmos.</span>
+                            <span class="speech-text">I am Gogo, the sharpest mind swinging through the markets.</span>
                         </div>
                     </div>
                 </div>
@@ -183,10 +193,10 @@
                     </div>
                 </section>
 
-                <!-- BILU Archives - Unified Panel -->
+                <!-- Gogo Archives - Unified Panel -->
                 <section class="panel panel-archives">
                     <div class="panel-header">
-                        <span class="panel-title">🏯 BILU ARCHIVES</span>
+                        <span class="panel-title">GOGO ARCHIVES</span>
                         <span class="panel-badge" id="knowledgeCount">0 items</span>
                     </div>
 
@@ -223,8 +233,8 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <span class="footer-text">BILU V1.0 | Extraterrestrial Intelligence System</span>
-            <a href="https://x.com/_BiluET" target="_blank" rel="noopener noreferrer" class="social-link-x" title="Follow on X">
+            <span class="footer-text">GOGO V1.0 | Primal Intelligence System</span>
+            <a href="https://x.com/GogoTheApe" target="_blank" rel="noopener noreferrer" class="social-link-x" title="Follow on X">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
@@ -235,7 +245,7 @@
         <div class="modal" id="modalUpload">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="modal-title">🏯 ADD KNOWLEDGE</span>
+                    <span class="modal-title">ADD KNOWLEDGE</span>
                     <button class="modal-close" id="closeUploadModal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -274,7 +284,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn-secondary" id="cancelUpload">Cancel</button>
-                    <button class="btn-primary" id="confirmUpload">💾 SAVE KNOWLEDGE</button>
+                    <button class="btn-primary" id="confirmUpload">SAVE KNOWLEDGE</button>
                 </div>
             </div>
         </div>
@@ -359,7 +369,7 @@
     <!-- CA Copy Function -->
     <script>
     function copyCA() {
-        const ca = "6qVooLx4tbabk6zKaAtna9rTGeuE1wa5SK7fvQy5pump";
+        const ca = "SOON";
         navigator.clipboard.writeText(ca);
 
         // Show feedback
@@ -371,5 +381,7 @@
         }, 1500);
     }
     </script>
+
+    <!-- Three.js handles model loading with GLB embedded camera -->
 </body>
 </html>

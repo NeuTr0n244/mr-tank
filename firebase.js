@@ -1,13 +1,13 @@
 /**
- * KIMCHI - FIREBASE REAL-TIME DATABASE
- * Synchronizes data across all users in real-time
+ * MR. TRUNK - FIREBASE REAL-TIME DATABASE
+ * Deep Sea Data Synchronization
  */
 
 // ============================================
 // FIREBASE CONFIGURATION
 // ============================================
 
-// Firebase Configuration - KIMCHI Real-Time Database
+// Firebase Configuration - MR. TRUNK Real-Time Database
 const firebaseConfig = {
     apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
     authDomain: "tank-c748f.firebaseapp.com",
@@ -80,7 +80,7 @@ async function addKnowledgeToFirebase(knowledge) {
 function listenToKnowledge(callback) {
     if (!isFirebaseAvailable()) {
         // Fallback: load from localStorage
-        const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+        const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
         callback(items);
         return () => {}; // Return empty unsubscribe function
     }
@@ -97,7 +97,7 @@ function listenToKnowledge(callback) {
         }, (error) => {
             console.error('Error listening to knowledge:', error);
             // Fallback to localStorage
-            const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+            const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
             callback(items);
         });
 }
@@ -109,7 +109,7 @@ function listenToKnowledge(callback) {
 function listenToKnowledgeWithChanges(callback) {
     if (!isFirebaseAvailable()) {
         // Fallback: load from localStorage
-        const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+        const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
         callback(items, []);
         return () => {}; // Return empty unsubscribe function
     }
@@ -137,7 +137,7 @@ function listenToKnowledgeWithChanges(callback) {
         }, (error) => {
             console.error('❌ Error listening to knowledge:', error);
             // Fallback to localStorage
-            const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+            const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
             callback(items, []);
         });
 }
@@ -408,7 +408,7 @@ async function addRemarkToFirebase(remark) {
  */
 function listenToRemarks(callback) {
     if (!isFirebaseAvailable()) {
-        const remarks = JSON.parse(localStorage.getItem('tank_remarks') || '[]');
+        const remarks = JSON.parse(localStorage.getItem('trunk_remarks') || '[]');
         callback(remarks);
         return () => {};
     }
@@ -424,7 +424,7 @@ function listenToRemarks(callback) {
             callback(items);
         }, (error) => {
             console.error('Error listening to remarks:', error);
-            const remarks = JSON.parse(localStorage.getItem('tank_remarks') || '[]');
+            const remarks = JSON.parse(localStorage.getItem('trunk_remarks') || '[]');
             callback(remarks);
         });
 }
@@ -441,11 +441,11 @@ function listenToRemarks(callback) {
 async function markNewsAsSpoken(newsId) {
     if (!isFirebaseAvailable()) {
         // Fallback to localStorage
-        const spoken = JSON.parse(localStorage.getItem('tank_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('trunk_spoken_news') || '[]');
         if (!spoken.includes(newsId)) {
             spoken.push(newsId);
             if (spoken.length > 500) spoken.shift();
-            localStorage.setItem('tank_spoken_news', JSON.stringify(spoken));
+            localStorage.setItem('trunk_spoken_news', JSON.stringify(spoken));
         }
         return { success: true };
     }
@@ -471,7 +471,7 @@ async function markNewsAsSpoken(newsId) {
 async function wasNewsSpoken(newsId) {
     if (!isFirebaseAvailable()) {
         // Fallback to localStorage
-        const spoken = JSON.parse(localStorage.getItem('tank_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('trunk_spoken_news') || '[]');
         return spoken.includes(newsId);
     }
 
@@ -490,7 +490,7 @@ async function wasNewsSpoken(newsId) {
  */
 async function getAllSpokenNews() {
     if (!isFirebaseAvailable()) {
-        const spoken = JSON.parse(localStorage.getItem('tank_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('trunk_spoken_news') || '[]');
         return spoken;
     }
 
@@ -516,7 +516,7 @@ async function getAllSpokenNews() {
  */
 async function saveWatchlistToFirebase(symbols) {
     if (!isFirebaseAvailable()) {
-        localStorage.setItem('tank_watchlist', JSON.stringify(symbols));
+        localStorage.setItem('trunk_watchlist', JSON.stringify(symbols));
         return { success: true };
     }
 
@@ -528,7 +528,7 @@ async function saveWatchlistToFirebase(symbols) {
         return { success: true };
     } catch (error) {
         console.error('Error saving watchlist:', error);
-        localStorage.setItem('tank_watchlist', JSON.stringify(symbols));
+        localStorage.setItem('trunk_watchlist', JSON.stringify(symbols));
         return { success: false };
     }
 }
@@ -538,7 +538,7 @@ async function saveWatchlistToFirebase(symbols) {
  */
 function listenToWatchlist(callback) {
     if (!isFirebaseAvailable()) {
-        const symbols = JSON.parse(localStorage.getItem('tank_watchlist') || '[]');
+        const symbols = JSON.parse(localStorage.getItem('trunk_watchlist') || '[]');
         callback(symbols);
         return () => {};
     }
@@ -552,7 +552,7 @@ function listenToWatchlist(callback) {
             }
         }, (error) => {
             console.error('Error listening to watchlist:', error);
-            const symbols = JSON.parse(localStorage.getItem('tank_watchlist') || '[]');
+            const symbols = JSON.parse(localStorage.getItem('trunk_watchlist') || '[]');
             callback(symbols);
         });
 }
@@ -562,18 +562,18 @@ function listenToWatchlist(callback) {
 // ============================================
 
 function addKnowledgeToLocal(knowledge) {
-    const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+    const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
     knowledge.id = 'local_' + Date.now();
     knowledge.timestamp = Date.now();
     items.unshift(knowledge);
-    localStorage.setItem('tank_knowledge_db', JSON.stringify(items));
+    localStorage.setItem('trunk_knowledge_db', JSON.stringify(items));
     return { success: true, id: knowledge.id };
 }
 
 function deleteKnowledgeFromLocal(id) {
-    const items = JSON.parse(localStorage.getItem('tank_knowledge_db') || '[]');
+    const items = JSON.parse(localStorage.getItem('trunk_knowledge_db') || '[]');
     const filtered = items.filter(item => item.id !== id);
-    localStorage.setItem('tank_knowledge_db', JSON.stringify(filtered));
+    localStorage.setItem('trunk_knowledge_db', JSON.stringify(filtered));
     return { success: true };
 }
 
@@ -622,10 +622,10 @@ function saveStatusToLocal(status) {
 }
 
 function addRemarkToLocal(remark) {
-    const remarks = JSON.parse(localStorage.getItem('tank_remarks') || '[]');
+    const remarks = JSON.parse(localStorage.getItem('trunk_remarks') || '[]');
     remark.timestamp = Date.now();
     remarks.unshift(remark);
-    localStorage.setItem('tank_remarks', JSON.stringify(remarks.slice(0, 50)));
+    localStorage.setItem('trunk_remarks', JSON.stringify(remarks.slice(0, 50)));
     return { success: true };
 }
 

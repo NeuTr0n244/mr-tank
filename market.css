@@ -1,29 +1,29 @@
 /* ============================================
-   AKAI INU - FINANCIAL TERMINAL
-   Shiba Market Data Theme
+   MR. TRUNK - FINANCIAL TERMINAL
+   African Elephant Theme
    ============================================ */
 
 :root {
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Shiba Dark Theme */
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-hover: rgba(230, 126, 34, 0.08);
+    /* Dark Terminal Theme */
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #1a1a1a;
+    --bg-hover: #3a3a3a;
 
-    --border: rgba(230, 126, 34, 0.15);
-    --border-light: rgba(230, 126, 34, 0.25);
+    --border: rgba(51, 51, 51, 0.8);
+    --border-light: rgba(68, 68, 68, 0.5);
 
-    --text-primary: #f5f5f5;
-    --text-secondary: #a0a0a0;
-    --text-muted: #707070;
+    --text-primary: #e0e0e0;
+    --text-secondary: #999999;
+    --text-muted: #666666;
 
-    --accent: #E67E22;
-    --green: #4ade80;
-    --red: #f87171;
-    --turquoise: #2dd4bf;
-    --aurora-purple: #a78bfa;
-    --pink: #f472b6;
+    --accent: #ffffff;
+    --green: #888888;
+    --red: #ffffff;
+    --turquoise: #888888;
+    --aurora-purple: #888888;
+    --pink: #cccccc;
 
     --radius: 4px;
     --radius-lg: 8px;
@@ -37,7 +37,7 @@
 
 body {
     font-family: var(--font-mono);
-    background: linear-gradient(135deg, #0a1929 0%, #0f2744 50%, #0a1929 100%);
+    background: linear-gradient(135deg, #1a1410 0%, #2a2218 50%, #1a1410 100%);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
@@ -63,7 +63,7 @@ body {
     top: -20px;
     color: rgba(255, 255, 255, 0.4);
     animation: fall linear infinite;
-    text-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
+    text-shadow: 0 0 5px rgba(196, 162, 101, 0.5);
 }
 
 @keyframes fall {
@@ -95,7 +95,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background: rgba(15, 29, 46, 0.9);
+    background: rgba(42, 34, 24, 0.9);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -127,7 +127,7 @@ body {
     font-weight: 600;
     color: var(--accent);
     letter-spacing: 0.1em;
-    text-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
+    text-shadow: 0 0 10px rgba(196, 162, 101, 0.5);
 }
 
 .version {
@@ -145,8 +145,8 @@ body {
     font-size: 11px;
     color: var(--green);
     padding: 4px 10px;
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: rgba(196, 162, 101, 0.1);
+    border: 1px solid rgba(196, 162, 101, 0.3);
     border-radius: var(--radius);
 }
 
@@ -218,7 +218,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    background: rgba(15, 29, 46, 0.9);
+    background: rgba(42, 34, 24, 0.9);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -281,7 +281,7 @@ body {
 }
 
 .column {
-    background: rgba(15, 29, 46, 0.85);
+    background: rgba(42, 34, 24, 0.85);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -295,7 +295,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 10px 15px;
-    background: rgba(10, 25, 41, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border-bottom: 1px solid var(--border);
 }
 
@@ -303,8 +303,8 @@ body {
     font-size: 9px;
     color: var(--accent);
     padding: 2px 6px;
-    background: rgba(230, 126, 34, 0.1);
-    border: 1px solid rgba(230, 126, 34, 0.2);
+    background: rgba(196, 162, 101, 0.1);
+    border: 1px solid rgba(196, 162, 101, 0.2);
     border-radius: var(--radius);
 }
 
@@ -336,7 +336,7 @@ body {
 }
 
 .token-card {
-    background: rgba(10, 25, 41, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 10px;
@@ -398,7 +398,7 @@ body {
     font-size: 8px;
     color: var(--accent);
     padding: 2px 4px;
-    background: rgba(230, 126, 34, 0.1);
+    background: rgba(196, 162, 101, 0.1);
     border-radius: 2px;
     display: inline-block;
     margin-top: 4px;
@@ -429,7 +429,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px;
-    background: rgba(10, 25, 41, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     cursor: pointer;
@@ -488,8 +488,8 @@ body {
 .watchlist-item {
     font-size: 10px;
     padding: 4px 8px;
-    background: rgba(230, 126, 34, 0.1);
-    border: 1px solid rgba(230, 126, 34, 0.2);
+    background: rgba(196, 162, 101, 0.1);
+    border: 1px solid rgba(196, 162, 101, 0.2);
     border-radius: var(--radius);
     color: var(--accent);
     cursor: pointer;
@@ -497,7 +497,7 @@ body {
 }
 
 .watchlist-item:hover {
-    background: rgba(230, 126, 34, 0.2);
+    background: rgba(196, 162, 101, 0.2);
 }
 
 /* ============================================
@@ -514,7 +514,7 @@ body {
 }
 
 .prediction-card {
-    background: rgba(10, 25, 41, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border: 1px solid var(--border);
     border-left: 3px solid var(--aurora-purple);
     border-radius: var(--radius);
@@ -549,12 +549,12 @@ body {
 }
 
 .odds-yes {
-    background: rgba(74, 222, 128, 0.15);
+    background: rgba(196, 162, 101, 0.15);
     color: var(--green);
 }
 
 .odds-no {
-    background: rgba(248, 113, 113, 0.15);
+    background: rgba(196, 162, 101, 0.15);
     color: var(--red);
 }
 
@@ -578,7 +578,7 @@ body {
 
 .remark-item {
     padding: 8px 10px;
-    background: rgba(10, 25, 41, 0.8);
+    background: rgba(42, 34, 24, 0.8);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     font-size: 9px;
@@ -619,7 +619,7 @@ body {
 
 .footer {
     padding: 10px 20px;
-    background: rgba(15, 29, 46, 0.9);
+    background: rgba(42, 34, 24, 0.9);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -697,7 +697,7 @@ body {
     font-size: 11px;
     font-weight: 600;
     color: var(--text-primary);
-    background: rgba(230, 126, 34, 0.15);
+    background: rgba(196, 162, 101, 0.15);
     border: 1px solid var(--accent);
     border-radius: var(--radius);
     padding: 6px 12px;
@@ -707,9 +707,9 @@ body {
 }
 
 .add-token-btn:hover {
-    background: rgba(230, 126, 34, 0.25);
+    background: rgba(196, 162, 101, 0.25);
     transform: translateY(-1px);
-    box-shadow: 0 0 15px rgba(230, 126, 34, 0.3);
+    box-shadow: 0 0 15px rgba(196, 162, 101, 0.3);
 }
 
 .add-token-btn:active {
@@ -728,7 +728,7 @@ body {
     font-size: 14px;
     font-weight: 700;
     color: var(--text-muted);
-    background: rgba(10, 25, 41, 0.9);
+    background: rgba(26, 20, 16, 0.9);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     width: 20px;
@@ -752,7 +752,7 @@ body {
 .token-remove:hover {
     color: var(--red);
     border-color: var(--red);
-    background: rgba(248, 113, 113, 0.15);
+    background: rgba(196, 162, 101, 0.15);
 }
 
 /* ============================================
@@ -765,7 +765,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 25, 41, 0.9);
+    background: rgba(26, 20, 16, 0.9);
     backdrop-filter: blur(10px);
     z-index: 9999;
     display: flex;
@@ -859,7 +859,7 @@ body {
 
 .modal-body input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+    box-shadow: 0 0 0 3px rgba(196, 162, 101, 0.1);
 }
 
 .modal-body input::placeholder {
@@ -906,11 +906,11 @@ body {
 
 .modal-btn.confirm {
     color: var(--text-primary);
-    background: rgba(230, 126, 34, 0.15);
+    background: rgba(196, 162, 101, 0.15);
     border: 1px solid var(--accent);
 }
 
 .modal-btn.confirm:hover {
-    background: rgba(230, 126, 34, 0.25);
-    box-shadow: 0 0 15px rgba(230, 126, 34, 0.3);
+    background: rgba(196, 162, 101, 0.25);
+    box-shadow: 0 0 15px rgba(196, 162, 101, 0.3);
 }

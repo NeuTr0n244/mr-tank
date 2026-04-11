@@ -1,6 +1,6 @@
 /**
- * KNOWLEDGE GRAPH - BILU
- * 3D Visualization with Three.js
+ * KNOWLEDGE GRAPH - MR. TRUNK
+ * Deep Sea Intelligence Network - 3D Visualization
  */
 
 import * as THREE from 'three';
@@ -10,20 +10,20 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // CONFIGURATION
 // ============================================
 
-// Arctic theme colors (matching main page)
+// Deep sea gray theme (matching main page)
 const TYPE_COLORS = {
-    'Note': { color: 0x88d4f7, name: 'KNOWLEDGE', emoji: '❄️' },
-    'Fact': { color: 0x4fd1c5, name: 'FACTS', emoji: '🧊' },
-    'Link': { color: 0x4adeab, name: 'JOURNAL', emoji: '🌿' },
-    'Article': { color: 0xa78bfa, name: 'OBSERVATION', emoji: '🔮' },
-    'Quote': { color: 0xf788b0, name: 'NEWS', emoji: '📰' },
-    'Market': { color: 0x5bb8e0, name: 'MARKET', emoji: '📊' },
-    'Prediction': { color: 0xa78bfa, name: 'PREDICTION', emoji: '🔮' },
-    'Art': { color: 0xf59e0b, name: 'ART', emoji: '🎨' },
-    'Meme': { color: 0xf788b0, name: 'MEMES', emoji: '🐧' },
-    'Tweet': { color: 0x88d4f7, name: 'TWEETS', emoji: '🐦' },
-    'Entry': { color: 0xe8f4f8, name: 'ENTRY', emoji: '📝' },
-    'Other': { color: 0x5a7a8a, name: 'OTHER', emoji: '❄️' }
+    'Note': { color: 0xa0a0a0, name: 'KNOWLEDGE', emoji: '🐋' },
+    'Fact': { color: 0x888888, name: 'FACTS', emoji: '⚓' },
+    'Link': { color: 0x666666, name: 'JOURNAL', emoji: '🌊' },
+    'Article': { color: 0x777777, name: 'OBSERVATION', emoji: '🔱' },
+    'Quote': { color: 0x999999, name: 'NEWS', emoji: '📰' },
+    'Market': { color: 0x8a8a8a, name: 'MARKET', emoji: '📊' },
+    'Prediction': { color: 0x7a7a7a, name: 'PREDICTION', emoji: '🔮' },
+    'Art': { color: 0x6a6a6a, name: 'ART', emoji: '🎨' },
+    'Meme': { color: 0x8f8f8f, name: 'MEMES', emoji: '🐋' },
+    'Tweet': { color: 0x959595, name: 'TWEETS', emoji: '🐦' },
+    'Entry': { color: 0xa5a5a5, name: 'ENTRY', emoji: '📝' },
+    'Other': { color: 0x5a5a5a, name: 'OTHER', emoji: '⚓' }
 };
 
 // ============================================
@@ -188,7 +188,7 @@ function loadKnowledge() {
 
 // Fallback to localStorage
 function loadKnowledgeFromLocal() {
-    const stored = localStorage.getItem('tank_knowledge_db');
+    const stored = localStorage.getItem('trunk_knowledge_db');
     if (stored) {
         try {
             STATE.knowledgeDB = JSON.parse(stored);
@@ -290,7 +290,7 @@ function createCentralHub() {
     STATE.scene.add(glow);
 
     // Label
-    addLabel('BILU', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
+    addLabel('MR. TRUNK', new THREE.Vector3(0, 5, 0), 0xe0e0e0);
 }
 
 function createNodes() {

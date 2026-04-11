@@ -1,29 +1,29 @@
 /* GOGO V1.0 - Dark Terminal Theme */
 
 :root {
-    --bg-primary: #0d0d0d;
-    --bg-secondary: #1a1a1a;
-    --bg-panel: #1a1a1a;
-    --bg-hover: #3a3a3a;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-panel: #141414;
+    --bg-hover: #2a2a2a;
 
-    --text-primary: #e0e0e0;
-    --text-secondary: #999999;
-    --text-muted: #666666;
+    --text-primary: #f0f0f0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888888;
 
-    --accent: #ffffff;
-    --accent-hover: #f0f0f0;
-    --accent-dim: #888888;
-    --accent-glow: rgba(255, 255, 255, 0.2);
+    --accent: #00c853;
+    --accent-hover: #00e676;
+    --accent-dim: #00813a;
+    --accent-glow: rgba(0, 200, 83, 0.25);
     --cream: #2a2a2a;
     --brown: #242424;
-    --green: #888888;
-    --blue: #888888;
+    --green: #00c853;
+    --blue: #00c853;
     --pink: #cccccc;
-    --red: #ffffff;
+    --red: #ff4444;
 
-    --border: rgba(51, 51, 51, 0.8);
-    --border-solid: #333333;
-    --border-light: rgba(68, 68, 68, 0.5);
+    --border: rgba(0, 200, 83, 0.15);
+    --border-solid: #2a2a2a;
+    --border-light: rgba(0, 200, 83, 0.1);
 
     --font-mono: 'Tahoma', 'Arial', sans-serif;
     --font-sans: 'Tahoma', 'Arial', sans-serif;
@@ -106,12 +106,12 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    background: var(--bg-panel);
-    border-bottom: 2px solid var(--border-solid);
+    background: #0f0f0f;
+    border-bottom: 1px solid rgba(0, 200, 83, 0.3);
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 1px 20px rgba(0, 200, 83, 0.08);
 }
 
 .header-left {
@@ -124,14 +124,18 @@ body::before {
     font-family: var(--font-mono);
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    color: var(--text-primary);
+    letter-spacing: 0.1em;
+    color: #00c853;
+    text-shadow: 0 0 10px rgba(0, 200, 83, 0.4);
 }
 
 .version {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--text-muted);
+    color: #00813a;
+    background: rgba(0, 200, 83, 0.08);
+    padding: 2px 6px;
+    border: 1px solid rgba(0, 200, 83, 0.2);
 }
 
 .status-badge {
@@ -141,10 +145,10 @@ body::before {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.1em;
-    color: var(--text-primary);
+    color: #00c853;
     padding: 4px 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 200, 83, 0.08);
+    border: 1px solid rgba(0, 200, 83, 0.25);
     border-radius: var(--radius);
 }
 
@@ -171,12 +175,13 @@ body::before {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.15em;
-    color: var(--accent);
+    color: #00e676;
     padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 200, 83, 0.12);
+    border: 1px solid rgba(0, 200, 83, 0.4);
     border-radius: var(--radius);
     animation: livePulse 1.5s infinite;
+    text-shadow: 0 0 8px rgba(0, 230, 118, 0.5);
 }
 
 @keyframes livePulse {
@@ -235,10 +240,10 @@ body::before {
 .wallet-address {
     font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--text-muted);
+    color: #aaaaaa;
     padding: 6px 10px;
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
+    background: rgba(0, 200, 83, 0.05);
+    border: 1px solid rgba(0, 200, 83, 0.15);
     border-radius: var(--radius);
     cursor: pointer;
     transition: opacity 0.2s, transform 0.2s;
@@ -253,14 +258,14 @@ body::before {
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 600;
-    color: var(--accent);
+    color: #f0f0f0;
     letter-spacing: 0.05em;
 }
 
 .clock-date {
     font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--text-secondary);
+    color: #888888;
     letter-spacing: 0.05em;
 }
 
@@ -270,16 +275,16 @@ body::before {
     gap: 6px;
     font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--green);
+    color: #00c853;
     letter-spacing: 0.05em;
 }
 
 .network-dot {
     width: 6px;
     height: 6px;
-    background: var(--green);
+    background: #00c853;
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(196, 162, 101, 0.5);
+    box-shadow: 0 0 6px rgba(0, 200, 83, 0.8);
     animation: pulse 2s infinite;
 }
 

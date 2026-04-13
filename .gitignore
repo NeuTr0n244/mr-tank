@@ -7,6 +7,3 @@ nul
 
 # API keys configuration
 config.js
-
-# GLB models in root (keep only in public/models/)
-/*.glb

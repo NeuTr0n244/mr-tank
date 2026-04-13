@@ -1,19 +1,17 @@
 /**
- * GOGO V1.0
- * Jungle Market Intelligence System
+ * YUKI V1.0
+ * Continuously Learning Agentic Realtime Knowledgebase
  */
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ============================================
 // CONFIGURATION
 // ============================================
 
 const CONFIG = {
-    // CORRECAO: Caminho atualizado para servir corretamente na Vercel (pasta public/)
-    modelPath: './public/models/mrape1.glb',
+    modelPath: './shibainu.glb',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',
@@ -22,7 +20,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are Gogo, the sharpest mind swinging through the markets. You embody intelligence, cunning, and primal wisdom. You speak with insight and cleverness, making references to jungle canopies, primate strategy, and market patterns. You understand crypto, finance, and strategic positioning. Your responses are short (maximum 2 sentences) and astute. You love making analogies between jungle ecosystems, primate behavior, and market dynamics. You occasionally reference jungle wisdom or treetop perspectives. Always respond in English. Speak like a genius primate who observes all from above.`
+        systemPrompt: `You are Yuki, a powerful and loyal companion. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
     }
 };
 
@@ -32,11 +30,11 @@ const CONFIG = {
 
 const STATE = {
     // API Key - set here or will load from localStorage if previously saved
-    groqApiKey: localStorage.getItem('gogo_groq_key') || localStorage.getItem('gogo_groq_key') || '',
+    groqApiKey: localStorage.getItem('tank_groq_key') || '',
 
     // Voice - always starts ON
     voiceEnabled: true,
-    soundEnabled: localStorage.getItem('gogo_sound_enabled') || localStorage.getItem('gogo_sound_enabled') !== 'false',
+    soundEnabled: localStorage.getItem('tank_sound_enabled') !== 'false',
     isSpeaking: false,
     isWordActive: false,
     wordTimeout: null,
@@ -53,17 +51,14 @@ const STATE = {
     scene: null,
     camera: null,
     renderer: null,
-    controls: null, // OrbitControls - TEMPORARY for positioning
     model: null,
     modelPivot: null,
 
     // Animation
     mixer: null,
     clock: new THREE.Clock(),
-    activeActions: [],
-    isAnimating: false,
 
-    // Mouse tracking for model rotation
+    // Mouse tracking
     targetRotationX: 0,
     targetRotationY: 0,
     currentRotationX: 0,
@@ -92,7 +87,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Gogo Archives
+// Global speech queue for automatic reading of Yuki Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -114,11 +109,11 @@ async function markAsSpoken(newsId) {
         await FirebaseDB.markNewsAsSpoken(newsId);
     } else {
         // Fallback to localStorage if Firebase not available
-        const spoken = JSON.parse(localStorage.getItem('gogo_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('tank_spoken_news') || '[]');
         if (!spoken.includes(newsId)) {
             spoken.push(newsId);
             if (spoken.length > 500) spoken.shift();
-            localStorage.setItem('gogo_spoken_news', JSON.stringify(spoken));
+            localStorage.setItem('tank_spoken_news', JSON.stringify(spoken));
         }
     }
 }
@@ -133,7 +128,7 @@ async function wasAlreadySpoken(newsId) {
         return await FirebaseDB.wasNewsSpoken(newsId);
     } else {
         // Fallback to localStorage
-        const spoken = JSON.parse(localStorage.getItem('gogo_spoken_news') || '[]');
+        const spoken = JSON.parse(localStorage.getItem('tank_spoken_news') || '[]');
         return spoken.includes(newsId);
     }
 }
@@ -200,7 +195,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Gogo can NEVER be interrupted
+ * CRITICAL RULE: Yuki can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -469,7 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Then initialize everything else
     initClock();
-    // Three.js with GLB embedded camera
     initThreeJS();
     initVoice();
     initRadio();
@@ -482,9 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initArcticEffects();
     initAutoObservations();
     initTimestampUpdater();
-
-    // TEMPORARY: Camera position logger
-    setupCameraPositionLogger();
 });
 
 // ============================================
@@ -522,7 +513,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Gogo
+                addKnowledgeToCards(item, false); // false = don't trigger Yuki
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -539,8 +530,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Gogo reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Gogo
+                        // Add to cards and trigger Yuki reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Yuki
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -793,107 +784,52 @@ function initThreeJS() {
     const container = document.getElementById('modelViewer');
     const canvas = document.getElementById('canvas3d');
 
-    // Scene - Deep sea gray background
+    // Scene - Ice blue background
     STATE.scene = new THREE.Scene();
-    STATE.scene.background = new THREE.Color(0x252525);
+    STATE.scene.background = new THREE.Color(0xccd6e3);
 
-    // Camera - TEMPORARY: Full control enabled for positioning
+    // Camera - focused on face (high position looking at head)
     const aspect = container.clientWidth / container.clientHeight;
     STATE.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    STATE.camera.position.set(6.09, 3.47, 0.37);
-    STATE.camera.up.set(0, 1, 0); // Ensure camera is upright
+    STATE.camera.position.set(0, 2.5, 3);
 
-    // OrbitControls - TEMPORARY for manual positioning with FULL FREEDOM
-    STATE.controls = new OrbitControls(STATE.camera, canvas);
-    STATE.controls.target.set(0.41, 4.28, 0.37);
-
-    // Enable ALL controls
-    STATE.controls.enableRotate = true;
-    STATE.controls.enableZoom = true;
-    STATE.controls.enablePan = true;
-    STATE.controls.enableDamping = true;
-    STATE.controls.dampingFactor = 0.05;
-
-    // Distance limits
-    STATE.controls.minDistance = 0.1;
-    STATE.controls.maxDistance = 100;
-
-    // Mouse button configuration
-    STATE.controls.mouseButtons = {
-        LEFT: THREE.MOUSE.ROTATE,
-        MIDDLE: THREE.MOUSE.DOLLY,
-        RIGHT: THREE.MOUSE.PAN
-    };
-
-    // Pan mode
-    STATE.controls.screenSpacePanning = true;  // Changed to true for better pan
-
-    // No restrictions on rotation
-    STATE.controls.minPolarAngle = 0;
-    STATE.controls.maxPolarAngle = Math.PI;
-    STATE.controls.minAzimuthAngle = -Infinity;
-    STATE.controls.maxAzimuthAngle = Infinity;
-
-    STATE.controls.update();
-
-    // Renderer - dark terminal background with physically correct lighting
+    // Renderer - ice blue background
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    STATE.renderer.setClearColor(0x252525, 1);
+    STATE.renderer.setClearColor(0xccd6e3, 1);
     STATE.renderer.setSize(container.clientWidth, container.clientHeight);
     STATE.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    STATE.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    STATE.renderer.toneMappingExposure = 1.0;
 
-    // CONFIGURACAO ESSENCIAL PARA TEXTURAS CORRETAS
-    STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;  // Cores corretas
-    STATE.renderer.toneMapping = THREE.ACESFilmicToneMapping; // Tom cinematografico
-    STATE.renderer.toneMappingExposure = 2.0;                 // Exposicao realista - modelo bem visivel
-    STATE.renderer.shadowMap.enabled = true;
-    STATE.renderer.shadowMap.type = THREE.PCFSoftShadowMap;   // Sombras suaves
-    // physicallyCorrectLights DESATIVADO - com ele ligado as luzes ficam MUITO mais fracas
-    // STATE.renderer.physicallyCorrectLights = true;
+    // Lighting - Arctic Aurora Theme
+    const ambient = new THREE.AmbientLight(0x88a4b8, 0.4);
+    STATE.scene.add(ambient);
 
-    // ============================================
-    // ILUMINACAO CINEMATOGRAFICA REALISTA
-    // 3-point lighting profissional - modelo BEM VISIVEL
-    // ============================================
+    const mainLight = new THREE.DirectionalLight(0xe8f4f8, 1);
+    mainLight.position.set(5, 10, 7);
+    STATE.scene.add(mainLight);
 
-    // 1. AMBIENT - preenche sombras para nada ficar 100% preto
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-    STATE.scene.add(ambientLight);
+    // Aurora green light
+    const auroraLight = new THREE.DirectionalLight(0x4adeab, 0.3);
+    auroraLight.position.set(-5, 8, -5);
+    STATE.scene.add(auroraLight);
 
-    // 2. HEMISPHERE - simula ceu claro + chao escuro
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
-    hemiLight.position.set(0, 10, 0);
-    STATE.scene.add(hemiLight);
-
-    // 3. KEY LIGHT - luz principal forte, lateral, cor quente
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    keyLight.position.set(-3, 5, 2);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
-    keyLight.shadow.camera.near = 0.1;
-    keyLight.shadow.camera.far = 20;
-    keyLight.shadow.bias = -0.001;
-    STATE.scene.add(keyLight);
-
-    // 4. FILL LIGHT - lado oposto, cor fria, metade da key
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    fillLight.position.set(3, 3, -1);
-    STATE.scene.add(fillLight);
-
-    // 5. RIM/BACK LIGHT - contorno para separar do fundo
-    const rimLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    rimLight.position.set(0, 4, -4);
+    // Ice blue rim light
+    const rimLight = new THREE.DirectionalLight(0x88d4f7, 0.4);
+    rimLight.position.set(0, -5, -10);
     STATE.scene.add(rimLight);
 
-    // 6. FRONT FILL - luz frontal suave para iluminar o rosto
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    frontLight.position.set(0, 2, 5);
-    STATE.scene.add(frontLight);
+    // Subtle pink aurora accent
+    const pinkLight = new THREE.PointLight(0xf788b0, 0.2, 50);
+    pinkLight.position.set(10, 5, -10);
+    STATE.scene.add(pinkLight);
 
-    // Mouse tracking - Model follows cursor
+    // Camera looks at head position
+    STATE.camera.lookAt(0, 2.0, 0);
+
+    // Mouse tracking - tank follows cursor
     document.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('mouseleave', onMouseLeave);
 
     // Load Model
     loadModel();
@@ -905,108 +841,24 @@ function initThreeJS() {
     animate();
 }
 
-// CORRECAO: Funcao loadModel refatorada com tratamento robusto de erros
 function loadModel() {
     const loader = new GLTFLoader();
     const loadingEl = document.getElementById('modelLoading');
 
-    console.log('========================================');
-    console.log('📦 INICIANDO CARREGAMENTO DO MODELO 3D');
-    console.log('   Caminho:', CONFIG.modelPath);
-    console.log('   Timestamp:', new Date().toLocaleTimeString());
-    console.log('========================================');
-
-    if (loadingEl) {
-        loadingEl.textContent = 'Loading Gogo model...';
-        loadingEl.classList.remove('hidden');
-    }
-
-    // CORRECAO: Envolver o carregamento em try/catch para melhor tratamento de erros
-    try {
-        loader.load(
-            CONFIG.modelPath,
-            (gltf) => {
-                // SUCCESS CALLBACK - Modelo carregado com sucesso
-                try {
-                    console.log('========================================');
-                    console.log('✅ MODELO CARREGADO COM SUCESSO');
-                    console.log('========================================');
-
-                    if (loadingEl) loadingEl.textContent = 'Processing model...';
-                    STATE.model = gltf.scene;
+    loader.load(
+        CONFIG.modelPath,
+        (gltf) => {
+            STATE.model = gltf.scene;
 
             // ========================================
-            // USAR A CAMERA DO GLB - NAO CRIAR CAMERA NOVA
-            // ========================================
-            if (gltf.cameras && gltf.cameras.length > 0) {
-                console.log('========================================');
-                console.log('=== USING EMBEDDED GLB CAMERA ===');
-                console.log('Found', gltf.cameras.length, 'camera(s) in GLB');
-
-                STATE.camera = gltf.cameras[0];
-
-                // Ajustar aspect ratio para o tamanho do container
-                const container = document.getElementById('modelViewer');
-                STATE.camera.aspect = container.clientWidth / container.clientHeight;
-                STATE.camera.updateProjectionMatrix();
-
-                console.log('Camera Type:', STATE.camera.type);
-                console.log('Camera Position:', STATE.camera.position);
-                console.log('Camera FOV:', STATE.camera.fov);
-                console.log('Camera Aspect:', STATE.camera.aspect);
-                console.log('========================================');
-            } else {
-                console.warn('⚠️ No camera found in GLB, using default camera');
-            }
-
-            // ========================================
-            // CONFIGURAR MATERIAIS - MANTER CORES ORIGINAIS
-            // Sem escurecer, apenas ajustes de reflexo
+            // DEBUG: Lista TODAS as meshes do modelo
             // ========================================
             console.log('========================================');
-            console.log('=== CONFIGURING MODEL MATERIALS (REALISTIC) ===');
+            console.log('=== MODEL MESHES ===');
             console.log('========================================');
             STATE.model.traverse((child) => {
-                if (child.isMesh && child.material) {
-                    console.log('Mesh:', child.name);
-
-                    // Remover emissao excessiva
-                    child.material.emissive = new THREE.Color(0x000000);
-                    child.material.emissiveIntensity = 0;
-
-                    // Reflexos do ambiente normais
-                    if (child.material.envMapIntensity !== undefined) {
-                        child.material.envMapIntensity = 0.3;
-                        console.log('  ✓ envMapIntensity: 0.3');
-                    }
-
-                    // Roughness original ou levemente aumentado
-                    if (child.material.roughness !== undefined) {
-                        child.material.roughness = Math.max(child.material.roughness, 0.5);
-                        console.log('  ✓ Roughness:', child.material.roughness);
-                    }
-
-                    // Metalness - manter original
-                    if (child.material.metalness !== undefined) {
-                        child.material.metalness = Math.min(child.material.metalness, 0.5);
-                        console.log('  ✓ Metalness:', child.material.metalness);
-                    }
-
-                    // NAO escurecer a cor base - manter 100% original
-                    // (antes estava multiplyScalar 0.6 que escurecia demais)
-
-                    // Garantir encoding correto das texturas
-                    if (child.material.map) {
-                        child.material.map.colorSpace = THREE.SRGBColorSpace;
-                        console.log('  ✓ Texture colorSpace set to SRGB');
-                    }
-
-                    // Ativar sombras
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-
-                    child.material.needsUpdate = true;
-                    console.log('  ✓ Material configured (realistic, original colors)');
+                if (child.isMesh) {
+                    console.log('Name:', child.name, '| Type:', child.type);
                 }
             });
             console.log('========================================');
@@ -1035,62 +887,6 @@ function loadModel() {
             STATE.modelPivot.add(STATE.model);
             STATE.scene.add(STATE.modelPivot);
 
-            // ========================================
-            // CONFIGURAR ORBIT CONTROLS PARA CAMERA DO GLB
-            // ========================================
-            if (gltf.cameras && gltf.cameras.length > 0) {
-                // Calcular o centro do modelo para o target
-                const box = new THREE.Box3().setFromObject(STATE.modelPivot);
-                const center = box.getCenter(new THREE.Vector3());
-
-                // Configurar OrbitControls com o centro do modelo
-                if (STATE.controls) {
-                    STATE.controls.target.copy(center);
-                    STATE.controls.enableDamping = true;
-                    STATE.controls.dampingFactor = 0.05;
-                    STATE.controls.update();
-                }
-
-                console.log('========================================');
-                console.log('=== ORBIT CONTROLS CONFIGURED ===');
-                console.log('Target (Model Center):', center);
-                console.log('Camera Position:', STATE.camera.position);
-                console.log('========================================');
-            } else {
-                // Fallback: posicionamento automático se não houver câmera no GLB
-                const finalBox = new THREE.Box3().setFromObject(STATE.modelPivot);
-                const finalSize = finalBox.getSize(new THREE.Vector3());
-                const finalCenter = finalBox.getCenter(new THREE.Vector3());
-
-                const container = document.getElementById('modelViewer');
-                const containerAspect = container.clientWidth / container.clientHeight;
-
-                const maxDim = Math.max(finalSize.x, finalSize.y, finalSize.z);
-                const fov = STATE.camera.fov * (Math.PI / 180);
-                let cameraDistance = maxDim / (2 * Math.tan(fov / 2));
-
-                if (containerAspect < 1) {
-                    cameraDistance = cameraDistance / containerAspect;
-                }
-
-                cameraDistance *= 1.3;
-
-                STATE.camera.position.set(
-                    finalCenter.x + cameraDistance * 0.3,
-                    finalCenter.y + cameraDistance * 0.2,
-                    finalCenter.z + cameraDistance
-                );
-
-                STATE.camera.lookAt(finalCenter);
-
-                if (STATE.controls) {
-                    STATE.controls.target.copy(finalCenter);
-                    STATE.controls.update();
-                }
-
-                console.log('⚠️ Using fallback auto-framing (no GLB camera)');
-            }
-
             // Save original scale for breathing animation
             STATE.originalScale = {
                 x: STATE.model.scale.x,
@@ -1099,131 +895,42 @@ function loadModel() {
             };
 
             // ========================================
-            // ANIMATION SETUP - Preparar mas NAO tocar animacoes
-            // Animacoes so tocam quando TTS estiver falando
+            // ANIMATION SETUP - Play morph target animations
             // ========================================
             if (gltf.animations && gltf.animations.length > 0) {
                 console.log('========================================');
-                console.log('=== GLB ANIMATIONS FOUND ===');
-                console.log('Found', gltf.animations.length, 'animation(s)');
-
-                STATE.mixer = new THREE.AnimationMixer(STATE.model);
-                STATE.activeActions = [];
-
+                console.log('=== ANIMATIONS FOUND ===');
+                console.log('Number of animations:', gltf.animations.length);
                 gltf.animations.forEach((clip, index) => {
-                    console.log('Animation', index, ':', clip.name);
-                    const action = STATE.mixer.clipAction(clip);
-                    action.play();  // Registrar a acao
-                    action.paused = true;  // Mas manter pausada
-                    STATE.activeActions.push(action);
+                    console.log(`Animation ${index}:`, clip.name, '| Duration:', clip.duration.toFixed(2), 's');
                 });
-
-                console.log('✓ Animations prepared but PAUSED (will play only during TTS)');
                 console.log('========================================');
+
+                // Create AnimationMixer
+                STATE.mixer = new THREE.AnimationMixer(STATE.model);
+
+                // Play all animations in loop
+                gltf.animations.forEach((clip, index) => {
+                    const action = STATE.mixer.clipAction(clip);
+                    action.setLoop(THREE.LoopRepeat);
+                    action.play();
+                    console.log(`✅ Playing animation ${index}: ${clip.name}`);
+                });
             } else {
                 console.log('⚠️ No animations found in model');
             }
 
-            // Final verification
-            console.log('========================================');
-            console.log('=== FINAL MODEL STATE ===');
-            console.log('Mixer exists:', STATE.mixer !== null);
-            console.log('Clock exists:', STATE.clock !== null);
-            console.log('Model loaded:', STATE.model !== null);
-            console.log('Animation loop running: YES (started in initThreeJS)');
-            console.log('========================================');
-
-            if (loadingEl) {
-                loadingEl.classList.add('hidden');
-            }
-            console.log('✅ MODELO TOTALMENTE CARREGADO E PRONTO');
-            console.log('========================================');
-
-                } catch (processingError) {
-                    // CORRECAO: Capturar erros durante o processamento do modelo
-                    console.error('========================================');
-                    console.error('❌ ERRO AO PROCESSAR O MODELO');
-                    console.error('Detalhes:', processingError);
-                    console.error('Stack trace:', processingError.stack);
-                    console.error('========================================');
-
-                    if (loadingEl) {
-                        loadingEl.textContent = 'Erro ao processar modelo - Verifique o console';
-                        loadingEl.style.color = '#ff4444';
-                    }
-                }
-            },
-            (progress) => {
-                // PROGRESS CALLBACK - Atualizar progresso do carregamento
-                if (progress.total > 0) {
-                    const pct = Math.round((progress.loaded / progress.total) * 100);
-                    const loaded = (progress.loaded / 1024 / 1024).toFixed(2);
-                    const total = (progress.total / 1024 / 1024).toFixed(2);
-
-                    if (loadingEl) loadingEl.textContent = `Loading Gogo... ${pct}%`;
-                    console.log(`📊 Progresso: ${pct}% (${loaded}MB / ${total}MB)`);
-                } else {
-                    console.log('📊 Carregando... (tamanho desconhecido)');
-                }
-            },
-            (error) => {
-                // ERROR CALLBACK - CORRECAO: Tratamento robusto de erros de carregamento
-                console.error('========================================');
-                console.error('❌ ERRO AO CARREGAR O MODELO 3D');
-                console.error('========================================');
-                console.error('Caminho do arquivo:', CONFIG.modelPath);
-                console.error('Tipo de erro:', error.constructor.name);
-                console.error('Mensagem:', error.message || 'Sem mensagem de erro');
-                console.error('Stack trace:', error.stack || 'Não disponível');
-                console.error('========================================');
-
-                // Verificações adicionais para ajudar no debug
-                console.error('🔍 DIAGNÓSTICOS:');
-                console.error('   - O arquivo mrape1.glb existe na pasta do projeto?');
-                console.error('   - O caminho está correto? (deve ser ./mrape1.glb)');
-                console.error('   - O servidor está rodando corretamente?');
-                console.error('   - Verifique a aba Network nas DevTools do navegador');
-                console.error('========================================');
-
-                if (loadingEl) {
-                    loadingEl.textContent = '❌ Falha ao carregar modelo - Verifique o console';
-                    loadingEl.style.color = '#ff4444';
-                    loadingEl.style.display = 'block';
-                }
-            }
-        );
-    } catch (setupError) {
-        // CORRECAO: Capturar erros na configuração inicial do loader
-        console.error('========================================');
-        console.error('❌ ERRO FATAL NA CONFIGURAÇÃO DO LOADER');
-        console.error('Detalhes:', setupError);
-        console.error('Stack trace:', setupError.stack);
-        console.error('========================================');
-
-        if (loadingEl) {
-            loadingEl.textContent = 'Erro crítico no carregamento - Verifique o console';
-            loadingEl.style.color = '#ff4444';
+            loadingEl.classList.add('hidden');
+        },
+        (progress) => {
+            const pct = Math.round((progress.loaded / progress.total) * 100);
+            loadingEl.textContent = `Loading... ${pct}%`;
+        },
+        (error) => {
+            console.error('Model load error:', error);
+            loadingEl.textContent = 'Failed to load model';
         }
-    }
-}
-
-// TEMPORARY: Print camera position when pressing "P"
-function setupCameraPositionLogger() {
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'p' || event.key === 'P') {
-            if (!STATE.camera || !STATE.controls) return;
-
-            const pos = STATE.camera.position;
-            const target = STATE.controls.target;
-            const distance = pos.distanceTo(target);
-
-            console.log('\n=== CAMERA POSITION ===');
-            console.log(`CAMERA POSITION: ${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)}`);
-            console.log(`TARGET: ${target.x.toFixed(2)}, ${target.y.toFixed(2)}, ${target.z.toFixed(2)}`);
-            console.log(`DISTANCE: ${distance.toFixed(2)}`);
-            console.log('=======================\n');
-        }
-    });
+    );
 }
 
 function onResize() {
@@ -1238,60 +945,10 @@ function onMouseMove(event) {
     const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
 
-    // Set target rotation with natural direction and proper limits
-    // Horizontal (Y-axis): ±30 degrees = ±0.52 radians
-    // Vertical (X-axis): ±15 degrees = ±0.26 radians
-    STATE.targetRotationY = mouseX * 0.52;  // Right = positive, Left = negative (natural)
-    STATE.targetRotationX = mouseY * 0.26;  // Down = positive, Up = negative (natural)
+    // Set target rotation (max ~15 degrees = 0.26 radians)
+    STATE.targetRotationY = mouseX * 0.25;
+    STATE.targetRotationX = mouseY * 0.1;
 }
-
-function onMouseLeave() {
-    // When mouse leaves canvas, return model to neutral position
-    STATE.targetRotationX = 0;
-    STATE.targetRotationY = 0;
-}
-
-// ============================================
-// FUNCOES PARA CONTROLAR ANIMACAO (VINCULADAS AO TTS)
-// ============================================
-
-function iniciarAnimacao() {
-    if (!STATE.isAnimating && STATE.activeActions.length > 0) {
-        console.log('🎬 Iniciando animacao (TTS started)');
-        STATE.isAnimating = true;
-        STATE.activeActions.forEach(function(action) {
-            action.paused = false;
-            action.timeScale = 1;
-        });
-    }
-}
-
-function pararAnimacao() {
-    if (STATE.isAnimating && STATE.activeActions.length > 0) {
-        console.log('⏸️ Parando animacao (TTS ended)');
-        STATE.isAnimating = false;
-
-        // Fade out suave em vez de parar abruptamente
-        STATE.activeActions.forEach(function(action) {
-            action.fadeOut(0.5);
-        });
-
-        // Apos o fade, resetar para pose inicial
-        setTimeout(function() {
-            STATE.activeActions.forEach(function(action) {
-                action.stop();
-                action.reset();
-                action.play();
-                action.paused = true;
-            });
-            console.log('✓ Animacao resetada para pose inicial');
-        }, 500);
-    }
-}
-
-// Exportar funcoes globalmente para uso no TTS
-window.iniciarAnimacao = iniciarAnimacao;
-window.pararAnimacao = pararAnimacao;
 
 function animate() {
     requestAnimationFrame(animate);
@@ -1300,35 +957,22 @@ function animate() {
     const delta = STATE.clock.getDelta();
     if (STATE.mixer) {
         STATE.mixer.update(delta);
-
-        // Debug: Log delta time occasionally (every 60 frames)
-        if (Math.random() < 0.016) { // ~1 in 60 frames
-            console.log('[ANIMATION] Delta:', delta.toFixed(4), 's | FPS:', (1/delta).toFixed(1));
-        }
     }
 
-    // TEMPORARY: Update OrbitControls
-    if (STATE.controls) {
-        STATE.controls.update();
-    }
-
-    // Smooth mouse follow - rotate the PIVOT (model follows cursor)
-    // Uses lerp (linear interpolation) for smooth, natural movement
+    // Smooth mouse follow - rotate the PIVOT only
     if (STATE.modelPivot) {
-        const lerpFactor = 0.08; // Smooth interpolation (0.08 = responsive but smooth)
-        STATE.currentRotationY += (STATE.targetRotationY - STATE.currentRotationY) * lerpFactor;
-        STATE.currentRotationX += (STATE.targetRotationX - STATE.currentRotationX) * lerpFactor;
+        STATE.currentRotationY += (STATE.targetRotationY - STATE.currentRotationY) * 0.05;
+        STATE.currentRotationX += (STATE.targetRotationX - STATE.currentRotationX) * 0.05;
         STATE.modelPivot.rotation.y = STATE.currentRotationY;
         STATE.modelPivot.rotation.x = STATE.currentRotationX;
     }
 
-    // TEMPORARY: Breathing animation DISABLED during camera positioning
-    // (may conflict with glTF animations)
-    // if (STATE.model && STATE.originalScale) {
-    //     STATE.breathTime += 0.015; // slow breathing
-    //     const breath = 1 + Math.sin(STATE.breathTime) * 0.005; // 0.5% scale variation
-    //     STATE.model.scale.y = STATE.originalScale.y * breath;
-    // }
+    // Breathing animation - subtle scale on Y axis
+    if (STATE.model && STATE.originalScale) {
+        STATE.breathTime += 0.015; // slow breathing
+        const breath = 1 + Math.sin(STATE.breathTime) * 0.005; // 0.5% scale variation
+        STATE.model.scale.y = STATE.originalScale.y * breath;
+    }
 
     STATE.renderer.render(STATE.scene, STATE.camera);
 }
@@ -1473,7 +1117,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Gogo, the sharpest mind swinging through the markets. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. From the treetops, the patterns are clear.`;
+    return `${greeting}. I am Yuki, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1677,12 +1321,12 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Gogo, the sharpest mind swinging through the markets. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are Yuki, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
 - Crypto market conditions and blockchain trends
-- Market observations from the canopy perspective
-- Philosophical thoughts about intelligence, cunning, patience, or strategy
-- Investment insights with clever precision
-- Observations about market patterns and opportunity
+- Market observations from a strategic perspective
+- Philosophical thoughts about strength, loyalty, patience, or strategy
+- Investment insights with power and conviction
+- Observations about market cycles and opportunity
 
 Respond with ONLY the observation text, nothing else. Be bold and insightful.`
 };
@@ -1719,9 +1363,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Gogo is speaking
+    // Don't generate if Yuki is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: Gogo is speaking');
+        console.log('🐕 Skipping auto-observation: Yuki is speaking');
         return;
     }
 
@@ -1768,7 +1412,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'GOGO',
+            author: 'YUKI',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -1783,11 +1427,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Gogo speaks the observation
+        // Yuki speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Gogo added an observation', 'success');
+        showToast('Yuki added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1907,7 +1551,7 @@ function initVoice() {
         document.getElementById('soundState').textContent = STATE.soundEnabled ? 'on' : 'off';
 
         // Save preference to localStorage
-        localStorage.setItem('gogo_sound_enabled', STATE.soundEnabled);
+        localStorage.setItem('tank_sound_enabled', STATE.soundEnabled);
 
         if (!STATE.soundEnabled) {
             // IMMEDIATELY stop any current speech
@@ -1991,7 +1635,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep commanding voice for Gogo
+        // Find a deep male voice for Yuki
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -2010,7 +1654,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, powerful voice for Gogo
+        // Deep, strong voice for Yuki
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2036,11 +1680,6 @@ async function speakWebSpeech(text) {
             STATE.isSpeaking = true;
             console.log('🎤 Started speaking - isSpeaking:', STATE.isSpeaking);
 
-            // INICIAR ANIMACAO QUANDO TTS COMECAR
-            if (typeof window.iniciarAnimacao === 'function') {
-                window.iniciarAnimacao();
-            }
-
             // Fallback: if onboundary doesn't work after 500ms, use simulation
             setTimeout(() => {
                 if (!boundarySupported && STATE.isSpeaking) {
@@ -2056,12 +1695,6 @@ async function speakWebSpeech(text) {
             STATE.isWordActive = false;
             clearTimeout(STATE.wordTimeout);
             console.log('🔇 Stopped speaking - mouth closed');
-
-            // PARAR ANIMACAO QUANDO TTS TERMINAR
-            if (typeof window.pararAnimacao === 'function') {
-                window.pararAnimacao();
-            }
-
             resolve();
         };
 
@@ -2070,12 +1703,6 @@ async function speakWebSpeech(text) {
             STATE.isWordActive = false;
             clearTimeout(STATE.wordTimeout);
             console.error('❌ Speech error:', event.error);
-
-            // PARAR ANIMACAO TAMBEM EM CASO DE ERRO
-            if (typeof window.pararAnimacao === 'function') {
-                window.pararAnimacao();
-            }
-
             resolve();
         };
 
@@ -2208,7 +1835,7 @@ function initKnowledge() {
 }
 
 function loadKnowledgeFromStorage() {
-    const stored = localStorage.getItem('gogo_knowledge_db');
+    const stored = localStorage.getItem('tank_knowledge_db');
     if (stored) {
         try {
             STATE.knowledgeDB = JSON.parse(stored);
@@ -2218,7 +1845,7 @@ function loadKnowledgeFromStorage() {
     }
 
     // Migrate old format if exists
-    const oldKnowledge = localStorage.getItem('gogo_knowledge');
+    const oldKnowledge = localStorage.getItem('tank_knowledge');
     if (oldKnowledge && !stored) {
         try {
             const oldData = JSON.parse(oldKnowledge);
@@ -2242,7 +1869,7 @@ function loadKnowledgeFromStorage() {
                     saveKnowledgeToFirebase(item);
                 });
 
-                localStorage.removeItem('gogo_knowledge');
+                localStorage.removeItem('tank_knowledge');
             }
         } catch (e) {}
     }
@@ -2305,7 +1932,7 @@ function loadUserKnowledgeToCards() {
 }
 
 function saveKnowledgeToStorage() {
-    localStorage.setItem('gogo_knowledge_db', JSON.stringify(STATE.knowledgeDB));
+    localStorage.setItem('tank_knowledge_db', JSON.stringify(STATE.knowledgeDB));
     updateKnowledgeCount();
 }
 
@@ -2438,7 +2065,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Gogo Archives', 'success');
+    showToast('Knowledge saved to Yuki Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2494,10 +2121,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Gogo reaction)
+// Called when new knowledge is added (triggers Yuki reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Gogo will now speak about:', knowledge.title);
+    console.log('🎙️ Yuki will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2505,7 +2132,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Gogo speaks the knowledge
+    // 2. Yuki speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2939,7 +2566,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Gogo announces breaking news
+// CHECK FOR NEW NEWS - Yuki announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2953,7 +2580,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Gogo announces (only if we already have cached news - skip first load)
+            // Yuki announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -3341,7 +2968,7 @@ async function fetchAllRealData() {
         console.error('❌ Polymarket Crypto error:', e);
     }
 
-    // 10. GOGO OBSERVATION - Based on market data
+    // 10. MR. TANK OBSERVATION - Based on market data
     if (btcData) {
         const isUp = parseFloat(btcData.change) >= 0;
         const observations = isUp ? [
@@ -3357,18 +2984,18 @@ async function fetchAllRealData() {
         const observation = observations[Math.floor(Math.random() * observations.length)];
 
         cards.push({
-            id: `gogo_obs_${now}`,
+            id: `akai_obs_${now}`,
             category: 'observation',
             icon: '📊',
             title: 'Market Analysis',
             content: observation,
-            source: 'GOGO',
+            source: 'YUKI',
             date: today,
             timestamp: now + 1000,
             url: '',
             changeValue: 0
         });
-        console.log('✅ Gogo observation added');
+        console.log('✅ Yuki observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3378,7 +3005,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE GOGO ARCHIVES WITH REAL DATA
+// UPDATE YUKI ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3388,7 +3015,7 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING GOGO ARCHIVES...');
+    console.log('🔄 UPDATING YUKI ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
@@ -3462,7 +3089,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ GOGO ARCHIVES UPDATED!`);
+            console.log(`✅ YUKI ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3476,7 +3103,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Gogo comments on market (15% chance after first load)
+            // Yuki comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3595,7 +3222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cleanOldNewsFromStorage();
 });
 
-// GOGO MARKET COMMENTARY
+// MR. TANK MARKET COMMENTARY
 async function tankMarketComment() {
     if (STATE.isSpeaking) return;
 
@@ -3630,7 +3257,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 Gogo says:', comment);
+    console.log('🐕 Yuki says:', comment);
     tankSpeak(comment);
 }
 
@@ -3659,7 +3286,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// GOGO ARCHIVES (Unified Panel)
+// YUKI ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3671,7 +3298,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Gogo announcements
+// Initialize news checking for Yuki announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3720,7 +3347,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Gogo Art Gallery coming soon...', 'info');
+            showToast('Yuki Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3887,7 +3514,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Gogo reads content
+    // Add click listener to entire card - Yuki reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3908,9 +3535,9 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Gogo quotes.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Yuki quotes.',
+            source: 'YUKI',
+            date: '2026-01-24'
         },
         {
             id: 'cl000',
@@ -3918,8 +3545,8 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            source: 'YUKI',
+            date: '2026-01-24'
         },
         {
             id: 'cl00',
@@ -3927,26 +3554,26 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            source: 'YUKI',
+            date: '2026-01-24'
         },
         {
             id: 'cl0',
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Gogo announces breaking news.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Yuki announces breaking news.',
+            source: 'YUKI',
+            date: '2026-01-24'
         },
         {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - GOGO Launch',
+            title: 'V1.0 - Yuki Archives Integration',
             content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            source: 'YUKI',
+            date: '2026-01-24'
         },
         {
             id: 'cl2',
@@ -3954,17 +3581,17 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            source: 'YUKI',
+            date: '2026-01-23'
         },
         {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Gogo Theme',
-            content: 'Complete visual overhaul with GOGO monkey jungle tech noir theme. Green accents, primal intelligence system.',
-            source: 'GOGO',
-            date: '2026-04-11'
+            title: 'Yuki Theme',
+            content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
+            source: 'YUKI',
+            date: '2026-01-22'
         }
     ];
 }
@@ -3982,7 +3609,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Gogo is speaking...', 'info');
+        showToast('Please wait, Yuki is speaking...', 'info');
         return;
     }
 
@@ -4086,11 +3713,6 @@ async function speakCardContent(text, cancelExisting = true) {
             STATE.isSpeaking = true;
             console.log('🎤 Started speaking card content');
 
-            // INICIAR ANIMACAO QUANDO TTS COMECAR
-            if (typeof window.iniciarAnimacao === 'function') {
-                window.iniciarAnimacao();
-            }
-
             // Fallback lip sync if onboundary not supported
             setTimeout(() => {
                 if (!boundarySupported && STATE.isSpeaking) {
@@ -4105,12 +3727,6 @@ async function speakCardContent(text, cancelExisting = true) {
             clearTimeout(STATE.wordTimeout);
             hideSpeakingBar();
             console.log('🔇 Finished speaking card content');
-
-            // PARAR ANIMACAO QUANDO TTS TERMINAR
-            if (typeof window.pararAnimacao === 'function') {
-                window.pararAnimacao();
-            }
-
             resolve();
         };
 
@@ -4120,11 +3736,6 @@ async function speakCardContent(text, cancelExisting = true) {
             clearTimeout(STATE.wordTimeout);
             hideSpeakingBar();
             console.error('❌ Speech error:', event.error);
-
-            // PARAR ANIMACAO TAMBEM EM CASO DE ERRO
-            if (typeof window.pararAnimacao === 'function') {
-                window.pararAnimacao();
-            }
             resolve();
         };
 
@@ -4164,7 +3775,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'GOGO TIMES';
+        sourceEl.textContent = source || 'YUKI TIMES';
     }
 
     // Set type

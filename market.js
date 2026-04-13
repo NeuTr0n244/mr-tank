@@ -1,6 +1,7 @@
 /**
- * GOGO - FINANCIAL TERMINAL
- * Deep Sea Market Data System
+ * YUKI - FINANCIAL TERMINAL
+ * Market Data System
+ * Multi-Source Token Aggregator
  */
 
 // ============================================
@@ -11,8 +12,8 @@ const STATE = {
     tokens: [],
     trending: [],
     predictions: [],
-    watchlist: JSON.parse(localStorage.getItem('gogo_watchlist') || '[]'),
-    remarks: JSON.parse(localStorage.getItem('gogo_remarks') || '[]'),
+    watchlist: JSON.parse(localStorage.getItem('tank_watchlist') || '[]'),
+    remarks: JSON.parse(localStorage.getItem('tank_remarks') || '[]'),
     lastUpdate: null,
     isLoading: false
 };
@@ -877,7 +878,7 @@ function addToWatchlist(symbol) {
         if (STATE.watchlist.length > 20) {
             STATE.watchlist.pop();
         }
-        localStorage.setItem('gogo_watchlist', JSON.stringify(STATE.watchlist));
+        localStorage.setItem('tank_watchlist', JSON.stringify(STATE.watchlist));
 
         // Save to Firebase for real-time sync
         if (typeof FirebaseDB !== 'undefined' && FirebaseDB.isAvailable()) {
@@ -889,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'GOGO') {
+function addRemark(text, source = 'YUKI') {
     const remark = {
         text,
         source,
@@ -902,7 +903,7 @@ function addRemark(text, source = 'GOGO') {
         STATE.remarks.pop();
     }
 
-    localStorage.setItem('gogo_remarks', JSON.stringify(STATE.remarks));
+    localStorage.setItem('tank_remarks', JSON.stringify(STATE.remarks));
 
     // Save to Firebase for real-time sync
     if (typeof FirebaseDB !== 'undefined' && FirebaseDB.isAvailable()) {

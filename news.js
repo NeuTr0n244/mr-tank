@@ -1,6 +1,6 @@
 /**
- * THE GOGO TIMES - NEWS PAGE
- * Deep Sea News Journal
+ * THE YUKI TIMES - NEWS PAGE
+ * Vintage Newspaper Style
  */
 
 // ============================================
@@ -93,20 +93,18 @@ function formatNewsAge(timestamp) {
     return `${minutes}m ago`;
 }
 
-// Gogo quotes for the sidebar
-const GOGO_QUOTES = [
-    "In the canopy of charts, only the clever survive.",
-    "Every branch tells a story — I read them all.",
-    "The jungle rewards patience and punishes greed.",
-    "Swing smart, not hard.",
-    "From the treetops, the patterns are clear.",
-    "Small traders panic. Gogo observes.",
-    "I see opportunities in the canopy others can't reach.",
-    "The forest floor reveals little. The canopy sees all.",
-    "Market cycles flow like jungle seasons — predictable to those who watch.",
-    "Intelligence doesn't chase volatility. It positions and waits.",
-    "The jungle holds no secrets from me. Every pattern, every movement — I track it all.",
-    "Crypto is a jungle. I am its sharpest mind."
+// Yuki quotes for the sidebar
+const YUKI_QUOTES = [
+    "Strength and discipline forge success. Stay strong, stay loyal.",
+    "In the crypto jungle, only the pack survives together.",
+    "Patience is the warrior's greatest weapon.",
+    "True strength shows in restraint, not aggression.",
+    "My portfolio is built on solid foundations and iron will.",
+    "The rising sun reminds me of growth charts.",
+    "Strategy is like a samurai's sword: precision is everything.",
+    "A wise warrior knows when to pounce and when to hold.",
+    "The dojo of crypto requires discipline and focus.",
+    "Community is strength. Together we are unstoppable."
 ];
 
 // ============================================
@@ -313,7 +311,7 @@ function updateWeather() {
 }
 
 function setRandomQuote() {
-    const quote = GOGO_QUOTES[Math.floor(Math.random() * GOGO_QUOTES.length)];
+    const quote = YUKI_QUOTES[Math.floor(Math.random() * YUKI_QUOTES.length)];
     document.querySelector('.quote-text').textContent = `"${quote}"`;
 }
 
@@ -772,7 +770,7 @@ function renderNewsLoading() {
     newsStream.innerHTML = `
         <div class="loading-placeholder" style="text-align: center; padding: 60px 20px;">
             <div style="font-size: 48px; margin-bottom: 20px;">📰</div>
-            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING GOGO TIMES...</div>
+            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING YUKI TIMES...</div>
             <div style="font-size: 14px; opacity: 0.7;">Fetching latest news from the pack archives...</div>
         </div>
     `;
@@ -785,10 +783,10 @@ function renderNewsError() {
     newsStream.innerHTML = `
         <div style="text-align: center; padding: 60px 20px;">
             <h2 class="main-headline">DISPATCH FROM THE PACK</h2>
-            <div class="main-subhead">Gogo's morning briefing awaits fresh intelligence from the crypto markets.</div>
+            <div class="main-subhead">Yuki's morning briefing awaits fresh intelligence from the crypto markets.</div>
             <div class="main-content-text">
                 <p>The network connections appear to be experiencing difficulties. Our correspondents are working diligently to restore communications.</p>
-                <p>In the meantime, Gogo recommends reviewing your portfolio with the patience and discipline of a warrior.</p>
+                <p>In the meantime, Yuki recommends reviewing your portfolio with the patience and discipline of a warrior.</p>
             </div>
         </div>
     `;

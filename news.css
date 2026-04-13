@@ -1,6 +1,5 @@
 /* ============================================
-   THE MR. TRUNK TIMES - VINTAGE NEWSPAPER STYLE
-   African Elephant Theme
+   THE AKAI TIMES - VINTAGE NEWSPAPER STYLE
    ============================================ */
 
 * {
@@ -14,18 +13,18 @@ html {
 }
 
 /* ============================================
-   PAGE BACKGROUND - DEEP SEA GRAY THEME
+   PAGE BACKGROUND - DARK SHIBA THEME
    ============================================ */
 
 body {
-    background: #1a1410;
+    background: #1a1a2e;
     background-attachment: fixed;
     min-height: 100vh;
     padding: 20px;
     position: relative;
 }
 
-/* Subtle gray glow overlay */
+/* Subtle orange glow overlay */
 body::before {
     content: '';
     position: fixed;
@@ -34,15 +33,15 @@ body::before {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(ellipse at 20% 20%, rgba(196, 162, 101, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(139, 115, 85, 0.05) 0%, transparent 50%);
+        radial-gradient(ellipse at 20% 20%, rgba(230, 126, 34, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
 
 /* Paper texture overlay - only on newspaper */
 .paper-texture {
-    display: none; /* Disabled - not needed on deep sea background */
+    display: none; /* Disabled - not needed on arctic background */
 }
 
 /* ============================================
@@ -56,15 +55,16 @@ body::before {
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
-    background: rgba(42, 34, 24, 0.95);
-    border: 1px solid rgba(196, 162, 101, 0.15);
+    background: rgba(15, 29, 46, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(230, 126, 34, 0.15);
     border-radius: 8px;
     position: relative;
     z-index: 10;
 }
 
 .nav-link {
-    color: #c4a265;
+    color: #E67E22;
     text-decoration: none;
     font-family: 'IBM Plex Mono', 'Courier New', monospace;
     font-size: 12px;
@@ -73,14 +73,14 @@ body::before {
 }
 
 .nav-link:hover {
-    color: #d4b876;
-    text-shadow: 0 0 10px rgba(196, 162, 101, 0.5);
+    color: #F39C12;
+    text-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
 }
 
 .nav-btn {
     background: transparent;
-    border: 1px solid rgba(196, 162, 101, 0.3);
-    color: #c4a265;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+    color: #E67E22;
     padding: 8px 16px;
     font-family: 'IBM Plex Mono', 'Courier New', monospace;
     font-size: 10px;
@@ -91,9 +91,9 @@ body::before {
 }
 
 .nav-btn:hover {
-    background: rgba(196, 162, 101, 0.1);
-    border-color: #555555;
-    color: #d4b876;
+    background: rgba(230, 126, 34, 0.1);
+    border-color: #E67E22;
+    color: #F39C12;
 }
 
 /* ============================================
@@ -105,7 +105,7 @@ body::before {
     margin: 0 auto;
     background: #f9f6f0;
     box-shadow:
-        0 0 60px rgba(196, 162, 101, 0.15),
+        0 0 60px rgba(230, 126, 34, 0.15),
         0 0 30px rgba(0,0,0,0.3),
         inset 0 0 80px rgba(0,0,0,0.03);
     border: 1px solid #d4c9b5;

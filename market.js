@@ -1,5 +1,5 @@
 /**
- * YUKI - FINANCIAL TERMINAL
+ * CLARK - FINANCIAL TERMINAL
  * Market Data System
  * Multi-Source Token Aggregator
  */
@@ -890,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'YUKI') {
+function addRemark(text, source = 'CLARK') {
     const remark = {
         text,
         source,

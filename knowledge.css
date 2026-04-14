@@ -1,27 +1,27 @@
-/* KNOWLEDGE GRAPH - Akai Inu Theme */
+/* KNOWLEDGE GRAPH - Clark Theme */
 
 :root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-panel: #0f0f1a;
-    --bg-hover: #252540;
+    --bg-primary: #0a0f0a;
+    --bg-secondary: #111a11;
+    --bg-panel: #060b06;
+    --bg-hover: #152015;
 
-    --text-primary: #f5f5f5;
-    --text-secondary: #c4c4d4;
-    --text-muted: #6a6a7a;
+    --text-primary: #d0d8d0;
+    --text-secondary: #7a8a7a;
+    --text-muted: #4a5a4a;
 
-    --accent: #E67E22;
-    --accent-dim: #F39C12;
-    --accent-glow: rgba(230, 126, 34, 0.3);
-    --green: #4adeab;
+    --accent: #39ff14;
+    --accent-dim: #2bcc10;
+    --accent-glow: rgba(57, 255, 20, 0.25);
+    --green: #39ff14;
     --blue: #88d4f7;
     --pink: #f788b0;
-    --red: #f788b0;
+    --red: #ff1a1a;
     --turquoise: #4fd1c5;
     --aurora-purple: #a78bfa;
 
-    --border: rgba(230, 126, 34, 0.3);
-    --border-light: rgba(230, 126, 34, 0.5);
+    --border: rgba(57, 255, 20, 0.2);
+    --border-light: rgba(57, 255, 20, 0.4);
 
     --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
 

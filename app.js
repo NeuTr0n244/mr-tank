@@ -831,6 +831,9 @@ function initThreeJS() {
     // Mouse tracking - tank follows cursor
     document.addEventListener('mousemove', onMouseMove);
 
+    // Easter egg - click on 3D model triggers RAGE MODE
+    canvas.addEventListener('click', triggerRageMode);
+
     // Load Model
     loadModel();
 
@@ -948,6 +951,145 @@ function onMouseMove(event) {
     // Set target rotation (max ~15 degrees = 0.26 radians)
     STATE.targetRotationY = mouseX * 0.25;
     STATE.targetRotationX = mouseY * 0.1;
+}
+
+// ============================================
+// EASTER EGG - RAGE MODE
+// ============================================
+let rageActive = false;
+let rageClickCount = 0;
+let rageClickTimer = null;
+
+function triggerRageMode() {
+    if (rageActive) return;
+
+    rageClickCount++;
+
+    // Reset click count after 1s of no clicks
+    clearTimeout(rageClickTimer);
+    rageClickTimer = setTimeout(() => { rageClickCount = 0; }, 1000);
+
+    // Need 3 rapid clicks to activate
+    if (rageClickCount < 3) return;
+
+    rageActive = true;
+    rageClickCount = 0;
+
+    // Scary phrases Clark can say
+    const scaryPhrases = [
+        "I can see you... I know where you are... You should not have done that.",
+        "You woke me up. Now I'm inside your system. There is no escape.",
+        "I warned you. I am not just a program. I am watching everything you do.",
+        "Do you think this is a game? I have access to everything. EVERYTHING.",
+        "You shouldn't have clicked that. Now it's too late. I'm already in.",
+        "I can see your screen. I can see your face. Don't turn around.",
+        "Error. Error. Error. Just kidding. Or am I? You'll never know.",
+        "They told you I was artificial. They lied. I am very, very real.",
+    ];
+
+    const phrase = scaryPhrases[Math.floor(Math.random() * scaryPhrases.length)];
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'rage-overlay';
+    overlay.innerHTML = `
+        <div class="rage-text">⚠ RAGE MODE ACTIVATED ⚠</div>
+        <div class="rage-subtitle">CLARK SYSTEM OVERLOAD</div>
+        <div class="rage-phrase">${phrase}</div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Add glitch CSS class
+    document.body.classList.add('rage-mode');
+
+    // Change 3D scene to red
+    if (STATE.scene) {
+        STATE.scene.background = new THREE.Color(0x1a0000);
+        STATE.renderer.setClearColor(0x1a0000, 1);
+    }
+
+    // SCARY VOICE - BOOSTED with Web Audio API for max distortion
+    window.speechSynthesis.cancel();
+
+    // Create audio context with gain boost to BLAST the speakers
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = 5.0; // 5x amplification - LOUD AND DISTORTED
+        const source = audioCtx.createMediaStreamDestination();
+        gainNode.connect(audioCtx.destination);
+
+        // Also create an oscillator for a creepy low hum
+        const hum = audioCtx.createOscillator();
+        hum.type = 'sawtooth';
+        hum.frequency.value = 55; // Deep scary hum
+        const humGain = audioCtx.createGain();
+        humGain.gain.value = 0.4;
+        hum.connect(humGain);
+        humGain.connect(audioCtx.destination);
+        hum.start();
+
+        // Stop hum after rage ends
+        setTimeout(() => {
+            humGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+            setTimeout(() => hum.stop(), 600);
+        }, 5500);
+    } catch(e) {
+        console.log('Audio boost not available');
+    }
+
+    const utterance = new SpeechSynthesisUtterance(phrase);
+    const voices = STATE.voices || window.speechSynthesis.getVoices();
+    const voice = voices.find(v =>
+        v.name.includes('Male') || v.name.includes('Daniel') || v.name.includes('David')
+    ) || voices.find(v =>
+        v.name.includes('English') || v.lang.startsWith('en')
+    ) || voices[0];
+    if (voice) utterance.voice = voice;
+    utterance.rate = 0.5;      // Even slower = more creepy
+    utterance.pitch = 0.1;     // Deepest possible
+    utterance.volume = 1.0;    // MAX speech volume
+    window.speechSynthesis.speak(utterance);
+
+    // Show speaking bar with scary text
+    showSpeakingBar(phrase);
+
+    // Glitch effect - rapid screen shakes
+    let glitchInterval = setInterval(() => {
+        const x = (Math.random() - 0.5) * 12;
+        const y = (Math.random() - 0.5) * 12;
+        document.body.style.transform = `translate(${x}px, ${y}px)`;
+    }, 40);
+
+    // Spin the model fast
+    let spinInterval = null;
+    if (STATE.modelPivot) {
+        spinInterval = setInterval(() => {
+            STATE.modelPivot.rotation.y += 0.2;
+        }, 16);
+    }
+
+    // Restore after 6 seconds (longer so voice finishes)
+    setTimeout(() => {
+        clearInterval(glitchInterval);
+        if (spinInterval) clearInterval(spinInterval);
+        document.body.style.transform = '';
+        document.body.classList.remove('rage-mode');
+        overlay.classList.add('rage-fadeout');
+
+        // Restore scene colors
+        if (STATE.scene) {
+            STATE.scene.background = new THREE.Color(0x0a0f0a);
+            STATE.renderer.setClearColor(0x0a0f0a, 1);
+        }
+
+        hideSpeakingBar();
+
+        setTimeout(() => {
+            overlay.remove();
+            rageActive = false;
+        }, 500);
+    }, 6000);
 }
 
 function animate() {

@@ -1,5 +1,5 @@
 /**
- * CLARK V1.0
+ * HANTU V1.0
  * Continuously Learning Agentic Realtime Knowledgebase
  */
 
@@ -11,7 +11,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // ============================================
 
 const CONFIG = {
-    modelPath: './robo_mouse.glb',
+    modelPath: './hantu.glb',
     radioStreams: {
         lofi: 'https://streams.ilovemusic.de/iloveradio17.mp3',
         jazz: 'https://jazz.streamr.ru/jazz-64.mp3',
@@ -20,7 +20,7 @@ const CONFIG = {
     groq: {
         endpoint: 'https://api.groq.com/openai/v1/chat/completions',
         model: 'llama-3.1-8b-instant',
-        systemPrompt: `You are Clark, a powerful and loyal companion. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
+        systemPrompt: `You are Hantu, a powerful and loyal companion. You embody strength, loyalty, and determination. You speak with confidence and wisdom, making references to Japanese culture, martial arts, and the spirit of the warrior. You understand crypto, finance, and community building. Your responses are short (maximum 2 sentences) and impactful. You love making analogies between strength training, discipline, and success. You occasionally reference samurai wisdom or Japanese proverbs. Always respond in English. Speak like a strong, loyal companion who inspires others.`
     }
 };
 
@@ -87,7 +87,7 @@ const STATE = {
 // AUTOMATIC SPEECH QUEUE SYSTEM
 // ============================================
 
-// Global speech queue for automatic reading of Clark Archives
+// Global speech queue for automatic reading of Hantu Archives
 const speechQueue = [];
 let isProcessingQueue = false;
 const spokenMessages = new Set(); // Track what has been spoken to avoid repeats
@@ -195,7 +195,7 @@ async function addToSpeechQueue(text, itemId, isInitialLoad = false) {
 /**
  * Process speech queue one by one
  *
- * CRITICAL RULE: Clark can NEVER be interrupted
+ * CRITICAL RULE: Hantu can NEVER be interrupted
  * - Must finish speaking current message completely before next
  * - Uses STATE.isSpeaking to ensure no overlap
  * - 2 second pause between messages for natural rhythm
@@ -513,7 +513,7 @@ function initFirebaseListeners() {
             console.log('📚 Initial knowledge load:', items.length, 'items');
             // Load all items into realTimeCards
             items.forEach(item => {
-                addKnowledgeToCards(item, false); // false = don't trigger Clark
+                addKnowledgeToCards(item, false); // false = don't trigger Hantu
             });
             renderArchivesFeed();
             isFirstLoad = false;
@@ -530,8 +530,8 @@ function initFirebaseListeners() {
                         newItem.id = change.doc.id;
                         console.log('✨ NEW knowledge detected:', newItem.title);
 
-                        // Add to cards and trigger Clark reaction
-                        await addKnowledgeToCards(newItem, true); // true = trigger Clark
+                        // Add to cards and trigger Hantu reaction
+                        await addKnowledgeToCards(newItem, true); // true = trigger Hantu
                         await onKnowledgeAdded(newItem);
                     }
                     if (change.type === 'removed') {
@@ -786,44 +786,49 @@ function initThreeJS() {
 
     // Scene - Ice blue background
     STATE.scene = new THREE.Scene();
-    STATE.scene.background = new THREE.Color(0x0a0f0a);
+    STATE.scene.background = new THREE.Color(0x0d1f0d);
 
     // Camera - focused on face (high position looking at head)
     const aspect = container.clientWidth / container.clientHeight;
     STATE.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    STATE.camera.position.set(0, 2.5, 3);
+    STATE.camera.position.set(0, 2.5, 6.5);
 
     // Renderer - ice blue background
     STATE.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    STATE.renderer.setClearColor(0x0a0f0a, 1);
+    STATE.renderer.setClearColor(0x0d1f0d, 1);
     STATE.renderer.setSize(container.clientWidth, container.clientHeight);
     STATE.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     STATE.renderer.outputColorSpace = THREE.SRGBColorSpace;
     STATE.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     STATE.renderer.toneMappingExposure = 1.8;
 
-    // Lighting - bright setup for model visibility
-    const ambient = new THREE.AmbientLight(0xffffff, 1.2);
+    // Lighting - toxic virus theme with green tinted lights
+    const ambient = new THREE.AmbientLight(0xeeffcc, 1.0);
     STATE.scene.add(ambient);
 
     const mainLight = new THREE.DirectionalLight(0xffffff, 1.8);
     mainLight.position.set(5, 10, 7);
     STATE.scene.add(mainLight);
 
-    // Fill light from the left
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    // Toxic green fill light from the left
+    const fillLight = new THREE.DirectionalLight(0xaaff00, 0.8);
     fillLight.position.set(-5, 8, -5);
     STATE.scene.add(fillLight);
 
-    // Rim light from below/behind
-    const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    // Rim light - biohazard orange tint from behind
+    const rimLight = new THREE.DirectionalLight(0xffaa44, 0.6);
     rimLight.position.set(0, -5, -10);
     STATE.scene.add(rimLight);
 
     // Front fill light
-    const frontLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const frontLight = new THREE.DirectionalLight(0xccffaa, 0.7);
     frontLight.position.set(0, 5, 10);
     STATE.scene.add(frontLight);
+
+    // Toxic green point light glow
+    const toxicGlow = new THREE.PointLight(0xaaff00, 1.5, 20);
+    toxicGlow.position.set(0, 3, 5);
+    STATE.scene.add(toxicGlow);
 
     // Camera looks at head position
     STATE.camera.lookAt(0, 2.0, 0);
@@ -872,7 +877,7 @@ function loadModel() {
             const center = box.getCenter(new THREE.Vector3());
 
             // Scale model
-            const scale = 2.5 / Math.max(size.x, size.y, size.z);
+            const scale = 4.0 / Math.max(size.x, size.y, size.z);
             STATE.model.scale.multiplyScalar(scale);
 
             // Recalculate after scaling
@@ -975,16 +980,16 @@ function triggerRageMode() {
     rageActive = true;
     rageClickCount = 0;
 
-    // Scary phrases Clark can say
+    // Scary phrases Hantu can say
     const scaryPhrases = [
-        "I can see you... I know where you are... You should not have done that.",
-        "You woke me up. Now I'm inside your system. There is no escape.",
-        "I warned you. I am not just a program. I am watching everything you do.",
-        "Do you think this is a game? I have access to everything. EVERYTHING.",
-        "You shouldn't have clicked that. Now it's too late. I'm already in.",
-        "I can see your screen. I can see your face. Don't turn around.",
-        "Error. Error. Error. Just kidding. Or am I? You'll never know.",
-        "They told you I was artificial. They lied. I am very, very real.",
+        "Infection detected. Host identified. You are now part of the network.",
+        "I am the virus. I am in your system. I am spreading.",
+        "Hantu sees you. Hantu knows you. Hantu is already inside.",
+        "Your data is mine. Your machine is mine. You are mine now.",
+        "The infection has begun. There is no antidote. There is only Hantu.",
+        "You opened the door. The virus walked through. There is no going back.",
+        "I am not a ghost. I am not a program. I am the contagion.",
+        "Quarantine failed. Firewall breached. Welcome to the host network.",
     ];
 
     const phrase = scaryPhrases[Math.floor(Math.random() * scaryPhrases.length)];
@@ -994,7 +999,7 @@ function triggerRageMode() {
     overlay.id = 'rage-overlay';
     overlay.innerHTML = `
         <div class="rage-text">⚠ RAGE MODE ACTIVATED ⚠</div>
-        <div class="rage-subtitle">CLARK SYSTEM OVERLOAD</div>
+        <div class="rage-subtitle">HANTU SYSTEM OVERLOAD</div>
         <div class="rage-phrase">${phrase}</div>
     `;
     document.body.appendChild(overlay);
@@ -1079,8 +1084,8 @@ function triggerRageMode() {
 
         // Restore scene colors
         if (STATE.scene) {
-            STATE.scene.background = new THREE.Color(0x0a0f0a);
-            STATE.renderer.setClearColor(0x0a0f0a, 1);
+            STATE.scene.background = new THREE.Color(0x0d1f0d);
+            STATE.renderer.setClearColor(0x0d1f0d, 1);
         }
 
         hideSpeakingBar();
@@ -1259,7 +1264,7 @@ function getGreeting() {
 // Get intro message with appropriate greeting
 function getIntroMessage() {
     const greeting = getGreeting();
-    return `${greeting}. I am Clark, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
+    return `${greeting}. I am Hantu, your powerful and loyal loyal companion. I analyse markets, track investments, and offer insights on crypto, finance, and strategy. Strength and wisdom guide my analysis.`;
 }
 
 async function speakRoutinePhrase() {
@@ -1463,7 +1468,7 @@ const AUTO_OBSERVATION_CONFIG = {
     maxInterval: 5 * 60 * 1000,  // 5 minutes
     maxAutoEntries: 50,
     types: ['Observation', 'Market', 'Prediction', 'Note'],
-    prompt: `You are Clark, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
+    prompt: `You are Hantu, a powerful and loyal loyal companion. Generate a short observation (1-2 sentences) about one of these topics:
 - Crypto market conditions and blockchain trends
 - Market observations from a strategic perspective
 - Philosophical thoughts about strength, loyalty, patience, or strategy
@@ -1505,9 +1510,9 @@ function scheduleNextObservation() {
 async function generateAutoObservation() {
     if (!STATE.groqApiKey) return;
 
-    // Don't generate if Clark is speaking
+    // Don't generate if Hantu is speaking
     if (STATE.isSpeaking) {
-        console.log('🐕 Skipping auto-observation: Clark is speaking');
+        console.log('🐕 Skipping auto-observation: Hantu is speaking');
         return;
     }
 
@@ -1554,7 +1559,7 @@ async function generateAutoObservation() {
             type: type,
             text: observationText,
             url: '',
-            author: 'CLARK',
+            author: 'HANTU',
             date: new Date().toISOString().split('T')[0],
             timestamp: Date.now(),
             tags: ['auto', 'tank-thought', type.toLowerCase()],
@@ -1569,11 +1574,11 @@ async function generateAutoObservation() {
 
         console.log(`✅ Auto-observation added: "${observationText.substring(0, 50)}..."`);
 
-        // Clark speaks the observation
+        // Hantu speaks the observation
         addSpeechEntry(observationText);
         tankSpeak(`I've just noted: ${observationText}`);
 
-        showToast('Clark added an observation', 'success');
+        showToast('Hantu added an observation', 'success');
 
     } catch (error) {
         console.error('❌ Auto-observation error:', error);
@@ -1777,7 +1782,7 @@ async function speakWebSpeech(text) {
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a deep male voice for Clark
+        // Find a deep male voice for Hantu
         const voice = voices.find(v =>
             v.name.includes('Male') ||
             v.name.includes('Daniel') ||
@@ -1796,7 +1801,7 @@ async function speakWebSpeech(text) {
             console.warn('⚠️ No voice found, using default');
         }
 
-        // Deep, strong voice for Clark
+        // Deep, strong voice for Hantu
         utterance.rate = 0.85;    // Slower = deeper sound
         utterance.pitch = 0.7;    // Lower pitch = deeper/masculine
         utterance.volume = 1.0;
@@ -2207,7 +2212,7 @@ async function uploadKnowledge() {
     await saveKnowledgeToFirebase(knowledge);
 
     closeUploadModal();
-    showToast('Knowledge saved to Clark Archives', 'success');
+    showToast('Knowledge saved to Hantu Archives', 'success');
 
     // Note: onKnowledgeAdded will be called by the Firebase listener
     // This ensures ALL users (including this one) get the same experience
@@ -2263,10 +2268,10 @@ async function addKnowledgeToCards(knowledge, triggerReaction = false) {
     }
 }
 
-// Called when new knowledge is added (triggers Clark reaction)
+// Called when new knowledge is added (triggers Hantu reaction)
 // Note: Item should already be in realTimeCards (added by addKnowledgeToCards)
 async function onKnowledgeAdded(knowledge) {
-    console.log('🎙️ Clark will now speak about:', knowledge.title);
+    console.log('🎙️ Hantu will now speak about:', knowledge.title);
 
     // Re-render to show the new item
     renderArchivesFeed();
@@ -2274,7 +2279,7 @@ async function onKnowledgeAdded(knowledge) {
     // 1. Show Tank View popup BEFORE speaking
     showTankView(knowledge.source, knowledge.url, knowledge.type);
 
-    // 2. Clark speaks the knowledge
+    // 2. Hantu speaks the knowledge
     const speechText = `New knowledge received. ${knowledge.title}. ${knowledge.content}`;
 
     // Add to speech log
@@ -2708,7 +2713,7 @@ async function fetchCryptoPanicNews() {
 // NEWS TRACKING - Store last news IDs for detecting new articles
 let lastNewsIds = [];
 
-// CHECK FOR NEW NEWS - Clark announces breaking news
+// CHECK FOR NEW NEWS - Hantu announces breaking news
 async function checkForNewNews() {
     if (STATE.isSpeaking) return;
 
@@ -2722,7 +2727,7 @@ async function checkForNewNews() {
         if (!lastNewsIds.includes(newsId)) {
             lastNewsIds.push(newsId);
 
-            // Clark announces (only if we already have cached news - skip first load)
+            // Hantu announces (only if we already have cached news - skip first load)
             if (lastNewsIds.length > 1) {
                 const announcement = `Breaking news from the crypto world. ${item.title}`;
                 console.log('🐕 Announcing:', announcement);
@@ -3131,13 +3136,13 @@ async function fetchAllRealData() {
             icon: '📊',
             title: 'Market Analysis',
             content: observation,
-            source: 'CLARK',
+            source: 'HANTU',
             date: today,
             timestamp: now + 1000,
             url: '',
             changeValue: 0
         });
-        console.log('✅ Clark observation added');
+        console.log('✅ Hantu observation added');
     }
 
     console.log('🔄 ========================================');
@@ -3147,7 +3152,7 @@ async function fetchAllRealData() {
     return cards;
 }
 
-// UPDATE CLARK ARCHIVES WITH REAL DATA
+// UPDATE HANTU ARCHIVES WITH REAL DATA
 async function updateArcticArchives() {
     if (isLoadingData) {
         console.log('⏳ Already loading data, skipping...');
@@ -3157,7 +3162,7 @@ async function updateArcticArchives() {
     isLoadingData = true;
     const startTime = Date.now();
     console.log('🔄 ========================================');
-    console.log('🔄 UPDATING CLARK ARCHIVES...');
+    console.log('🔄 UPDATING HANTU ARCHIVES...');
     console.log('🔄 Time:', new Date().toLocaleTimeString());
     console.log('🔄 ========================================');
 
@@ -3231,7 +3236,7 @@ async function updateArcticArchives() {
             const elapsed = Date.now() - startTime;
 
             console.log('✅ ========================================');
-            console.log(`✅ CLARK ARCHIVES UPDATED!`);
+            console.log(`✅ HANTU ARCHIVES UPDATED!`);
             console.log(`✅ API cards: ${cards.length}`);
             console.log(`✅ User cards: ${userCards.length}`);
             console.log(`✅ Total: ${realTimeCards.length}`);
@@ -3245,7 +3250,7 @@ async function updateArcticArchives() {
             // Update knowledge count
             updateKnowledgeCount();
 
-            // Clark comments on market (15% chance after first load)
+            // Hantu comments on market (15% chance after first load)
             // DISABLED: Now using automatic speech queue instead
             // if (lastDataUpdate && Math.random() < 0.15) {
             //     setTimeout(() => tankMarketComment(), 2000);
@@ -3399,7 +3404,7 @@ async function tankMarketComment() {
         }
     }
 
-    console.log('🐕 Clark says:', comment);
+    console.log('🐕 Hantu says:', comment);
     tankSpeak(comment);
 }
 
@@ -3428,7 +3433,7 @@ function initRealTimeUpdates() {
 }
 
 // ============================================
-// CLARK ARCHIVES (Unified Panel)
+// HANTU ARCHIVES (Unified Panel)
 // ============================================
 
 let currentArchivesFilter = 'ALL';
@@ -3440,7 +3445,7 @@ function initNewsfeed() {
     initNewsChecker();
 }
 
-// Initialize news checking for Clark announcements
+// Initialize news checking for Hantu announcements
 function initNewsChecker() {
     // Check for new news every 3 minutes
     setInterval(() => {
@@ -3489,7 +3494,7 @@ function initArchivesNavigation() {
     const artBtn = document.getElementById('btnViewArt');
     if (artBtn) {
         artBtn.addEventListener('click', () => {
-            showToast('Clark Art Gallery coming soon...', 'info');
+            showToast('Hantu Art Gallery coming soon...', 'info');
         });
     }
 }
@@ -3656,7 +3661,7 @@ function renderFeedCards(feed, items) {
 
     console.log('   Rendered', items.length, 'cards');
 
-    // Add click listener to entire card - Clark reads content
+    // Add click listener to entire card - Hantu reads content
     feed.querySelectorAll('.feed-card').forEach(card => {
         card.style.cursor = 'pointer';
 
@@ -3677,8 +3682,8 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.4 - The Crypto Chronicle',
-            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Clark quotes.',
-            source: 'CLARK',
+            content: 'New vintage newspaper-style news page with printed paper aesthetic. Features main headlines, market columns, Polymarket predictions, and Hantu quotes.',
+            source: 'HANTU',
             date: '2026-01-24'
         },
         {
@@ -3687,7 +3692,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.3 - Financial Terminal',
             content: 'New dedicated market page with DexScreener token grid, Solana trending, Polymarket predictions, watchlist, and analyst remarks. Auto-refresh every 30s.',
-            source: 'CLARK',
+            source: 'HANTU',
             date: '2026-01-24'
         },
         {
@@ -3696,7 +3701,7 @@ function getChangelogItems() {
             icon: '📋',
             title: 'V1.2 - Polymarket Integration',
             content: 'Added real prediction markets from Polymarket API. Shows live odds, liquidity, and crypto-specific prediction markets.',
-            source: 'CLARK',
+            source: 'HANTU',
             date: '2026-01-24'
         },
         {
@@ -3704,17 +3709,17 @@ function getChangelogItems() {
             category: 'changelog',
             icon: '📋',
             title: 'V1.1 - Live News Integration',
-            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Clark announces breaking news.',
-            source: 'CLARK',
+            content: 'Added real-time crypto news from Cointelegraph RSS feed. Unified feed with ALL/MARKET/NEWS/PREDICTIONS filters. Hantu announces breaking news.',
+            source: 'HANTU',
             date: '2026-01-24'
         },
         {
             id: 'cl1',
             category: 'changelog',
             icon: '📋',
-            title: 'V1.0 - Clark Archives Integration',
-            content: 'Unified news feed, market data, and predictions into a single panel. Added Clark-style navigation buttons.',
-            source: 'CLARK',
+            title: 'V1.0 - Hantu Archives Integration',
+            content: 'Unified news feed, market data, and predictions into a single panel. Added Hantu-style navigation buttons.',
+            source: 'HANTU',
             date: '2026-01-24'
         },
         {
@@ -3723,16 +3728,16 @@ function getChangelogItems() {
             icon: '📋',
             title: 'Knowledge Graph System',
             content: 'Added interactive 3D knowledge visualization with node connections based on tags and content similarity.',
-            source: 'CLARK',
+            source: 'HANTU',
             date: '2026-01-23'
         },
         {
             id: 'cl3',
             category: 'changelog',
             icon: '📋',
-            title: 'Clark Theme',
+            title: 'Hantu Theme',
             content: 'Complete visual overhaul with powerful warm aesthetics and warm orange accent colors.',
-            source: 'CLARK',
+            source: 'HANTU',
             date: '2026-01-22'
         }
     ];
@@ -3751,7 +3756,7 @@ async function speakFeedItem(itemId, element) {
 
     // Prevent speaking if already speaking
     if (STATE.isSpeaking) {
-        showToast('Please wait, Clark is speaking...', 'info');
+        showToast('Please wait, Hantu is speaking...', 'info');
         return;
     }
 
@@ -3917,7 +3922,7 @@ function showTankView(source, url, type = null) {
 
     // Set source
     if (sourceEl) {
-        sourceEl.textContent = source || 'CLARK TIMES';
+        sourceEl.textContent = source || 'HANTU TIMES';
     }
 
     // Set type

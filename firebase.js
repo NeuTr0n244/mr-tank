@@ -1,5 +1,5 @@
 /**
- * CLARK - FIREBASE REAL-TIME DATABASE
+ * HANTU - FIREBASE REAL-TIME DATABASE
  * Synchronizes data across all users in real-time
  */
 
@@ -7,7 +7,7 @@
 // FIREBASE CONFIGURATION
 // ============================================
 
-// Firebase Configuration - CLARK Real-Time Database
+// Firebase Configuration - HANTU Real-Time Database
 const firebaseConfig = {
     apiKey: "AIzaSyDGqhVjbrao2krVid14FVoppeqE6PqvjlA",
     authDomain: "tank-c748f.firebaseapp.com",

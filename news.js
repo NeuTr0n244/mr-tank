@@ -1,5 +1,5 @@
 /**
- * THE CLARK TIMES - NEWS PAGE
+ * THE HANTU TIMES - NEWS PAGE
  * Vintage Newspaper Style
  */
 
@@ -93,8 +93,8 @@ function formatNewsAge(timestamp) {
     return `${minutes}m ago`;
 }
 
-// Clark quotes for the sidebar
-const CLARK_QUOTES = [
+// Hantu quotes for the sidebar
+const HANTU_QUOTES = [
     "Strength and discipline forge success. Stay strong, stay loyal.",
     "In the crypto jungle, only the pack survives together.",
     "Patience is the warrior's greatest weapon.",
@@ -311,7 +311,7 @@ function updateWeather() {
 }
 
 function setRandomQuote() {
-    const quote = CLARK_QUOTES[Math.floor(Math.random() * CLARK_QUOTES.length)];
+    const quote = HANTU_QUOTES[Math.floor(Math.random() * HANTU_QUOTES.length)];
     document.querySelector('.quote-text').textContent = `"${quote}"`;
 }
 
@@ -770,7 +770,7 @@ function renderNewsLoading() {
     newsStream.innerHTML = `
         <div class="loading-placeholder" style="text-align: center; padding: 60px 20px;">
             <div style="font-size: 48px; margin-bottom: 20px;">📰</div>
-            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING CLARK TIMES...</div>
+            <div style="font-size: 24px; margin-bottom: 10px; font-weight: 600;">LOADING HANTU TIMES...</div>
             <div style="font-size: 14px; opacity: 0.7;">Fetching latest news from the pack archives...</div>
         </div>
     `;
@@ -783,10 +783,10 @@ function renderNewsError() {
     newsStream.innerHTML = `
         <div style="text-align: center; padding: 60px 20px;">
             <h2 class="main-headline">DISPATCH FROM THE PACK</h2>
-            <div class="main-subhead">Clark's morning briefing awaits fresh intelligence from the crypto markets.</div>
+            <div class="main-subhead">Hantu's morning briefing awaits fresh intelligence from the crypto markets.</div>
             <div class="main-content-text">
                 <p>The network connections appear to be experiencing difficulties. Our correspondents are working diligently to restore communications.</p>
-                <p>In the meantime, Clark recommends reviewing your portfolio with the patience and discipline of a warrior.</p>
+                <p>In the meantime, Hantu recommends reviewing your portfolio with the patience and discipline of a warrior.</p>
             </div>
         </div>
     `;

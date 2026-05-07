@@ -1,5 +1,5 @@
 /**
- * CLARK - FINANCIAL TERMINAL
+ * HANTU - FINANCIAL TERMINAL
  * Market Data System
  * Multi-Source Token Aggregator
  */
@@ -890,7 +890,7 @@ function addToWatchlist(symbol) {
     }
 }
 
-function addRemark(text, source = 'CLARK') {
+function addRemark(text, source = 'HANTU') {
     const remark = {
         text,
         source,

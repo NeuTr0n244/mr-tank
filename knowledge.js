@@ -1,5 +1,5 @@
 /**
- * KNOWLEDGE GRAPH - CLARK
+ * KNOWLEDGE GRAPH - HANTU
  * 3D Visualization with Three.js
  */
 
@@ -290,7 +290,7 @@ function createCentralHub() {
     STATE.scene.add(glow);
 
     // Label
-    addLabel('CLARK', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
+    addLabel('HANTU', new THREE.Vector3(0, 5, 0), 0xe8f4f8);
 }
 
 function createNodes() {

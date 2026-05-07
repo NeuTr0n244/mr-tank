@@ -6,21 +6,21 @@
 :root {
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Clark Dark Theme */
-    --bg-primary: #0a0f0a;
-    --bg-secondary: #111a11;
-    --bg-hover: rgba(57, 255, 20, 0.08);
+    /* Hantu Virus Theme */
+    --bg-primary: #0d1f0d;
+    --bg-secondary: #142814;
+    --bg-hover: rgba(170, 255, 0, 0.1);
 
-    --border: rgba(57, 255, 20, 0.15);
-    --border-light: rgba(57, 255, 20, 0.25);
+    --border: rgba(170, 255, 0, 0.2);
+    --border-light: rgba(170, 255, 0, 0.4);
 
-    --text-primary: #d0d8d0;
-    --text-secondary: #7a8a7a;
-    --text-muted: #4a5a4a;
+    --text-primary: #c8ffae;
+    --text-secondary: #8ec47c;
+    --text-muted: #5a7a4a;
 
-    --accent: #39ff14;
-    --green: #39ff14;
-    --red: #ff1a1a;
+    --accent: #aaff00;
+    --green: #aaff00;
+    --red: #ff3300;
     --turquoise: #2dd4bf;
     --aurora-purple: #a78bfa;
     --pink: #f472b6;
@@ -37,7 +37,7 @@
 
 body {
     font-family: var(--font-mono);
-    background: linear-gradient(135deg, #050a05 0%, #0a150a 50%, #050a05 100%);
+    background: linear-gradient(135deg, #0a1f0a 0%, #142814 50%, #0a1f0a 100%);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;

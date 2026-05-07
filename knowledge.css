@@ -1,27 +1,27 @@
-/* KNOWLEDGE GRAPH - Clark Theme */
+/* KNOWLEDGE GRAPH - Hantu Virus Theme */
 
 :root {
-    --bg-primary: #0a0f0a;
-    --bg-secondary: #111a11;
-    --bg-panel: #060b06;
-    --bg-hover: #152015;
+    --bg-primary: #0d1f0d;
+    --bg-secondary: #142814;
+    --bg-panel: #0a1a0a;
+    --bg-hover: #1a3018;
 
-    --text-primary: #d0d8d0;
-    --text-secondary: #7a8a7a;
-    --text-muted: #4a5a4a;
+    --text-primary: #c8ffae;
+    --text-secondary: #8ec47c;
+    --text-muted: #5a7a4a;
 
-    --accent: #39ff14;
-    --accent-dim: #2bcc10;
-    --accent-glow: rgba(57, 255, 20, 0.25);
-    --green: #39ff14;
+    --accent: #aaff00;
+    --accent-dim: #88cc00;
+    --accent-glow: rgba(170, 255, 0, 0.4);
+    --green: #aaff00;
     --blue: #88d4f7;
     --pink: #f788b0;
-    --red: #ff1a1a;
+    --red: #ff3300;
     --turquoise: #4fd1c5;
     --aurora-purple: #a78bfa;
 
-    --border: rgba(57, 255, 20, 0.2);
-    --border-light: rgba(57, 255, 20, 0.4);
+    --border: rgba(170, 255, 0, 0.25);
+    --border-light: rgba(170, 255, 0, 0.5);
 
     --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
 
